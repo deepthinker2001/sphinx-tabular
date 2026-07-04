@@ -20,9 +20,12 @@
 - Optional sticky header support for one or more header rows.
 - Provides a minimal set of spreadsheet functions with cell referencing.
 
+    - `'Text` literal rendering of text without evaluation.
+    - `=CELL` cell refernce.
     - `=ALIGN()` aligns the cell contents in the horizontal and vertical directions.
     - `=CONCAT()` joins text, cell references, icons, and status pills into one rendered cell.
     - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback icons if your theme doesn't support those.
+    - `=IF()` conditionally renders one value or another using `==`, `!=`, or `<>` comparisons.
     - `=STATUS()` generates a status pill with text and color.
 
 
@@ -130,71 +133,7 @@ This will render `Location` as a single cell with two cells beneath it. `Country
 
 ## Formulas
 
-### Cell References
 
-Place the value from another cell in the current cell.
-
-- `=A1` Place the value of cell `A1` in this cell.
-- `=BB12` Place the value of cell `BB12` in this cell.
-- `=STATUS(B2;C4)` Place a status pill with the text from `B2` and the color from `C4`.
-
-### Status pills
-
-Renders a status pill.
-
-#### Function
-
-- `=STATUS(LABEL; COLOR)`
-
-#### Fields
-
-- `LABEL` is any text or a cell reference.
-- `COLOR` can be:
-
-    - `green` or `success`
-    - `yellow` or `warning`
-    - `red` or `danger` or `error`
-    - `blue` or `info`
-    - `gray` (default) or `grey` or `neutral` \
-    - `purple`
-
-
-#### Pipe Modifier Example
-
-- `=B4 | STATUS(C4)` is equivalent to `=STATUS(B4; C4)`.
-- `=D4 | STATUS(E4) | CM` displays the `D4` cell contents in a status pill with color from cell `E4` center and middle.
-
-
-### Icons
-
-Renders a class-based icon span.
-
-`ICON()` emits CSS classes only. To use full Font Awesome or Bootstrap Icons, load those icon fonts locally through your Sphinx theme/static assets.
-
-#### Function
-
-- `=ICON(ICON_SET; ICON_NAME)`
-- `=ICON(ICON_SET; ICON_NAME; ACCESSIBLE_LABEL)` [Optional]
-
-#### Fields
-
-See the Font Awesome or Bootstrap icon website for the actual names of the icons.
-
-`ICON_SET`:
-
-- `fa-solid` from Font Awesome.
-- `fa-regular` from Font Awesome.
-- `fa-brands` from Font Awesome.
-- `bi` for Bootstrap Icons.
-
-
-`ICON_NAME` is the name of the Font Awesome or Bootstrap icon.
-
-Font Awesome is similar to `circle-check`, `github`.
-
-Bootstrap is similar to `exclamation-triangle`.
-
-`ACCESSIBLE_LABEL` sets the aria label for accessibility.
 
 ### Alignment
 
@@ -248,6 +187,16 @@ Rendered class will use the full names.
 - `=B4 | RB` displays the contents of cell `B4` right and bottom.
 
 
+### Cell References
+
+Place the value from another cell in the current cell.
+
+- `=A1` Place the value of cell `A1` in this cell.
+- `=BB12` Place the value of cell `BB12` in this cell.
+- `=STATUS(B2;C4)` Place a status pill with the text from `B2` and the color from `C4`.
+
+
+
 
 
 ### Concatenation
@@ -284,11 +233,116 @@ Formula arguments use semicolons (`;`) instead of commas.
 
 
 
+
+### Icons
+
+Renders a class-based icon span.
+
+`ICON()` emits CSS classes only. To use full Font Awesome or Bootstrap Icons, load those icon fonts locally through your Sphinx theme/static assets.
+
+#### Function
+
+- `=ICON(ICON_SET; ICON_NAME)`
+- `=ICON(ICON_SET; ICON_NAME; ACCESSIBLE_LABEL)` [Optional]
+
+#### Fields
+
+See the Font Awesome or Bootstrap icon website for the actual names of the icons.
+
+`ICON_SET`:
+
+- `fa-solid` from Font Awesome.
+- `fa-regular` from Font Awesome.
+- `fa-brands` from Font Awesome.
+- `bi` for Bootstrap Icons.
+
+
+`ICON_NAME` is the name of the Font Awesome or Bootstrap icon.
+
+Font Awesome is similar to `circle-check`, `github`.
+
+Bootstrap is similar to `exclamation-triangle`.
+
+`ACCESSIBLE_LABEL` sets the aria label for accessibility.
+
+### Conditional Rendering
+
+`IF()` conditionally renders one value when a comparison is true and another value when the comparison is false.
+
+#### Function
+
+* `=IF(CONDITION; TRUE_VALUE; FALSE_VALUE)`
+
+#### Condition syntax
+
+Conditions currently support these comparison operators:
+
+* `==` equals
+* `!=` not equals
+* `<>` not equals
+
+Single equals (`=`) is not supported as a comparison operator. Use `==` for equality checks.
+
+#### Fields
+
+* `CONDITION` is a comparison between two values.
+* `TRUE_VALUE` is rendered when the condition is true.
+* `FALSE_VALUE` is rendered when the condition is false.
+
+Each value can be:
+
+* Literal text
+* A quoted string
+* A cell reference
+* A rendered value from another formula, such as `STATUS()`, `ICON()`, or `CONCAT()`
+
+#### Examples
+
+* `=IF(B2 == "Active"; STATUS(B2; green); STATUS(B2; gray))` displays a green status pill when `B2` is `Active`; otherwise it displays a gray status pill.
+* `=IF(B3 != "Blocked"; ICON(fa-solid; circle-check); ICON(fa-solid; triangle-exclamation))` displays a check icon unless `B3` is `Blocked`.
+* `=IF(B4 <> ""; CONCAT(ICON(fa-solid; circle-check); " "; B4); "")` displays an icon and text when `B4` is not empty.
+
+`IF()` evaluates only the selected branch. If the condition is true, the false branch is not evaluated. If the condition is false, the true branch is not evaluated.
+
+
+
+
 ### Literal Cell Rendering
 
 Add a leading single quote `'` to render a formula literally instead of evaluating it.
 
 - `'=STATUS(Active; green)` displays `=STATUS(Active; green)`.
+
+
+
+
+### Status pills
+
+Renders a status pill.
+
+#### Function
+
+- `=STATUS(LABEL; COLOR)`
+
+#### Fields
+
+- `LABEL` is any text or a cell reference.
+- `COLOR` can be:
+
+    - `green` or `success`
+    - `yellow` or `warning`
+    - `red` or `danger` or `error`
+    - `blue` or `info`
+    - `gray` (default) or `grey` or `neutral` \
+    - `purple`
+
+
+#### Pipe Modifier Example
+
+- `=B4 | STATUS(C4)` is equivalent to `=STATUS(B4; C4)`.
+- `=D4 | STATUS(E4) | CM` displays the `D4` cell contents in a status pill with color from cell `E4` center and middle.
+
+
 
 ### Circular References
 
@@ -349,7 +403,7 @@ Icon formulas emit CSS classes only. To use the full Font Awesome or Bootstrap I
 
 Current limitations:
 
-* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, ranges, `IF()`, `SUM()`, `AVG()`, or comparison expressions.
+* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, ranges, `SUM()`, `AVG()`, or comparison operators other than `==`, `!=`, and `<>`.
 
 * Formula arguments use semicolons (`;`) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.
 
@@ -372,4 +426,6 @@ Current limitations:
 * The extension does not currently provide an interactive editor. Tables are authored as inline directive content or external `.rcsv` / `.mcsv` files.
 
 * The extension does not bundle DataTables, sorting, filtering, pagination, or other interactive table libraries. Additional classes such as `datatables` are passed through so projects can integrate their own local JavaScript if needed.
+
+* `IF()` comparisons are string-based. Numeric comparison operators such as `>`, `>=`, `<`, and `<=` are not currently supported.
 
