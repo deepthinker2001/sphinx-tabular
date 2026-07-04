@@ -27,7 +27,7 @@
     - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback icons if your theme doesn't support those.
     - `=IF()` conditionally renders one value or another using `==`, `!=`, or `<>` comparisons.
     - `=STATUS()` generates a status pill with text and color.
-
+    - `=SUM()` totals numeric values from cells, ranges, or literal arguments.
 
 ## Dependencies
 
@@ -133,6 +133,17 @@ This will render `Location` as a single cell with two cells beneath it. `Country
 
 
 ## Formulas
+
+
+
+### Circular References
+
+Circular references will display `#CYCLE!` because they are invalid.
+
+Example:
+
+    A, B
+    =B2,=A2
 
 
 
@@ -433,22 +444,58 @@ Renders a status pill.
     - `purple`
 
 
+
+
 #### Pipe Modifier Example
 
 - `=B4 | STATUS(C4)` is equivalent to `=STATUS(B4; C4)`.
 - `=D4 | STATUS(E4) | CM` displays the `D4` cell contents in a status pill with color from cell `E4` center and middle.
 
+### Summation
 
+`SUM()` totals numeric values from cells, ranges, or literal arguments.
 
-### Circular References
+#### Function
 
-Circular references will display `#CYCLE!` because they are invalid.
+* `=SUM(VALUE; VALUE; ...)`
 
-Example:
+#### Fields
 
-    A, B
-    =B2,=A2
+Each `VALUE` can be:
 
+* A literal number
+* A cell reference
+* A range reference
+* Another formula that renders a numeric value
+
+Blank values are ignored.
+
+Non-numeric values are ignored and produce a warning.
+
+If no numeric values are found, `SUM()` returns `0`.
+
+#### Examples
+
+* `=SUM(B2:B4)` totals the numeric values in cells `B2` through `B4`.
+* `=SUM(B2; B3; B4)` totals separate cell references.
+* `=SUM(B2:B4; 10)` totals a range and a literal number.
+* `=IF(SUM(B2:B4) >= 100; STATUS(Passing; green); STATUS(Failing; red))` uses a sum inside a conditional formula.
+
+#### Example table
+
+```csv id="1hkm74"
+Name,Value,Rendered
+A,1,
+B,2,
+C,3,
+Total,,=SUM(B2:B4)
+```
+
+Rendered result:
+
+```text id="bxqh7k"
+6
+```
 
 
 ## Theme support
@@ -499,7 +546,7 @@ Icon formulas emit CSS classes only. To use the full Font Awesome or Bootstrap I
 
 Current limitations:
 
-* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, `SUM()`, `AVG()`, `MIN()`, or `MAX()`.
+* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support `AVG()`, `MIN()`, or `MAX()`.
 
 * Formula arguments use semicolons (`;`) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.
 
@@ -525,4 +572,4 @@ Current limitations:
 
 * `IF()` numeric comparisons support simple numeric values only. Full arithmetic expressions such as `A2 + B2 > 10` are not currently supported.
 
-* Range references are supported, but aggregate functions such as `SUM()`, `AVG()`, `MIN()`, and `MAX()` are not currently implemented.
+* Range references are supported. `SUM()` is implemented, but `AVG()`, `MIN()`, and `MAX()` are not currently implemented.
