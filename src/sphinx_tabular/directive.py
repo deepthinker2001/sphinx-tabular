@@ -80,8 +80,9 @@ class BaseTabularDirective(SphinxDirective):
 
         if has_file:
             rel_file = self.options["file"]
-            source_path = Path(self.env.srcdir) / self.env.docname.rsplit("/", 1)[0] / rel_file
-            source_path = source_path.resolve()
+
+            doc_dir = Path(self.env.doc2path(self.env.docname)).parent
+            source_path = (doc_dir / rel_file).resolve()
 
             self.env.note_dependency(str(source_path))
             text = source_path.read_text(encoding="utf-8")

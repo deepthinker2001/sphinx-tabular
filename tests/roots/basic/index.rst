@@ -31,6 +31,16 @@ references and pipe modifiers
    Space,"<",Inbound,Blocked,red,=D5 | STATUS(E5) | CM
    ^,Ephemeris,Inbound,See :ref:`ephemeris-interface`,blue,=ICON(fa-solid; circle-check) | ALIGN(c; m)
 
+external file
+--------------
+
+.. rcsv-table:: Interface Matrix
+   :file: _tables/interface_matrix.rcsv
+   :header-rows: 2
+   :width: 100%
+   :class: datatables compact
+   :sticky-header:
+
 
 .. _ephemeris-interface:
 
