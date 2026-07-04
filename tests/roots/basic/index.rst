@@ -93,3 +93,19 @@ Aggregate Formulas
    C,3,
    Total,,=SUM(B2:B4)
 
+Aggregate Formulas
+------------------
+
+.. rcsv-table:: Aggregate Matrix
+   :header-rows: 1
+   :width: 100%
+
+   Name,Value,Rendered
+   A,1,
+   B,2,
+   C,3,
+   Total,,=SUM(B2:B4)
+   Average,,=AVG(B2:B4)
+   Minimum,,=MIN(B2:B4)
+   Maximum,,=MAX(B2:B4)
+   Count,,=COUNT(B2:B4)

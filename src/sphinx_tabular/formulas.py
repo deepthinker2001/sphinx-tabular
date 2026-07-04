@@ -193,6 +193,18 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
         
         if name == "SUM":
             return func_sum(args, cell=cell, context=context)
+        
+        if name == "AVG":
+            return func_avg(args, cell=cell, context=context)
+
+        if name == "MIN":
+            return func_min(args, cell=cell, context=context)
+
+        if name == "MAX":
+            return func_max(args, cell=cell, context=context)
+
+        if name == "COUNT":
+            return func_count(args, cell=cell, context=context)
 
         context.warn(
             f"unknown formula function '{name}' at {format_cell_ref(cell.row, cell.col)}."
@@ -438,20 +450,78 @@ def func_if(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
     return ""
 
 def func_sum(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
-    total = 0.0
-    found_any = False
+    numbers = collect_all_numeric_args(
+        args,
+        cell=cell,
+        context=context,
+        function_name="SUM",
+    )
 
-    for arg in args:
-        value = evaluate_arg(arg, cell=cell, context=context)
-
-        for number in collect_numeric_values(value, cell=cell, context=context, function_name="SUM"):
-            total += number
-            found_any = True
-
-    if not found_any:
+    if not numbers:
         return "0"
 
-    return format_number(total)
+    return format_number(sum(numbers))
+
+def func_avg(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
+    numbers = collect_all_numeric_args(
+        args,
+        cell=cell,
+        context=context,
+        function_name="AVG",
+    )
+
+    if not numbers:
+        context.warn(
+            f"AVG found no numeric values at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    return format_number(sum(numbers) / len(numbers))
+
+
+def func_min(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
+    numbers = collect_all_numeric_args(
+        args,
+        cell=cell,
+        context=context,
+        function_name="MIN",
+    )
+
+    if not numbers:
+        context.warn(
+            f"MIN found no numeric values at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    return format_number(min(numbers))
+
+
+def func_max(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
+    numbers = collect_all_numeric_args(
+        args,
+        cell=cell,
+        context=context,
+        function_name="MAX",
+    )
+
+    if not numbers:
+        context.warn(
+            f"MAX found no numeric values at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    return format_number(max(numbers))
+
+
+def func_count(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
+    numbers = collect_all_numeric_args(
+        args,
+        cell=cell,
+        context=context,
+        function_name="COUNT",
+    )
+
+    return str(len(numbers))
 
 def evaluate_condition(expr: str, *, cell: Cell, context: FormulaContext) -> bool:
     expr = expr.strip()
@@ -581,6 +651,28 @@ def parse_number(value: str) -> float | None:
         return float(value)
     except ValueError:
         return None
+
+def collect_all_numeric_args(
+    args: list[str],
+    *,
+    cell: Cell,
+    context: FormulaContext,
+    function_name: str,
+) -> list[float]:
+    numbers: list[float] = []
+
+    for arg in args:
+        value = evaluate_arg(arg, cell=cell, context=context)
+        numbers.extend(
+            collect_numeric_values(
+                value,
+                cell=cell,
+                context=context,
+                function_name=function_name,
+            )
+        )
+
+    return numbers
 
 def collect_numeric_values(
     value: Any,

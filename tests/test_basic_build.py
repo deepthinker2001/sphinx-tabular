@@ -71,3 +71,14 @@ def test_basic_html_build_subprocess():
 
     assert "Aggregate Matrix" in html
     assert "<p>6</p>" in html
+
+    assert "Aggregate Matrix" in html
+    assert "Total" in html
+    assert "Average" in html
+    assert "Minimum" in html
+    assert "Maximum" in html
+    assert "Count" in html
+    assert "<p>6</p>" in html
+    assert "<p>2</p>" in html
+    assert "<p>1</p>" in html
+    assert "<p>3</p>" in html

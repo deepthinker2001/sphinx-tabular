@@ -686,3 +686,160 @@ def test_sum_can_be_used_in_if_numeric_comparison():
     assert isinstance(value, StatusValue)
     assert value.label == "Passing"
     assert value.color == "green"
+
+def test_avg_range_reference():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["2"],
+            ["4"],
+            ["6"],
+            ["=AVG(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "4"
+
+
+def test_avg_range_reference_decimal_result():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["1"],
+            ["2"],
+            ["4"],
+            ["=AVG(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "2.3333333333333335"
+
+
+def test_min_range_reference():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["3"],
+            ["1"],
+            ["2"],
+            ["=MIN(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "1"
+
+
+def test_max_range_reference():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["3"],
+            ["1"],
+            ["2"],
+            ["=MAX(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "3"
+
+
+def test_count_range_reference():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["3"],
+            ["Active"],
+            [""],
+            ["2"],
+            ["=COUNT(A2:A5)"],
+        ]
+    )
+
+    value = eval_cell(rows, 6, 1)
+
+    assert value == "2"
+
+
+def test_avg_returns_value_error_when_no_numeric_values_exist():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ["=AVG(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "#VALUE!"
+
+
+def test_min_returns_value_error_when_no_numeric_values_exist():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ["=MIN(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "#VALUE!"
+
+
+def test_max_returns_value_error_when_no_numeric_values_exist():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ["=MAX(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "#VALUE!"
+
+
+def test_count_returns_zero_when_no_numeric_values_exist():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ["=COUNT(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "0"
+
+
+def test_aggregates_can_use_multiple_arguments():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["1", "2", "=AVG(A2; B2; 3)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "2"
