@@ -404,3 +404,92 @@ def test_if_single_equals_is_not_supported():
     assert isinstance(value, StatusValue)
     assert value.label == "Active"
     assert value.color == "gray"
+
+def test_if_greater_than_numeric_comparator():
+    rows = make_rows(
+        [
+            ["Score", "Rendered"],
+            ["95", '=IF(A2 > 90; STATUS(Passing; green); STATUS(Failing; red))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Passing"
+    assert value.color == "green"
+
+
+def test_if_greater_than_or_equal_numeric_comparator():
+    rows = make_rows(
+        [
+            ["Score", "Rendered"],
+            ["90", '=IF(A2 >= 90; STATUS(Passing; green); STATUS(Failing; red))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Passing"
+    assert value.color == "green"
+
+
+def test_if_less_than_numeric_comparator():
+    rows = make_rows(
+        [
+            ["Count", "Rendered"],
+            ["0", '=IF(A2 < 1; STATUS(Blocked; red); STATUS(Ready; green))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Blocked"
+    assert value.color == "red"
+
+
+def test_if_less_than_or_equal_numeric_comparator():
+    rows = make_rows(
+        [
+            ["Count", "Rendered"],
+            ["1", '=IF(A2 <= 1; STATUS(Limited; yellow); STATUS(Ready; green))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Limited"
+    assert value.color == "yellow"
+
+
+def test_if_numeric_comparison_false_branch():
+    rows = make_rows(
+        [
+            ["Score", "Rendered"],
+            ["80", '=IF(A2 >= 90; STATUS(Passing; green); STATUS(Failing; red))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Failing"
+    assert value.color == "red"
+
+
+def test_if_numeric_comparison_with_non_numeric_values_is_false():
+    rows = make_rows(
+        [
+            ["Score", "Rendered"],
+            ["unknown", '=IF(A2 >= 90; STATUS(Passing; green); STATUS(Failing; red))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Failing"
+    assert value.color == "red"

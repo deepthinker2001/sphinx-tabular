@@ -62,3 +62,6 @@ def test_basic_html_build_subprocess():
     assert "sphinx-tabular-inline-sequence" in html
     assert "Ready" in html
 
+    assert "Numeric IF" in html
+    assert "Passing" in html
+

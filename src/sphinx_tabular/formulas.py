@@ -411,7 +411,7 @@ def evaluate_condition(expr: str, *, cell: Cell, context: FormulaContext) -> boo
     if comparison is None:
         context.warn(
             f"IF condition at {format_cell_ref(cell.row, cell.col)} must use "
-            "one of ==, !=, or <>."
+            "one of ==, !=, <>, >, >=, <, or <=."
         )
         return False
 
@@ -429,6 +429,28 @@ def evaluate_condition(expr: str, *, cell: Cell, context: FormulaContext) -> boo
     if operator in {"!=", "<>"}:
         return left_value != right_value
 
+    left_number = parse_number(left_value)
+    right_number = parse_number(right_value)
+
+    if left_number is None or right_number is None:
+        context.warn(
+            f"IF numeric comparison at {format_cell_ref(cell.row, cell.col)} "
+            f"requires numeric values for '{operator}'."
+        )
+        return False
+
+    if operator == ">":
+        return left_number > right_number
+
+    if operator == ">=":
+        return left_number >= right_number
+
+    if operator == "<":
+        return left_number < right_number
+
+    if operator == "<=":
+        return left_number <= right_number
+
     context.warn(
         f"unsupported IF comparator '{operator}' at "
         f"{format_cell_ref(cell.row, cell.col)}."
@@ -436,7 +458,7 @@ def evaluate_condition(expr: str, *, cell: Cell, context: FormulaContext) -> boo
     return False
 
 def split_top_level_comparison(expr: str) -> tuple[str, str, str] | None:
-    operators = ["==", "!=", "<>"]
+    operators = ["==", "!=", "<>", ">=", "<=", ">", "<"]
 
     depth = 0
     in_string = False
@@ -487,12 +509,28 @@ def split_top_level_comparison(expr: str) -> tuple[str, str, str] | None:
 
                     return left, operator, right
 
+            # Single equals is intentionally not supported.
             if ch == "=":
                 return None
 
         i += 1
 
     return None
+
+def parse_number(value: str) -> float | None:
+    value = value.strip()
+
+    quoted = parse_quoted_string(value)
+    if quoted is not None:
+        value = quoted.strip()
+
+    if value == "":
+        return None
+
+    try:
+        return float(value)
+    except ValueError:
+        return None
 
 def evaluate_arg(arg: str, *, cell: Cell, context: FormulaContext) -> Any:
     return evaluate_expression(arg, cell=cell, context=context)
