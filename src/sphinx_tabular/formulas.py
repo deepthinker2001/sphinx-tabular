@@ -32,6 +32,11 @@ class IconValue:
     label: str | None = None
 
 
+@dataclass(frozen=True)
+class InlineSequenceValue:
+    parts: list[Any]
+
+
 class FormulaContext:
     def __init__(self, rows: list[list[Cell]], *, source: str, strict: bool = False):
         self.rows = rows
@@ -150,6 +155,9 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
 
         if name == "VALIGN":
             return func_valign(args, cell=cell, context=context)
+        
+        if name == "CONCAT":
+            return func_concat(args, cell=cell, context=context)
 
         context.warn(
             f"unknown formula function '{name}' at {format_cell_ref(cell.row, cell.col)}."
@@ -362,11 +370,34 @@ def func_valign(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
     return value
 
 
+def func_concat(args: list[str], *, cell: Cell, context: FormulaContext) -> InlineSequenceValue:
+    parts: list[Any] = []
+
+    for arg in args:
+        value = evaluate_arg(arg, cell=cell, context=context)
+
+        if isinstance(value, InlineSequenceValue):
+            parts.extend(value.parts)
+        else:
+            parts.append(value)
+
+    return InlineSequenceValue(parts=parts)
+
+
 def evaluate_arg(arg: str, *, cell: Cell, context: FormulaContext) -> Any:
     return evaluate_expression(arg, cell=cell, context=context)
 
 
 def value_to_node(value: Any) -> nodes.Node:
+    if isinstance(value, InlineSequenceValue):
+        node = nodes.inline()
+        node["classes"].append("sphinx-tabular-inline-sequence")
+
+        for part in value.parts:
+            node += value_to_node(part)
+
+        return node
+
     if isinstance(value, StatusValue):
         node = nodes.inline(text=value.label)
         node["classes"].extend(
@@ -412,6 +443,9 @@ def value_to_node(value: Any) -> nodes.Node:
 
 
 def stringify_value(value: Any) -> str:
+    if isinstance(value, InlineSequenceValue):
+        return "".join(stringify_value(part) for part in value.parts)
+    
     if isinstance(value, StatusValue):
         return value.label
 

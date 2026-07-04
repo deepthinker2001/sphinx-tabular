@@ -17,6 +17,7 @@
 - Provides a minimal set of spreadsheet functions with cell referencing.
 
     - `=ALIGN()` aligns the cell contents in the horizontal and vertical directions.
+    - `=CONCAT()` concatenates text or icons.
     - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback.
     - `=STATUS()` generates a status pill with text and color.
 
@@ -188,6 +189,8 @@ Align a cell's contents horizontally or vertically. Default alignment is `left` 
 #### Function
 
 - `=ALIGN(VALUE; HORIZONTAL; VERTICAL)`
+- `=HALIGN(VALUE; HORIZONTAL)`
+- `=VALIGN(VALUE; VERTICAL)`
 
 #### VALUE
 

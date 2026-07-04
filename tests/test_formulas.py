@@ -3,8 +3,11 @@ from __future__ import annotations
 from sphinx_tabular.formulas import (
     FormulaContext,
     IconValue,
+    InlineSequenceValue,
     StatusValue,
     evaluate_cell_value,
+    stringify_value,
+    value_to_node,
 )
 from sphinx_tabular.model import Cell
 from sphinx_tabular.render_nodes import resolve_simple_merges
@@ -208,3 +211,71 @@ def test_circular_reference_returns_cycle_marker():
     value = eval_cell(rows, 2, 1)
 
     assert value == "#CYCLE!"
+
+def test_concat_literal_arguments():
+    rows = make_rows([["Rendered"], ['=CONCAT("Status: "; "Active")']])
+    value = eval_cell(rows, 2, 1)
+
+    assert isinstance(value, InlineSequenceValue)
+    assert stringify_value(value) == "Status: Active"
+
+
+def test_concat_can_reference_cells():
+    rows = make_rows(
+        [
+            ["Name", "State", "Rendered"],
+            ["Telemetry", "Active", '=CONCAT(A2; ": "; B2)'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert isinstance(value, InlineSequenceValue)
+    assert stringify_value(value) == "Telemetry: Active"
+
+
+def test_concat_preserves_icon_value():
+    rows = make_rows(
+        [
+            ["Name", "Rendered"],
+            ["Telemetry", '=CONCAT(ICON(fa-solid; circle-check); " "; A2)'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, InlineSequenceValue)
+    assert isinstance(value.parts[0], IconValue)
+    assert value.parts[0].icon_set == "fa-solid"
+    assert value.parts[0].icon_name == "circle-check"
+    assert value.parts[1] == " "
+    assert value.parts[2] == "Telemetry"
+
+    node = value_to_node(value)
+
+    assert "sphinx-tabular-inline-sequence" in node["classes"]
+    assert "sphinx-tabular-icon-fa" in node[0]["classes"]
+    assert "fa-circle-check" in node[0]["classes"]
+
+
+def test_concat_preserves_status_value():
+    rows = make_rows(
+        [
+            ["State", "Color", "Rendered"],
+            ["Active", "green", '=CONCAT(STATUS(A2; B2); " ready")'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert isinstance(value, InlineSequenceValue)
+    assert isinstance(value.parts[0], StatusValue)
+    assert value.parts[0].label == "Active"
+    assert value.parts[0].color == "green"
+    assert value.parts[1] == " ready"
+
+    node = value_to_node(value)
+
+    assert "sphinx-tabular-status" in node[0]["classes"]
+    assert "sphinx-tabular-status-green" in node[0]["classes"]
+    

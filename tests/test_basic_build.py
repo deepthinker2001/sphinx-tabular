@@ -53,3 +53,7 @@ def test_basic_html_build_subprocess():
     assert "sphinx-tabular-status-yellow" in html
 
     assert "sphinx-tabular-icon-fa fa-solid fa-circle-check" in html
+
+    assert "sphinx-tabular-inline-sequence" in html
+    assert "fa-circle-check" in html
+    assert "Ready" in html
