@@ -17,7 +17,7 @@
 - Provides a minimal set of spreadsheet functions with cell referencing.
 
     - `=ALIGN()` aligns the cell contents in the horizontal and vertical directions.
-    - `=CONCAT()` concatenates text or icons.
+    - `=CONCAT()` joins text, cell references, icons, and status pills into one rendered cell.
     - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback.
     - `=STATUS()` generates a status pill with text and color.
 
@@ -151,6 +151,12 @@ Renders a status pill.
     - `purple`
 
 
+#### Pipe Modifier Example
+
+- `=B4 | STATUS(C4)` is equivalent to `=STATUS(B4; C4)`.
+- `=D4 | STATUS(E4) | CM` displays the `D4` cell contents in a status pill with color from cell `E4` center and middle.
+
+
 ### Icons
 
 Renders a class-based icon span.
@@ -222,6 +228,11 @@ Rendered class will use the full names.
 - `=ALIGN(STATUS(Active; green); r; b)` displays a status pill aligned right and bottom.
 - `=B4 | ALIGN(c; m)` displays the contents of cell `B4` centered and middle-aligned.
 
+#### Pipe Modifier Example
+
+- `=B4 | ALIGN(c; m)` displays the `B4` cell contents centered and middle.
+
+
 #### Shortcuts
 
 - `=B4 | CM` displays the contents of cell `B4` center and middle.
@@ -229,13 +240,41 @@ Rendered class will use the full names.
 - `=B4 | RB` displays the contents of cell `B4` right and bottom.
 
 
-### Pipe Modifiers
 
-Multiple functions can be placed in one cell using pipe modifiers.
 
-- `=B4 | STATUS(C4)` is equivalent to `=STATUS(B4; C4)`.
-- `=B4 | ALIGN(c; m)` displays the `B4` cell contents centered and middle.
-- `=D4 | STATUS(E4) | CM` displays the `D4` cell contents in a status pill with color from cell `E4` center and middle.
+### Concatenation
+
+`CONCAT()` joins multiple values together in one rendered cell.
+
+#### Function
+
+* `=CONCAT(VALUE; VALUE; ...)`
+
+#### Fields
+
+Each `VALUE` can be:
+
+* Literal text
+* A quoted string
+* A cell reference
+* A rendered value from another formula, such as `ICON()` or `STATUS()`
+
+Formula arguments use semicolons (`;`) instead of commas.
+
+#### Examples
+
+* `=CONCAT("Status: "; B4)` displays `Status: ` followed by the contents of cell `B4`.
+* `=CONCAT(A2; ": "; B2)` joins the contents of `A2`, literal text, and the contents of `B2`.
+* `=CONCAT(ICON(fa-solid; circle-check); " "; B4)` displays an icon followed by a space and the contents of `B4`.
+* `=CONCAT(STATUS(B4; C4); " "; D4)` displays a status pill followed by a space and the contents of `D4`.
+
+`CONCAT()` preserves rich rendered values. For example, an `ICON()` inside `CONCAT()` still renders as an icon, and a `STATUS()` inside `CONCAT()` still renders as a status pill.
+
+#### Pipe modifier example
+
+* `=CONCAT(ICON(fa-solid; circle-check); " "; "Ready") | CM` displays the icon and text centered horizontally and vertically.
+
+
 
 ### Literal Cell Rendering
 
@@ -302,7 +341,7 @@ Icon formulas emit CSS classes only. To use the full Font Awesome or Bootstrap I
 
 Current limitations:
 
-* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, ranges, `IF()`, `CONCAT()`, `SUM()`, `AVG()`, or comparison expressions.
+* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, ranges, `IF()`, `SUM()`, `AVG()`, or comparison expressions.
 
 * Formula arguments use semicolons (`;`) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.
 
