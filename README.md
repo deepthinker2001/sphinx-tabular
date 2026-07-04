@@ -21,14 +21,23 @@
 - Provides a minimal set of spreadsheet functions with cell referencing.
 
     - `'Text` literal rendering of text without evaluation.
+    - Basic arithmetic expressions support `+`, `-`, `*`, and `/`.
     - `=CELL` cell refernces.
-    * `=CELL1:CELL2` range references.
-    - `=ALIGN()` aligns the cell contents in the horizontal and vertical directions.
+    - `=CELL1:CELL2` range references.
+    - `=ALIGN()`, `=HALIGN()`, and `=VALIGN()` aligns the cell contents in the horizontal and vertical directions.
+    - `=AVG()` averages numeric values from cells, ranges, or literal arguments.
+    - `=BG()` / `=BACKGROUND()` sets a cell background color.
     - `=CONCAT()` joins text, cell references, icons, and status pills into one rendered cell.
+    - `=COUNT()` counts numeric values from cells, ranges, or literal arguments.
+    - `=FG()` / `=TEXTCOLOR()` sets a cell text color.
     - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback icons if your theme doesn't support those.
     - `=IF()` conditionally renders one value or another using `==`, `!=`, or `<>` comparisons.
+    - `=MAX()` returns the largest numeric value from cells, ranges, or literal arguments.
+    - `=MIN()` returns the smallest numeric value from cells, ranges, or literal arguments.
+
     - `=STATUS()` generates a status pill with text and color.
     - `=SUM()` totals numeric values from cells, ranges, or literal arguments.
+
 
 ## Dependencies
 
@@ -146,6 +155,18 @@ Example:
     A, B
     =B2,=A2
 
+### Aggregate formulas
+
+`AVG()`, `MIN()`, `MAX()`, and `COUNT()` operate on numeric values from cells, ranges, or literal arguments.
+
+- `=AVG(B2:B4)` returns the average.
+- `=MIN(B2:B4)` returns the smallest value.
+- `=MAX(B2:B4)` returns the largest value.
+- `=COUNT(B2:B4)` returns the number of numeric values.
+
+Blank values are ignored. Non-numeric values are ignored and produce a warning.
+
+`AVG()`, `MIN()`, and `MAX()` return `#VALUE!` if no numeric values are found. `COUNT()` returns `0`.
 
 
 ### Alignment
@@ -209,6 +230,141 @@ Place the value from another cell in the current cell.
 - `=STATUS(B2;C4)` Place a status pill with the text from `B2` and the color from `C4`.
 
 
+### Basic Arithmetic
+
+Basic arithmetic expressions can be used in formulas.
+
+Supported operators:
+
+* `+` addition
+* `-` subtraction
+* `*` multiplication
+* `/` division
+
+Arithmetic expressions can use:
+
+* Literal numbers
+* Cell references
+* Numeric results from formulas such as `SUM()`, `AVG()`, `MIN()`, `MAX()`, and `COUNT()`
+* Parentheses for grouping
+
+#### Examples
+
+* `=A2 + B2` adds the values from `A2` and `B2`.
+* `=A2 - B2` subtracts `B2` from `A2`.
+* `=A2 * B2` multiplies `A2` and `B2`.
+* `=A2 / B2` divides `A2` by `B2`.
+* `=(A2 + B2) / 2` averages two cells.
+* `=SUM(B2:B4) / COUNT(B2:B4)` computes an average using aggregate formulas.
+* `=IF((A2 + B2) >= 10; STATUS(Passing; green); STATUS(Failing; red))` uses arithmetic inside a conditional formula.
+
+#### Example table
+
+```csv
+Name,A,B,Rendered
+Add,2,3,=B2 + C2
+Multiply,4,5,=B3 * C3
+Average,1,3,=(B4 + C4) / 2
+```
+
+Rendered results:
+
+```text
+5
+20
+2
+```
+
+Division by zero returns `#VALUE!` and produces a warning.
+
+Arithmetic expressions are intentionally basic. They are intended for simple documentation calculations, not full spreadsheet-style formulas.
+
+
+### Cell Color Formulas
+
+Cell color formulas set the visual style of the current table cell while returning the rendered value.
+
+#### Background color
+
+`BG()` sets the cell background color.
+
+Aliases:
+
+* `BG()`
+* `BACKGROUND()`
+
+Function:
+
+```text
+=BG(VALUE; COLOR)
+```
+
+Examples:
+
+```csv
+=BG(Active; #e3fcef)
+=BG(A2; B2)
+=BG(STATUS(Active; green); #e3fcef)
+=BG(Active; var(--pst-color-success-bg))
+```
+
+#### Text color
+
+`FG()` sets the cell text color.
+
+Aliases:
+
+* `FG()`
+* `TEXTCOLOR()`
+
+Function:
+
+```text
+=FG(VALUE; COLOR)
+```
+
+Examples:
+
+```csv
+=FG(Active; #006644)
+=FG(A2; B2)
+=FG(STATUS(Active; green); #006644)
+=FG(Active; var(--pst-color-success-fg))
+```
+
+#### Combined background and text color
+
+`BG()` and `FG()` can be nested.
+
+```csv
+=BG(FG(Active; #006644); #e3fcef)
+```
+
+This renders `Active` with a custom text color and background color.
+
+Color formulas can also wrap rich rendered values:
+
+```csv
+=BG(FG(STATUS(Active; green); #006644); #e3fcef)
+```
+
+#### Example table
+
+```csv
+Name,State,Rendered
+Background,Active,=BG(B2; #e3fcef)
+Text,Active,=FG(B3; #006644)
+Both,Active,=BG(FG(B4; #006644); #e3fcef)
+Variable,Active,=BG(B5; var(--pst-color-success-bg))
+```
+
+Supported color values include:
+
+* CSS named colors, such as `red`, `green`, `transparent`, and `currentColor`
+* Hex colors, such as `#fff`, `#ffffff`, and `#ffffffff`
+* CSS custom properties, such as `var(--pst-color-primary)`
+
+Invalid color values are ignored and produce a warning. The cell value still renders unless the formula has the wrong number of arguments.
 
 
 
@@ -547,7 +703,7 @@ Icon formulas emit CSS classes only. To use the full Font Awesome or Bootstrap I
 
 Current limitations:
 
-* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support `AVG()`, `MIN()`, or `MAX()`.
+* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. Arithmetic expressions support basic `+`, `-`, `*`, and `/` operations. Advanced spreadsheet-style math functions and complex expression parsing are not currently supported.
 
 * Formula arguments use semicolons (`;`) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.
 
@@ -574,3 +730,8 @@ Current limitations:
 * `IF()` numeric comparisons support simple numeric values only. Full arithmetic expressions such as `A2 + B2 > 10` are not currently supported.
 
 * Range references are supported. `SUM()` is implemented, but `AVG()`, `MIN()`, and `MAX()` are not currently implemented.
+
+* Arithmetic expressions are numeric-only. Non-numeric operands return `#VALUE!` and produce a warning.
+
+* `BG()` and `FG()` intentionally support a limited set of safe CSS color formats: named colors, hex colors, and simple CSS custom properties such as `var(--pst-color-primary)`.
+
