@@ -31,6 +31,7 @@
 
 ## Dependencies
 
+- "python3>3.11"
 - "sphinx>=7"
 - "docutils>=0.20"
 - "myst-parser>=5"
