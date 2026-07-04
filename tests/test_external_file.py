@@ -25,4 +25,4 @@ def test_external_rcsv_file_builds():
     assert "sphinx-tabular-status-yellow" in html
     assert "sphinx-tabular-status-red" in html
     assert "sphinx-tabular-icon-fa" in html
-    assert 'href="#ephemeris-interface"' in html
+    assert 'href="#another-interface"' in html

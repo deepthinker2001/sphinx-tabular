@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 from docutils import nodes
 from sphinx.util.docutils import SphinxDirective
 
@@ -109,26 +107,34 @@ def build_table_node(
             if cell.hidden:
                 continue
 
-            evaluated = evaluate_cell_value(cell.value, cell=cell, context=context)
-
-            entry = nodes.entry()
-            entry["classes"].extend(
-                [
-                    f"sphinx-tabular-halign-{cell.halign}",
-                    f"sphinx-tabular-valign-{cell.valign}",
-                ]
+            rendered_value = evaluate_cell_value(
+                cell.value,
+                cell=cell,
+                context=context,
             )
 
-            if cell.colspan > 1:
-                entry["morecols"] = cell.colspan - 1
+            entry = nodes.entry()
+
+            entry["classes"].extend(cell.classes)
+            entry["classes"].append(f"sphinx-tabular-halign-{cell.halign}")
+            entry["classes"].append(f"sphinx-tabular-valign-{cell.valign}")
+
+            if cell.styles:
+                entry["style"] = "; ".join(
+                    f"{property_name}: {property_value}"
+                    for property_name, property_value in cell.styles.items()
+                )
 
             if cell.rowspan > 1:
                 entry["morerows"] = cell.rowspan - 1
 
-            if isinstance(evaluated, str):
+            if cell.colspan > 1:
+                entry["morecols"] = cell.colspan - 1
+
+            if isinstance(rendered_value, str):
                 add_markup_to_entry(
                     entry,
-                    evaluated,
+                    rendered_value,
                     markup=markup,
                     directive=directive,
                     source=source,
@@ -136,7 +142,7 @@ def build_table_node(
                 )
             else:
                 paragraph = nodes.paragraph()
-                paragraph += value_to_node(evaluated)
+                paragraph += value_to_node(rendered_value)
                 entry += paragraph
 
             row_node += entry

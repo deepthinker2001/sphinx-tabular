@@ -4,6 +4,9 @@ from pathlib import Path
 
 from .directive import McsvTableDirective, RcsvTableDirective
 
+from docutils import nodes
+
+from .html import depart_entry_html, visit_entry_html
 
 def setup(app):
     # Needed for .mcsv cell parsing.
@@ -11,6 +14,12 @@ def setup(app):
 
     app.add_directive("rcsv-table", RcsvTableDirective)
     app.add_directive("mcsv-table", McsvTableDirective)
+
+    app.add_node(
+        nodes.entry,
+        override=True,
+        html=(visit_entry_html, depart_entry_html),
+    )
 
     app.add_config_value("sphinx_tabular_strict", False, "env")
 
@@ -24,6 +33,8 @@ def setup(app):
         "parallel_write_safe": True,
     }
 
+
+    
 
 def _copy_static_assets(app):
     static_src = Path(__file__).parent / "static"

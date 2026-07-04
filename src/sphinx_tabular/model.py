@@ -29,7 +29,8 @@ class Cell:
     halign: str = "left"
     valign: str = "middle"
     classes: list[str] = field(default_factory=list)
-
+    styles: dict[str, str] = field(default_factory=dict)
+    
     @property
     def is_hmerge_marker(self) -> bool:
         return self.value == "<" and not self.was_quoted

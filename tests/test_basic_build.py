@@ -34,7 +34,7 @@ def test_basic_html_build_subprocess():
     assert "sphinx-tabular-icon-fa" in html
     assert "fa-circle-check" in html
 
-    assert 'href="#ephemeris-interface"' in html
+    assert 'href="#another-interface"' in html
 
     css = Path("tests/_build/basic/_static/sphinx-tabular.css").read_text(encoding="utf-8")
     assert ".sphinx-tabular-icon-fa.fa-circle-check::before" in css
@@ -82,3 +82,18 @@ def test_basic_html_build_subprocess():
     assert "<p>2</p>" in html
     assert "<p>1</p>" in html
     assert "<p>3</p>" in html
+
+    assert "Arithmetic Matrix" in html
+    assert "Add" in html
+    assert "Multiply" in html
+    assert "Average" in html
+    assert "<p>5</p>" in html
+    assert "<p>20</p>" in html
+    assert "<p>2</p>" in html
+
+    assert "Color Formula Matrix" in html
+    assert "background-color: #ffb700" in html
+    assert "color: #006644" in html
+    assert "background-color: #143892" in html
+    assert "background-color: var(--pst-color-success-bg)" in html
+    assert 'style="color: #006644"' in html

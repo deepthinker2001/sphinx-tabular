@@ -19,7 +19,17 @@ RANGE_REF_RE = re.compile(
 )
 FUNC_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)\((.*)\)$")
 VALID_ICON_SETS = {"fa-solid", "fa-regular", "fa-brands", "bi"}
+CSS_HEX_COLOR_RE = re.compile(
+    r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"
+)
 
+CSS_VAR_COLOR_RE = re.compile(
+    r"^var\(--[A-Za-z0-9_-]+\)$"
+)
+
+CSS_NAMED_COLOR_RE = re.compile(
+    r"^[A-Za-z][A-Za-z0-9_-]*$"
+)
 
 @dataclass(frozen=True)
 class StatusValue:
@@ -121,6 +131,57 @@ class FormulaContext:
 
         return RangeValue(parts=parts)
 
+def evaluate_css_color_arg(
+    arg: str,
+    *,
+    cell: Cell,
+    context: FormulaContext,
+) -> str:
+    raw = arg.strip()
+
+    quoted = parse_quoted_string(raw)
+    if quoted is not None:
+        return quoted
+
+    # Do not evaluate CSS custom properties as formula calls.
+    # Otherwise var(--x) is interpreted as a formula named VAR.
+    if CSS_VAR_COLOR_RE.match(raw):
+        return raw
+
+    value = evaluate_arg(raw, cell=cell, context=context)
+    return stringify_value(value)
+
+def normalize_css_color(
+    value: str,
+    *,
+    cell: Cell,
+    context: FormulaContext,
+    function_name: str,
+) -> str | None:
+    value = value.strip()
+
+    if value == "":
+        context.warn(
+            f"{function_name} received an empty color at "
+            f"{format_cell_ref(cell.row, cell.col)}."
+        )
+        return None
+
+    if CSS_HEX_COLOR_RE.match(value):
+        return value
+
+    if CSS_VAR_COLOR_RE.match(value):
+        return value
+
+    if CSS_NAMED_COLOR_RE.match(value):
+        return value.lower()
+
+    context.warn(
+        f"{function_name} ignored invalid CSS color '{value}' at "
+        f"{format_cell_ref(cell.row, cell.col)}."
+    )
+    return None
+
 def evaluate_cell_value(value: str, *, cell: Cell, context: FormulaContext) -> Any:
     raw = value.strip()
 
@@ -163,6 +224,18 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
     if ref is not None:
         row, col = ref
         return context.resolve_cell(row, col)
+    
+    if looks_like_arithmetic_expression(expr):
+        handled, arithmetic_value = try_evaluate_arithmetic(
+            expr,
+            cell=cell,
+            context=context,
+        )
+
+        if handled:
+            return arithmetic_value
+
+    func_match = FUNC_RE.match(expr)
 
     func_match = FUNC_RE.match(expr)
     if func_match:
@@ -205,6 +278,12 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
 
         if name == "COUNT":
             return func_count(args, cell=cell, context=context)
+        
+        if name in {"BG", "BACKGROUND"}:
+            return func_background(args, cell=cell, context=context)
+
+        if name in {"FG", "TEXTCOLOR"}:
+            return func_text_color(args, cell=cell, context=context)
 
         context.warn(
             f"unknown formula function '{name}' at {format_cell_ref(cell.row, cell.col)}."
@@ -637,6 +716,133 @@ def split_top_level_comparison(expr: str) -> tuple[str, str, str] | None:
 
     return None
 
+_NOT_ARITHMETIC = object()
+_ARITHMETIC_ERROR = object()
+
+
+def try_evaluate_arithmetic(
+    expr: str,
+    *,
+    cell: Cell,
+    context: FormulaContext,
+) -> tuple[bool, str]:
+    value = evaluate_arithmetic_number(expr, cell=cell, context=context)
+
+    if value is _NOT_ARITHMETIC:
+        return False, ""
+
+    if value is _ARITHMETIC_ERROR:
+        return True, "#VALUE!"
+
+    return True, format_number(value)
+
+
+def evaluate_arithmetic_number(
+    expr: str,
+    *,
+    cell: Cell,
+    context: FormulaContext,
+) -> float | object:
+    expr = strip_outer_parentheses(expr.strip())
+
+    if expr == "":
+        return _NOT_ARITHMETIC
+
+    operator_match = find_top_level_arithmetic_operator(expr, ["+", "-"])
+
+    if operator_match is None:
+        operator_match = find_top_level_arithmetic_operator(expr, ["*", "/"])
+
+    if operator_match is not None:
+        index, operator = operator_match
+        left_text = expr[:index].strip()
+        right_text = expr[index + len(operator) :].strip()
+
+        left = evaluate_arithmetic_number(left_text, cell=cell, context=context)
+        right = evaluate_arithmetic_number(right_text, cell=cell, context=context)
+
+        if left is _NOT_ARITHMETIC and right is _NOT_ARITHMETIC:
+            return _NOT_ARITHMETIC
+
+        if left is _NOT_ARITHMETIC or right is _NOT_ARITHMETIC:
+            context.warn(
+                f"invalid arithmetic expression '{expr}' at "
+                f"{format_cell_ref(cell.row, cell.col)}."
+            )
+            return _ARITHMETIC_ERROR
+
+        if left is _ARITHMETIC_ERROR or right is _ARITHMETIC_ERROR:
+            return _ARITHMETIC_ERROR
+
+        if operator == "+":
+            return left + right
+
+        if operator == "-":
+            return left - right
+
+        if operator == "*":
+            return left * right
+
+        if operator == "/":
+            if right == 0:
+                context.warn(
+                    f"division by zero in arithmetic expression at "
+                    f"{format_cell_ref(cell.row, cell.col)}."
+                )
+                return _ARITHMETIC_ERROR
+
+            return left / right
+
+    number = parse_number(expr)
+    if number is not None:
+        return number
+
+    quoted = parse_quoted_string(expr)
+    if quoted is not None:
+        number = parse_number(quoted)
+        if number is not None:
+            return number
+        return _NOT_ARITHMETIC
+
+    ref = parse_cell_ref(expr)
+    if ref is not None:
+        row, col = ref
+        value = context.resolve_cell(row, col)
+        text = stringify_value(value).strip()
+
+        if text == "":
+            return _NOT_ARITHMETIC
+
+        number = parse_number(text)
+
+        if number is None:
+            context.warn(
+                f"arithmetic reference {format_cell_ref(row, col)} resolved to "
+                f"non-numeric value '{text}' at {format_cell_ref(cell.row, cell.col)}."
+            )
+            return _ARITHMETIC_ERROR
+
+        return number
+
+    # Allow numeric-producing formulas inside arithmetic, such as:
+    # SUM(A2:A4) / COUNT(A2:A4)
+    func_match = FUNC_RE.match(expr)
+    if func_match:
+        value = evaluate_expression(expr, cell=cell, context=context)
+        text = stringify_value(value).strip()
+        number = parse_number(text)
+
+        if number is None:
+            context.warn(
+                f"arithmetic expression '{expr}' did not produce a numeric value "
+                f"at {format_cell_ref(cell.row, cell.col)}."
+            )
+            return _ARITHMETIC_ERROR
+
+        return number
+
+    return _NOT_ARITHMETIC
+
 def parse_number(value: str) -> float | None:
     value = value.strip()
 
@@ -712,6 +918,104 @@ def collect_numeric_values(
 
     return [number]
 
+def find_top_level_arithmetic_operator(
+    expr: str,
+    operators: list[str],
+) -> tuple[int, str] | None:
+    depth = 0
+    in_string = False
+    string_quote: str | None = None
+
+    i = len(expr) - 1
+
+    while i >= 0:
+        ch = expr[i]
+
+        if in_string:
+            if ch == string_quote:
+                in_string = False
+                string_quote = None
+
+            i -= 1
+            continue
+
+        if ch in {"'", '"'}:
+            in_string = True
+            string_quote = ch
+            i -= 1
+            continue
+
+        if ch == ")":
+            depth += 1
+            i -= 1
+            continue
+
+        if ch == "(":
+            if depth > 0:
+                depth -= 1
+            i -= 1
+            continue
+
+        if depth == 0:
+            for operator in operators:
+                if expr.startswith(operator, i):
+                    if operator in {"+", "-"} and is_unary_sign(expr, i):
+                        continue
+
+                    return i, operator
+
+        i -= 1
+
+    return None
+
+
+def is_unary_sign(expr: str, index: int) -> bool:
+    if index == 0:
+        return True
+
+    previous = expr[index - 1]
+
+    if previous in "+-*/(":
+        return True
+
+    return False
+
+
+def strip_outer_parentheses(expr: str) -> str:
+    while expr.startswith("(") and expr.endswith(")") and outer_parentheses_wrap(expr):
+        expr = expr[1:-1].strip()
+
+    return expr
+
+
+def outer_parentheses_wrap(expr: str) -> bool:
+    depth = 0
+    in_string = False
+    string_quote: str | None = None
+
+    for index, ch in enumerate(expr):
+        if in_string:
+            if ch == string_quote:
+                in_string = False
+                string_quote = None
+            continue
+
+        if ch in {"'", '"'}:
+            in_string = True
+            string_quote = ch
+            continue
+
+        if ch == "(":
+            depth += 1
+            continue
+
+        if ch == ")":
+            depth -= 1
+
+            if depth == 0 and index != len(expr) - 1:
+                return False
+
+    return depth == 0
 
 def format_number(value: float) -> str:
     if value.is_integer():
@@ -785,6 +1089,17 @@ def value_to_node(value: Any) -> nodes.Node:
         return node
 
     return nodes.Text(stringify_value(value))
+
+def looks_like_arithmetic_expression(expr: str) -> bool:
+    expr = strip_outer_parentheses(expr.strip())
+
+    if expr == "":
+        return False
+
+    return (
+        find_top_level_arithmetic_operator(expr, ["+", "-"]) is not None
+        or find_top_level_arithmetic_operator(expr, ["*", "/"]) is not None
+    )
 
 
 def stringify_value(value: Any) -> str:
@@ -1007,3 +1322,50 @@ def split_top_level(text: str, separator: str) -> list[str]:
 
     parts.append("".join(current).strip())
     return parts
+
+
+def func_background(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
+    if len(args) != 2:
+        context.warn(
+            f"BG expected 2 arguments at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    value = evaluate_arg(args[0], cell=cell, context=context)
+    color = evaluate_css_color_arg(args[1], cell=cell, context=context)
+
+    color_value = normalize_css_color(
+        color,
+        cell=cell,
+        context=context,
+        function_name="BG",
+    )
+
+    if color_value is not None:
+        cell.styles["background-color"] = color_value
+
+    return value
+
+
+def func_text_color(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
+    if len(args) != 2:
+        context.warn(
+            f"FG expected 2 arguments at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    value = evaluate_arg(args[0], cell=cell, context=context)
+    color = evaluate_css_color_arg(args[1], cell=cell, context=context)
+
+    color_value = normalize_css_color(
+        color,
+        cell=cell,
+        context=context,
+        function_name="FG",
+    )
+
+    if color_value is not None:
+        cell.styles["color"] = color_value
+
+    return value
+

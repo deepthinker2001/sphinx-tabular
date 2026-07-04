@@ -386,3 +386,45 @@ html[data-theme="light"] {
   content: "↓";
 }
 
+
+/*
+   Header stub cells that span the full multi-row header block need both
+   the strong top and strong bottom edge.
+*/
+.sphinx-tabular thead tr:first-child > th:first-child[rowspan],
+.sphinx-tabular thead tr:first-child > td:first-child[rowspan] {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+
+
+/*
+   Strong visual bottom rule for the full header block.
+
+   This uses a pseudo-element instead of relying only on inset box-shadow.
+   Empty lower-left header stub cells can fail to show the thick inset shadow
+   consistently, especially when sticky headers are active.
+*/
+.sphinx-tabular thead th,
+.sphinx-tabular thead td {
+  position: relative;
+}
+
+.sphinx-tabular thead tr:last-child > th::after,
+.sphinx-tabular thead tr:last-child > td::after,
+.sphinx-tabular thead th[rowspan]::after,
+.sphinx-tabular thead td[rowspan]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--sphinx-tabular-header-border-color);
+  pointer-events: none;
+  z-index: 3;
+}

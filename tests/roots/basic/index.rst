@@ -12,7 +12,7 @@ sphinx-tabular test
     Ground,Telemetry,Inbound,=STATUS(Active; green)
     ^,Commanding,Outbound,=STATUS(In Review; yellow)
     Space,"<",Inbound,=ICON(fa-solid; circle-check)
-    "^",Ephemeris,Inbound,See :ref:`ephemeris-interface`
+    "^",another,Inbound,See :ref:`another-interface`
     Combined,Ready,green,=CONCAT(ICON(fa-solid; circle-check); " "; "Ready") | CM
     Conditional,Ready,green,=IF("Ready" == "Ready"; CONCAT(ICON(fa-solid; circle-check); " "; "Ready"); STATUS("Not Ready"; gray)) | CM
     Numeric IF,95,green,=IF(95 >= 90; CONCAT(ICON(fa-solid; circle-check); " "; "Passing"); STATUS(Failing; red)) | CM
@@ -33,7 +33,7 @@ references and pipe modifiers
     Ground,Telemetry,Inbound,Active,green,=STATUS(D3; E3)
     ^,Commanding,Outbound,In Review,yellow,=D4 | STATUS(E4) | ALIGN(c; m)
     Space,"<",Inbound,Blocked,red,=D5 | STATUS(E5) | CM
-    ^,Ephemeris,Inbound,See :ref:`ephemeris-interface`,blue,=ICON(fa-solid; circle-check) | ALIGN(c; m)
+    ^,another,Inbound,See :ref:`another-interface`,blue,=ICON(fa-solid; circle-check) | ALIGN(c; m)
 
 external file
 --------------
@@ -57,12 +57,12 @@ Markdown CSV
 
     Name,Description,Status
     Telemetry,**Bold Markdown text**,=STATUS(Active; green)
-    Commanding,See {ref}`ephemeris-interface`,=STATUS(In Review; yellow)
+    Commanding,See {ref}`another-interface`,=STATUS(In Review; yellow)
 
 
-.. _ephemeris-interface:
+.. _another-interface:
 
-Ephemeris Interface
+Another Interface
 -------------------
 
 
@@ -109,3 +109,31 @@ Aggregate Formulas
    Minimum,,=MIN(B2:B4)
    Maximum,,=MAX(B2:B4)
    Count,,=COUNT(B2:B4)
+
+Arithmetic Formulas
+-------------------
+
+.. rcsv-table:: Arithmetic Matrix
+   :header-rows: 1
+   :width: 100%
+
+   Name,A,B,Rendered
+   Add,2,3,=B2 + C2
+   Multiply,4,5,=B3 * C3
+   Average,1,3,=(B4 + C4) / 2
+
+
+Cell Color Formulas
+-------------------
+
+.. rcsv-table:: Color Formula Matrix
+   :header-rows: 1
+   :width: 100%
+
+   Name,State,Rendered
+   Background,Active,=BG(B2; #ffb700)
+   Text,Active,=FG(B3; #006644)
+   Both,Active,=BG(FG(B4; #006644); #143892)
+   Variable,Active,=BG(B5; var(--pst-color-success-bg))
+
+   

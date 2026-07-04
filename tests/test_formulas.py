@@ -843,3 +843,271 @@ def test_aggregates_can_use_multiple_arguments():
     value = eval_cell(rows, 2, 3)
 
     assert value == "2"
+
+def test_arithmetic_addition_with_cell_refs():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["2", "3", "=A2 + B2"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "5"
+
+
+def test_arithmetic_subtraction_with_cell_refs():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["10", "3", "=A2 - B2"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "7"
+
+
+def test_arithmetic_multiplication_with_cell_refs():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["4", "3", "=A2 * B2"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "12"
+
+
+def test_arithmetic_division_with_cell_refs():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["12", "3", "=A2 / B2"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "4"
+
+
+def test_arithmetic_preserves_decimal_results():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["5", "2", "=A2 / B2"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "2.5"
+
+
+def test_arithmetic_operator_precedence():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=2 + 3 * 4"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "14"
+
+
+def test_arithmetic_parentheses():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=(2 + 3) * 4"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "20"
+
+
+def test_arithmetic_can_use_aggregate_results():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["1"],
+            ["2"],
+            ["3"],
+            ["=SUM(A2:A4) / COUNT(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "2"
+
+
+def test_arithmetic_can_be_used_in_if_condition():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["4", "6", '=IF((A2 + B2) >= 10; STATUS(Passing; green); STATUS(Failing; red))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Passing"
+    assert value.color == "green"
+
+
+def test_arithmetic_division_by_zero_returns_value_error():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["12", "0", "=A2 / B2"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "#VALUE!"
+
+
+def test_arithmetic_does_not_break_icon_literal_arguments():
+    rows = make_rows(
+        [
+            ["Icon"],
+            ["=ICON(fa-solid; circle-check)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 1)
+
+    assert isinstance(value, IconValue)
+    assert value.icon_set == "fa-solid"
+    assert value.icon_name == "circle-check"
+
+def test_background_color_sets_cell_style():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=BG(Active; #e3fcef)"],
+        ]
+    )
+
+    cell = rows[1][0]
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "Active"
+    assert cell.styles["background-color"] == "#e3fcef"
+
+
+def test_text_color_sets_cell_style():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=FG(Active; #006644)"],
+        ]
+    )
+
+    cell = rows[1][0]
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "Active"
+    assert cell.styles["color"] == "#006644"
+
+
+def test_background_and_text_color_can_be_nested():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=BG(FG(Active; #006644); #e3fcef)"],
+        ]
+    )
+
+    cell = rows[1][0]
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "Active"
+    assert cell.styles["background-color"] == "#e3fcef"
+    assert cell.styles["color"] == "#006644"
+
+
+def test_background_color_can_reference_cell():
+    rows = make_rows(
+        [
+            ["Text", "Color", "Rendered"],
+            ["Active", "#e3fcef", "=BG(A2; B2)"],
+        ]
+    )
+
+    cell = rows[1][2]
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "Active"
+    assert cell.styles["background-color"] == "#e3fcef"
+
+
+def test_background_color_allows_css_variable():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=BG(Active; var(--pst-color-success-bg))"],
+        ]
+    )
+
+    cell = rows[1][0]
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "Active"
+    assert cell.styles["background-color"] == "var(--pst-color-success-bg)"
+
+
+def test_invalid_background_color_is_ignored():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=BG(Active; red; color: blue)"],
+        ]
+    )
+
+    cell = rows[1][0]
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "#VALUE!" or value == "Active"
+
+def test_invalid_background_color_value_is_ignored_but_value_renders():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ['=BG(Active; "red;color")'],
+        ]
+    )
+
+    cell = rows[1][0]
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "Active"
+    assert "background-color" not in cell.styles
+
+def test_background_color_bad_arity_returns_value_error():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=BG(Active; red; blue)"],
+        ]
+    )
+
+    cell = rows[1][0]
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "#VALUE!"
+    assert "background-color" not in cell.styles
+
+    
