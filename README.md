@@ -277,11 +277,17 @@ Bootstrap is similar to `exclamation-triangle`.
 
 Conditions currently support these comparison operators:
 
-* `==` equals
-* `!=` not equals
-* `<>` not equals
+- `==` equals
+- `!=` not equals
+- `<>` not equals
+- `>` greater than
+- `>=` greater than or equal
+- `<` less than
+- `<=` less than or equal
 
 Single equals (`=`) is not supported as a comparison operator. Use `==` for equality checks.
+
+Equality comparisons are string-based. Numeric comparisons with `>`, `>=`, `<`, and `<=` require both sides to be numeric.
 
 #### Fields
 
@@ -301,6 +307,8 @@ Each value can be:
 * `=IF(B2 == "Active"; STATUS(B2; green); STATUS(B2; gray))` displays a green status pill when `B2` is `Active`; otherwise it displays a gray status pill.
 * `=IF(B3 != "Blocked"; ICON(fa-solid; circle-check); ICON(fa-solid; triangle-exclamation))` displays a check icon unless `B3` is `Blocked`.
 * `=IF(B4 <> ""; CONCAT(ICON(fa-solid; circle-check); " "; B4); "")` displays an icon and text when `B4` is not empty.
+- `=IF(C2 >= 90; STATUS(Passing; green); STATUS(Failing; red))` displays a green status when `C2` is 90 or higher.
+- `=IF(D2 < 1; STATUS(Blocked; red); STATUS(Ready; green))` displays a red status when `D2` is less than 1.
 
 `IF()` evaluates only the selected branch. If the condition is true, the false branch is not evaluated. If the condition is false, the true branch is not evaluated.
 
@@ -403,7 +411,7 @@ Icon formulas emit CSS classes only. To use the full Font Awesome or Bootstrap I
 
 Current limitations:
 
-* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, ranges, `SUM()`, `AVG()`, or comparison operators other than `==`, `!=`, and `<>`.
+* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, ranges, `SUM()`, or `AVG()`.
 
 * Formula arguments use semicolons (`;`) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.
 
@@ -427,5 +435,6 @@ Current limitations:
 
 * The extension does not bundle DataTables, sorting, filtering, pagination, or other interactive table libraries. Additional classes such as `datatables` are passed through so projects can integrate their own local JavaScript if needed.
 
-* `IF()` comparisons are string-based. Numeric comparison operators such as `>`, `>=`, `<`, and `<=` are not currently supported.
+* `IF()` numeric comparisons support simple numeric values only. Full arithmetic expressions such as `A2 + B2 > 10` are not currently supported.
+
 

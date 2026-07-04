@@ -4,6 +4,7 @@ from sphinx_tabular.formulas import (
     FormulaContext,
     IconValue,
     InlineSequenceValue,
+    RangeValue,
     StatusValue,
     evaluate_cell_value,
     stringify_value,
@@ -493,3 +494,87 @@ def test_if_numeric_comparison_with_non_numeric_values_is_false():
     assert isinstance(value, StatusValue)
     assert value.label == "Failing"
     assert value.color == "red"
+
+def test_range_reference_vertical():
+    rows = make_rows(
+        [
+            ["State"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ["=A2:A4"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert isinstance(value, RangeValue)
+    assert value.parts == ["Active", "Blocked", "Ready"]
+    assert stringify_value(value) == "Active, Blocked, Ready"
+
+
+def test_range_reference_rectangle_is_row_major():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["A2", "B2", ""],
+            ["A3", "B3", "=A2:B3"],
+        ]
+    )
+
+    value = eval_cell(rows, 3, 3)
+
+    assert isinstance(value, RangeValue)
+    assert value.parts == ["A2", "B2", "A3", "B3"]
+    assert stringify_value(value) == "A2, B2, A3, B3"
+
+
+def test_reversed_range_reference_is_normalized():
+    rows = make_rows(
+        [
+            ["State"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ["=A4:A2"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert isinstance(value, RangeValue)
+    assert value.parts == ["Active", "Blocked", "Ready"]
+
+
+def test_concat_flattens_range_reference():
+    rows = make_rows(
+        [
+            ["State"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ['=CONCAT("States: "; A2:A4)'],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert isinstance(value, InlineSequenceValue)
+    assert stringify_value(value) == "States: ActiveBlockedReady"
+
+
+def test_range_reference_to_merged_child_resolves_to_parent():
+    rows = make_rows(
+        [
+            ["System", "Rendered"],
+            ["Ground", ""],
+            ["^", "=A2:A3"],
+        ]
+    )
+
+    resolve_simple_merges(rows)
+
+    value = eval_cell(rows, 3, 2)
+
+    assert isinstance(value, RangeValue)
+    assert value.parts == ["Ground", "Ground"]

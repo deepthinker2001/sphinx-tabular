@@ -64,3 +64,17 @@ Markdown CSV
 
 Ephemeris Interface
 -------------------
+
+
+
+Range References
+----------------
+
+.. rcsv-table:: Range Reference Matrix
+   :header-rows: 1
+   :width: 100%
+
+   Name,State,Rendered
+   A,Active,
+   B,Blocked,
+   C,Ready,=B2:B4

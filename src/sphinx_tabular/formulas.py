@@ -14,8 +14,10 @@ logger = logging.getLogger(__name__)
 
 
 CELL_REF_RE = re.compile(r"^\$?([A-Za-z]+)\$?([0-9]+)$")
+RANGE_REF_RE = re.compile(
+    r"^\$?([A-Za-z]+)\$?([0-9]+):\$?([A-Za-z]+)\$?([0-9]+)$"
+)
 FUNC_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)\((.*)\)$")
-
 VALID_ICON_SETS = {"fa-solid", "fa-regular", "fa-brands", "bi"}
 
 
@@ -36,6 +38,9 @@ class IconValue:
 class InlineSequenceValue:
     parts: list[Any]
 
+@dataclass(frozen=True)
+class RangeValue:
+    parts: list[Any]
 
 class FormulaContext:
     def __init__(self, rows: list[list[Cell]], *, source: str, strict: bool = False):
@@ -96,6 +101,25 @@ class FormulaContext:
         finally:
             self.stack.pop()
 
+    def resolve_range(
+        self,
+        start_row: int,
+        start_col: int,
+        end_row: int,
+        end_col: int,
+    ) -> RangeValue:
+        row_min = min(start_row, end_row)
+        row_max = max(start_row, end_row)
+        col_min = min(start_col, end_col)
+        col_max = max(start_col, end_col)
+
+        parts: list[Any] = []
+
+        for row in range(row_min, row_max + 1):
+            for col in range(col_min, col_max + 1):
+                parts.append(self.resolve_cell(row, col))
+
+        return RangeValue(parts=parts)
 
 def evaluate_cell_value(value: str, *, cell: Cell, context: FormulaContext) -> Any:
     raw = value.strip()
@@ -129,6 +153,11 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
     quoted = parse_quoted_string(expr)
     if quoted is not None:
         return quoted
+
+    range_ref = parse_range_ref(expr)
+    if range_ref is not None:
+        start_row, start_col, end_row, end_col = range_ref
+        return context.resolve_range(start_row, start_col, end_row, end_col)
 
     ref = parse_cell_ref(expr)
     if ref is not None:
@@ -381,6 +410,8 @@ def func_concat(args: list[str], *, cell: Cell, context: FormulaContext) -> Inli
 
         if isinstance(value, InlineSequenceValue):
             parts.extend(value.parts)
+        elif isinstance(value, RangeValue):
+            parts.extend(value.parts)
         else:
             parts.append(value)
 
@@ -537,6 +568,16 @@ def evaluate_arg(arg: str, *, cell: Cell, context: FormulaContext) -> Any:
 
 
 def value_to_node(value: Any) -> nodes.Node:
+    if isinstance(value, RangeValue):
+        node = nodes.inline()
+        node["classes"].append("sphinx-tabular-range-value")
+
+        for index, part in enumerate(value.parts):
+            if index:
+                node += nodes.Text(", ")
+            node += value_to_node(part)
+
+        return node
     if isinstance(value, InlineSequenceValue):
         node = nodes.inline()
         node["classes"].append("sphinx-tabular-inline-sequence")
@@ -591,6 +632,8 @@ def value_to_node(value: Any) -> nodes.Node:
 
 
 def stringify_value(value: Any) -> str:
+    if isinstance(value, RangeValue):
+        return ", ".join(stringify_value(part) for part in value.parts)
     if isinstance(value, InlineSequenceValue):
         return "".join(stringify_value(part) for part in value.parts)
     
@@ -681,6 +724,22 @@ def normalize_valign(
         return "middle"
 
     return mapping[raw]
+
+def parse_range_ref(value: str) -> tuple[int, int, int, int] | None:
+    match = RANGE_REF_RE.match(value.strip())
+
+    if not match:
+        return None
+
+    start_col_name = match.group(1)
+    start_row = int(match.group(2))
+    end_col_name = match.group(3)
+    end_row = int(match.group(4))
+
+    start_col = letters_to_col(start_col_name)
+    end_col = letters_to_col(end_col_name)
+
+    return start_row, start_col, end_row, end_col
 
 
 def parse_cell_ref(value: str) -> tuple[int, int] | None:

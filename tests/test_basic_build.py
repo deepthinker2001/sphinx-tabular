@@ -65,3 +65,6 @@ def test_basic_html_build_subprocess():
     assert "Numeric IF" in html
     assert "Passing" in html
 
+    assert "Range Reference Matrix" in html
+    assert "Active, Blocked, Ready" in html
+    assert "sphinx-tabular-range-value" in html

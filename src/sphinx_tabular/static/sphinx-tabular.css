@@ -20,23 +20,23 @@
 
   --sphinx-tabular-sticky-top: 0;
 
-  --sphinx-tabular-status-green-bg: #e3fcef;
-  --sphinx-tabular-status-green-fg: #006644;
+  --sphinx-tabular-status-green-bg: #006644;
+  --sphinx-tabular-status-green-fg: #e3fcef;
 
-  --sphinx-tabular-status-yellow-bg: #fff0b3;
-  --sphinx-tabular-status-yellow-fg: #7a5d00;
+  --sphinx-tabular-status-yellow-bg: #7a5d00;
+  --sphinx-tabular-status-yellow-fg: #fff0b3;
 
-  --sphinx-tabular-status-red-bg: #ffebe6;
-  --sphinx-tabular-status-red-fg: #bf2600;
+  --sphinx-tabular-status-red-bg: #bf2600;
+  --sphinx-tabular-status-red-fg: #ffebe6;
 
-  --sphinx-tabular-status-blue-bg: #deebff;
-  --sphinx-tabular-status-blue-fg: #0747a6;
+  --sphinx-tabular-status-blue-bg: #0747a6;
+  --sphinx-tabular-status-blue-fg: #deebff;
 
-  --sphinx-tabular-status-gray-bg: #f4f5f7;
-  --sphinx-tabular-status-gray-fg: #42526e;
+  --sphinx-tabular-status-gray-bg: #42526e;
+  --sphinx-tabular-status-gray-fg: #f4f5f7;
 
-  --sphinx-tabular-status-purple-bg: #eae6ff;
-  --sphinx-tabular-status-purple-fg: #403294;
+  --sphinx-tabular-status-purple-bg: #403294;
+  --sphinx-tabular-status-purple-fg: #eae6ff;
 }
 
 /* pydata-sphinx-theme / sphinx-book-theme dark mode */
