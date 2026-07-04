@@ -12,13 +12,17 @@
     - `^`  merge this cell with the one above it.
 
 - CSV can be imported from an external file or inline with the directive.
-- Interpret text as reStructuredText (`.rcsv`) or Markdown (`.mcsv`).
+- Interpret text as reStructuredText (`.rcsv`) or Markdown (`.mcsv`) with two new directives:
+
+    - `.. rcsv-table::`
+    - `.. mcsv-table::`
+
 - Optional sticky header support for one or more header rows.
 - Provides a minimal set of spreadsheet functions with cell referencing.
 
     - `=ALIGN()` aligns the cell contents in the horizontal and vertical directions.
     - `=CONCAT()` joins text, cell references, icons, and status pills into one rendered cell.
-    - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback.
+    - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback icons if your theme doesn't support those.
     - `=STATUS()` generates a status pill with text and color.
 
 
@@ -42,6 +46,10 @@ Add `"sphinx_tabular",` to your extensions list like this:
         ...,
         ]
 
+Copy and paste this into your extensions in `conf.py`:
+
+    "sphinx_tabular",
+
 
 ## Directives
 
@@ -60,7 +68,7 @@ Table values will be rendered as reStructuredText.
         Table, Data, Here
         1, 2, 3
 
-#### From a file.
+#### From a file
 
     .. rcsv-table:: Title
         :file: test.rcsv
@@ -73,7 +81,7 @@ Table values will be rendered as reStructuredText.
 
 Table values will be rendered as Markdown.
 
-#### Inline 
+#### Inline
 
     .. mcsv-table:: Title
         :header-rows: 2
@@ -84,7 +92,7 @@ Table values will be rendered as Markdown.
         Table, Data, Here
         1, 2, 3
 
-#### From a file.
+#### From a file
 
     .. mcsv-table:: Title
         :file: test.mcsv

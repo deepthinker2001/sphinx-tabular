@@ -57,3 +57,8 @@ def test_basic_html_build_subprocess():
     assert "sphinx-tabular-inline-sequence" in html
     assert "fa-circle-check" in html
     assert "Ready" in html
+
+    assert "Conditional" in html
+    assert "sphinx-tabular-inline-sequence" in html
+    assert "Ready" in html
+

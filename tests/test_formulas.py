@@ -278,4 +278,129 @@ def test_concat_preserves_status_value():
 
     assert "sphinx-tabular-status" in node[0]["classes"]
     assert "sphinx-tabular-status-green" in node[0]["classes"]
-    
+
+
+def test_if_true_branch_with_equals_comparator():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            ["Active", '=IF(A2 == "Active"; STATUS(A2; green); STATUS(A2; gray))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Active"
+    assert value.color == "green"
+
+
+def test_if_false_branch_with_equals_comparator():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            ["Blocked", '=IF(A2 == "Active"; STATUS(A2; green); STATUS(A2; red))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Blocked"
+    assert value.color == "red"
+
+
+def test_if_not_equals_comparator():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            ["Blocked", '=IF(A2 != "Active"; STATUS(A2; red); STATUS(A2; green))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Blocked"
+    assert value.color == "red"
+
+
+def test_if_angle_not_equals_comparator():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            ["Blocked", '=IF(A2 <> "Active"; STATUS(A2; red); STATUS(A2; green))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Blocked"
+    assert value.color == "red"
+
+def test_if_preserves_icon_branch():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            [
+                "Active",
+                '=IF(A2 == "Active"; ICON(fa-solid; circle-check); ICON(fa-solid; triangle-exclamation))',
+            ],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, IconValue)
+    assert value.icon_set == "fa-solid"
+    assert value.icon_name == "circle-check"
+
+
+def test_if_preserves_concat_branch():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            [
+                "Ready",
+                '=IF(A2 == "Ready"; CONCAT(ICON(fa-solid; circle-check); " "; A2); "Not ready")',
+            ],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, InlineSequenceValue)
+    assert isinstance(value.parts[0], IconValue)
+    assert value.parts[1] == " "
+    assert value.parts[2] == "Ready"
+    assert stringify_value(value) == "circle-check Ready"
+
+def test_if_uses_lazy_branch_evaluation():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            ["Active", '=IF(A2 == "Active"; STATUS(A2; green); NOPE())'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Active"
+    assert value.color == "green"
+
+
+def test_if_single_equals_is_not_supported():
+    rows = make_rows(
+        [
+            ["State", "Rendered"],
+            ["Active", '=IF(A2 = "Active"; STATUS(A2; green); STATUS(A2; gray))'],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Active"
+    assert value.color == "gray"

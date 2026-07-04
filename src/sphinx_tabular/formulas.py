@@ -158,6 +158,9 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
         
         if name == "CONCAT":
             return func_concat(args, cell=cell, context=context)
+        
+        if name == "IF":
+            return func_if(args, cell=cell, context=context)
 
         context.warn(
             f"unknown formula function '{name}' at {format_cell_ref(cell.row, cell.col)}."
@@ -383,6 +386,113 @@ def func_concat(args: list[str], *, cell: Cell, context: FormulaContext) -> Inli
 
     return InlineSequenceValue(parts=parts)
 
+def func_if(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
+    if len(args) < 2:
+        context.warn(
+            f"IF requires at least 2 arguments at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    condition = evaluate_condition(args[0], cell=cell, context=context)
+
+    if condition:
+        return evaluate_arg(args[1], cell=cell, context=context)
+
+    if len(args) >= 3:
+        return evaluate_arg(args[2], cell=cell, context=context)
+
+    return ""
+
+def evaluate_condition(expr: str, *, cell: Cell, context: FormulaContext) -> bool:
+    expr = expr.strip()
+
+    comparison = split_top_level_comparison(expr)
+
+    if comparison is None:
+        context.warn(
+            f"IF condition at {format_cell_ref(cell.row, cell.col)} must use "
+            "one of ==, !=, or <>."
+        )
+        return False
+
+    left_text, operator, right_text = comparison
+
+    left = evaluate_expression(left_text, cell=cell, context=context)
+    right = evaluate_expression(right_text, cell=cell, context=context)
+
+    left_value = stringify_value(left)
+    right_value = stringify_value(right)
+
+    if operator == "==":
+        return left_value == right_value
+
+    if operator in {"!=", "<>"}:
+        return left_value != right_value
+
+    context.warn(
+        f"unsupported IF comparator '{operator}' at "
+        f"{format_cell_ref(cell.row, cell.col)}."
+    )
+    return False
+
+def split_top_level_comparison(expr: str) -> tuple[str, str, str] | None:
+    operators = ["==", "!=", "<>"]
+
+    depth = 0
+    in_string = False
+    string_quote: str | None = None
+
+    i = 0
+
+    while i < len(expr):
+        ch = expr[i]
+
+        if in_string:
+            if ch == string_quote:
+                if i + 1 < len(expr) and expr[i + 1] == string_quote:
+                    i += 2
+                    continue
+
+                in_string = False
+                string_quote = None
+
+            i += 1
+            continue
+
+        if ch in {"'", '"'}:
+            in_string = True
+            string_quote = ch
+            i += 1
+            continue
+
+        if ch == "(":
+            depth += 1
+            i += 1
+            continue
+
+        if ch == ")":
+            if depth > 0:
+                depth -= 1
+            i += 1
+            continue
+
+        if depth == 0:
+            for operator in operators:
+                if expr.startswith(operator, i):
+                    left = expr[:i].strip()
+                    right = expr[i + len(operator) :].strip()
+
+                    if left == "" or right == "":
+                        return None
+
+                    return left, operator, right
+
+            if ch == "=":
+                return None
+
+        i += 1
+
+    return None
 
 def evaluate_arg(arg: str, *, cell: Cell, context: FormulaContext) -> Any:
     return evaluate_expression(arg, cell=cell, context=context)

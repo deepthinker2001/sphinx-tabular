@@ -14,7 +14,7 @@ sphinx-tabular test
    Space,"<",Inbound,=ICON(fa-solid; circle-check)
    "^",Ephemeris,Inbound,See :ref:`ephemeris-interface`
    Combined,Ready,green,=CONCAT(ICON(fa-solid; circle-check); " "; "Ready") | CM
-
+   Conditional,Ready,green,=IF("Ready" == "Ready"; CONCAT(ICON(fa-solid; circle-check); " "; "Ready"); STATUS("Not Ready"; gray)) | CM
 
 references and pipe modifiers
 -----------------------------
