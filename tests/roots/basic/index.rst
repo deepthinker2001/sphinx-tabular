@@ -78,3 +78,18 @@ Range References
    A,Active,
    B,Blocked,
    C,Ready,=B2:B4
+
+
+Aggregate Formulas
+------------------
+
+.. rcsv-table:: Aggregate Matrix
+   :header-rows: 1
+   :width: 100%
+
+   Name,Value,Rendered
+   A,1,
+   B,2,
+   C,3,
+   Total,,=SUM(B2:B4)
+

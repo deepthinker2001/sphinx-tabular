@@ -190,6 +190,9 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
         
         if name == "IF":
             return func_if(args, cell=cell, context=context)
+        
+        if name == "SUM":
+            return func_sum(args, cell=cell, context=context)
 
         context.warn(
             f"unknown formula function '{name}' at {format_cell_ref(cell.row, cell.col)}."
@@ -434,6 +437,22 @@ def func_if(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
 
     return ""
 
+def func_sum(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
+    total = 0.0
+    found_any = False
+
+    for arg in args:
+        value = evaluate_arg(arg, cell=cell, context=context)
+
+        for number in collect_numeric_values(value, cell=cell, context=context, function_name="SUM"):
+            total += number
+            found_any = True
+
+    if not found_any:
+        return "0"
+
+    return format_number(total)
+
 def evaluate_condition(expr: str, *, cell: Cell, context: FormulaContext) -> bool:
     expr = expr.strip()
 
@@ -562,6 +581,51 @@ def parse_number(value: str) -> float | None:
         return float(value)
     except ValueError:
         return None
+
+def collect_numeric_values(
+    value: Any,
+    *,
+    cell: Cell,
+    context: FormulaContext,
+    function_name: str,
+) -> list[float]:
+    if isinstance(value, RangeValue):
+        numbers: list[float] = []
+
+        for part in value.parts:
+            numbers.extend(
+                collect_numeric_values(
+                    part,
+                    cell=cell,
+                    context=context,
+                    function_name=function_name,
+                )
+            )
+
+        return numbers
+
+    text = stringify_value(value).strip()
+
+    if text == "":
+        return []
+
+    number = parse_number(text)
+
+    if number is None:
+        context.warn(
+            f"{function_name} ignored non-numeric value '{text}' at "
+            f"{format_cell_ref(cell.row, cell.col)}."
+        )
+        return []
+
+    return [number]
+
+
+def format_number(value: float) -> str:
+    if value.is_integer():
+        return str(int(value))
+
+    return str(value)
 
 def evaluate_arg(arg: str, *, cell: Cell, context: FormulaContext) -> Any:
     return evaluate_expression(arg, cell=cell, context=context)

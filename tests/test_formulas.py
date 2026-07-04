@@ -578,3 +578,111 @@ def test_range_reference_to_merged_child_resolves_to_parent():
 
     assert isinstance(value, RangeValue)
     assert value.parts == ["Ground", "Ground"]
+
+def test_sum_range_reference():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["1"],
+            ["2"],
+            ["3"],
+            ["=SUM(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "6"
+
+
+def test_sum_multiple_arguments():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["1", "2", "=SUM(A2; B2; 10)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 3)
+
+    assert value == "13"
+
+
+def test_sum_rectangle_range_reference():
+    rows = make_rows(
+        [
+            ["A", "B", "Rendered"],
+            ["1", "2", ""],
+            ["3", "4", "=SUM(A2:B3)"],
+        ]
+    )
+
+    value = eval_cell(rows, 3, 3)
+
+    assert value == "10"
+
+
+def test_sum_ignores_blank_values():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["1"],
+            [""],
+            ["3"],
+            ["=SUM(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "4"
+
+
+def test_sum_ignores_non_numeric_values():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["1"],
+            ["Active"],
+            ["3"],
+            ["=SUM(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "4"
+
+
+def test_sum_returns_zero_when_no_numeric_values_exist():
+    rows = make_rows(
+        [
+            ["Value"],
+            ["Active"],
+            ["Blocked"],
+            ["Ready"],
+            ["=SUM(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert value == "0"
+
+
+def test_sum_can_be_used_in_if_numeric_comparison():
+    rows = make_rows(
+        [
+            ["Score"],
+            ["30"],
+            ["40"],
+            ["50"],
+            ['=IF(SUM(A2:A4) >= 100; STATUS(Passing; green); STATUS(Failing; red))'],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 1)
+
+    assert isinstance(value, StatusValue)
+    assert value.label == "Passing"
+    assert value.color == "green"

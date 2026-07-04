@@ -323,6 +323,93 @@ Add a leading single quote `'` to render a formula literally instead of evaluati
 - `'=STATUS(Active; green)` displays `=STATUS(Active; green)`.
 
 
+### Range References
+
+Range references select multiple cells using spreadsheet-style coordinates.
+
+#### Syntax
+
+* `=A2:A4`
+* `=A2:C4`
+* `=CONCAT(A2:A4)`
+
+Ranges are resolved row by row from the top-left cell to the bottom-right cell.
+
+#### Behavior
+
+A range reference can be used anywhere a formula argument is accepted.
+
+Standalone ranges render as comma-separated values:
+
+```csv
+Name,State,Rendered
+A,Active,
+B,Blocked,
+C,Ready,=B2:B4
+```
+
+Rendered result:
+
+```text
+Active, Blocked, Ready
+```
+
+Rectangular ranges are resolved in row-major order:
+
+```csv
+A2,B2
+A3,B3
+```
+
+`=A2:B3` resolves as:
+
+```text
+A2, B2, A3, B3
+```
+
+Reversed ranges are normalized automatically. For example, `=A4:A2` resolves the same cells as `=A2:A4`.
+
+#### Ranges with merged cells
+
+If a range includes a cell hidden by a merge marker, the hidden cell resolves to its visible parent cell.
+
+Example:
+
+```csv
+System,Rendered
+Ground,
+^,=A2:A3
+```
+
+The range resolves as:
+
+```text
+Ground, Ground
+```
+
+#### Ranges with `CONCAT()`
+
+`CONCAT()` flattens ranges.
+
+```csv
+=CONCAT("States: "; A2:A4)
+```
+
+This joins the values directly:
+
+```text
+States: ActiveBlockedReady
+```
+
+`CONCAT()` does not automatically add separators. Add separators explicitly when needed:
+
+```csv
+=CONCAT(A2; ", "; A3; ", "; A4)
+```
+
+#### Notes
+
+Range references provide the foundation for aggregate formulas such as `SUM()`, `AVG()`, `MIN()`, and `MAX()`, but those aggregate functions are not implemented yet.
 
 
 ### Status pills
@@ -412,7 +499,7 @@ Icon formulas emit CSS classes only. To use the full Font Awesome or Bootstrap I
 
 Current limitations:
 
-* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, ranges, `SUM()`, or `AVG()`.
+* Formula support is intentionally small. The extension currently supports cell references, `STATUS()`, `ICON()`, `ALIGN()`, `HALIGN()`, `VALIGN()`, and pipe modifiers. It does not yet support general arithmetic, `SUM()`, `AVG()`, `MIN()`, or `MAX()`.
 
 * Formula arguments use semicolons (`;`) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.
 
@@ -438,4 +525,4 @@ Current limitations:
 
 * `IF()` numeric comparisons support simple numeric values only. Full arithmetic expressions such as `A2 + B2 > 10` are not currently supported.
 
-
+* Range references are supported, but aggregate functions such as `SUM()`, `AVG()`, `MIN()`, and `MAX()` are not currently implemented.

@@ -68,3 +68,6 @@ def test_basic_html_build_subprocess():
     assert "Range Reference Matrix" in html
     assert "Active, Blocked, Ready" in html
     assert "sphinx-tabular-range-value" in html
+
+    assert "Aggregate Matrix" in html
+    assert "<p>6</p>" in html
