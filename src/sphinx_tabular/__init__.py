@@ -6,6 +6,9 @@ from .directive import McsvTableDirective, RcsvTableDirective
 
 
 def setup(app):
+    # Needed for .mcsv cell parsing.
+    app.setup_extension("myst_parser")
+
     app.add_directive("rcsv-table", RcsvTableDirective)
     app.add_directive("mcsv-table", McsvTableDirective)
 

@@ -42,6 +42,20 @@ external file
    :sticky-header:
 
 
+Markdown CSV
+------------
+
+.. mcsv-table:: Markdown Matrix
+   :header-rows: 1
+   :width: 100%
+   :class: datatables compact
+   :sticky-header:
+
+   Name,Description,Status
+   Telemetry,**Bold Markdown text**,=STATUS(Active; green)
+   Commanding,See {ref}`ephemeris-interface`,=STATUS(In Review; yellow)
+
+
 .. _ephemeris-interface:
 
 Ephemeris Interface

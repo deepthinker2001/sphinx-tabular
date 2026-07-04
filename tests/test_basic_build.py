@@ -34,3 +34,17 @@ def test_basic_html_build_subprocess():
     assert "fa-circle-check" in html
 
     assert 'href="#ephemeris-interface"' in html
+
+    assert "_static/sphinx-tabular.css" in html
+    assert "_static/sphinx-tabular.js" in html
+    assert "sphinx-tabular-sticky-header" in html
+
+    assert "Markdown Matrix" in html
+    assert "sphinx-tabular-mcsv" in html
+
+    assert "Markdown Matrix" in html
+    assert "sphinx-tabular-mcsv" in html
+    assert "<strong>Bold Markdown text</strong>" in html
+    assert "sphinx-tabular-status-yellow" in html
+
+    

@@ -127,6 +127,7 @@ class BaseTabularDirective(SphinxDirective):
             rows,
             directive=self,
             source=source,
+            markup=self.markup,
             caption=caption,
             header_rows=self.options.get("header-rows", 0),
             table_classes=classes,

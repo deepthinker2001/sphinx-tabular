@@ -11,13 +11,13 @@ requires-python = ">=3.10"
 dependencies = [
   "sphinx>=7",
   "docutils>=0.20",
+  "myst-parser>=5",
 ]
 
 [project.optional-dependencies]
 dev = [
   "pytest",
   "beautifulsoup4",
-  "myst-parser",
 ]
 
 [tool.setuptools.packages.find]

@@ -3,12 +3,11 @@ from __future__ import annotations
 from typing import Any
 
 from docutils import nodes
-from docutils.statemachine import ViewList
 from sphinx.util.docutils import SphinxDirective
 
 from .formulas import FormulaContext, evaluate_cell_value, value_to_node
 from .model import Cell
-
+from .markup import add_markup_to_entry
 
 def resolve_simple_merges(rows: list[list[Cell]]) -> None:
     for r, row in enumerate(rows):
@@ -42,37 +41,12 @@ def resolve_simple_merges(rows: list[list[Cell]]) -> None:
                 cell.parent_col = parent.col
 
 
-def add_rst_to_entry(
-    entry: nodes.entry,
-    text: str,
-    *,
-    directive: SphinxDirective,
-    source: str,
-    line: int,
-) -> None:
-    if text == "":
-        entry += nodes.paragraph()
-        return
-
-    view = ViewList()
-
-    for offset, text_line in enumerate(text.splitlines() or [""]):
-        view.append(text_line, source, line + offset)
-
-    container = nodes.Element()
-    directive.state.nested_parse(view, 0, container)
-
-    if container.children:
-        entry.extend(container.children)
-    else:
-        entry += nodes.paragraph()
-
-
 def build_table_node(
     rows: list[list[Cell]],
     *,
     directive: SphinxDirective,
     source: str,
+    markup: str,
     caption: str | None,
     header_rows: int,
     table_classes: list[str],
@@ -134,9 +108,10 @@ def build_table_node(
                 entry["morerows"] = cell.rowspan - 1
 
             if isinstance(evaluated, str):
-                add_rst_to_entry(
+                add_markup_to_entry(
                     entry,
                     evaluated,
+                    markup=markup,
                     directive=directive,
                     source=source,
                     line=cell.row,
