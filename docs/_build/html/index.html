@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="sphinx-tabular" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="index.html" />
+<meta property="og:site_name" content="sphinx-tabular" />
+<meta property="og:description" content="Features: Sphinx extension., Uses standard CSV file format., Easily merge table cells with&lt; and^., Support reStructuredText and Markdown.. Two new directives., Support for inline table data and ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="_images/social_previews/summary_index_dbff5781.png" />
+<meta property="og:image:alt" content="Features: Sphinx extension., Uses standard CSV file format., Easily merge table cells with&lt; and^., Support reStructuredText and Markdown.. Two new directives., Support for inline table data and ..." />
+<meta name="description" content="Features: Sphinx extension., Uses standard CSV file format., Easily merge table cells with&lt; and^., Support reStructuredText and Markdown.. Two new directives., Support for inline table data and ..." />
+<meta name="twitter:card" content="summary_large_image" />
+<title>sphinx-tabular</title><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Merging Cells" href="merge.html"><script data-cfasync="false">(function(){
+    const m = localStorage.getItem("breeze-mode") || "auto";
+    const d = document.documentElement.dataset;
+    d.mode = m;
+    d.theme = m === "auto"
+      ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+      : m;
+  })();
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" /><link rel="stylesheet" type="text/css" href="_static/sphinx-tabular.css?v=e8a82064" /><link rel="stylesheet" type="text/css" href="_static/styles/breeze.css?v=7c62c100" /><link rel="stylesheet" type="text/css" href="_static/custom.css?v=a1818bfb" /><script defer="defer" src="_static/scripts/breeze.js?v=dac9f8c6"></script></head>
+<body>
+  
+  
+  <div class="bz-skip-to-content"><a href="#bz-main-content">Skip to main content</a></div><header class="bz-header-main">
+  <div class="bz-header-start"><label
+  class="bz-sidebar-primary-toggle"
+  for="bz-sidebar-primary"
+  role="button"
+  tabindex="0"
+  aria-label="Toggle site navigation"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h12.5"
+    />
+  </svg>
+</label><a class="bz-header-brand" href="#">
+  
+  
+  <span>sphinx-tabular</span>
+</a>
+  </div>
+  <div class="bz-header-end"><label
+  class="bz-sidebar-primary-toggle"
+  for="bz-sidebar-primary"
+  role="button"
+  tabindex="0"
+  aria-label="Toggle site navigation"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h12.5"
+    />
+  </svg>
+</label><div id="docsearch" class="bz-search-button">
+  <a
+    href="search.html#q"
+    aria-label="Search the docs"
+    data-tooltip="Search the docs"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 -1 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+      />
+    </svg>
+    <span>Search</span>
+    <kbd>Ctrl+K</kbd>
+  </a>
+</div><div class="bz-theme-switcher">
+  <button aria-label="Switch theme" data-tooltip="Switch theme">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="only-light" fill="currentColor">
+      <path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-1.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm5.657-8.157a.75.75 0 0 1 0 1.061l-1.061 1.06a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.06-1.06a.75.75 0 0 1 1.06 0Zm-9.193 9.193a.75.75 0 0 1 0 1.06l-1.06 1.061a.75.75 0 1 1-1.061-1.06l1.06-1.061a.75.75 0 0 1 1.061 0ZM8 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V.75A.75.75 0 0 1 8 0ZM3 8a.75.75 0 0 1-.75.75H.75a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 3 8Zm13 0a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 16 8Zm-8 5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 13Zm3.536-1.464a.75.75 0 0 1 1.06 0l1.061 1.06a.75.75 0 0 1-1.06 1.061l-1.061-1.06a.75.75 0 0 1 0-1.061ZM2.343 2.343a.75.75 0 0 1 1.061 0l1.06 1.061a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-1.06-1.06a.75.75 0 0 1 0-1.06Z"></path>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="only-dark" fill="currentColor">
+      <path d="M9.598 1.591a.749.749 0 0 1 .785-.175 7.001 7.001 0 1 1-8.967 8.967.75.75 0 0 1 .961-.96 5.5 5.5 0 0 0 7.046-7.046.75.75 0 0 1 .175-.786Zm1.616 1.945a7 7 0 0 1-7.678 7.678 5.499 5.499 0 1 0 7.678-7.678Z"></path>
+    </svg>
+  </button>
+</div>
+  </div>
+</header><hr class="bz-header-hr">
+  <div class="bz-content"><aside class="bz-sidebar-primary" data-drawer="bz-sidebar-primary">
+  
+  
+    <nav class="bz-sidebar-nav" aria-label="Section Navigation"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">Merging Cells</a></li>
+</ul>
+</nav>
+  
+
+</aside><main id="bz-main-content"><article class="bz-article-main" role="main"><section id="sphinx-tabular">
+<h1>sphinx-tabular<a class="headerlink" href="#sphinx-tabular" title="Link to this heading">#</a></h1>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Sphinx extension.</p></li>
+<li><p>Uses standard CSV file format.</p></li>
+<li><p>Easily merge table cells with <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> and <code class="docutils literal notranslate"><span class="pre">^</span></code>.</p></li>
+<li><p>Support reStructuredText and Markdown.</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Two new directives.</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="highlight-RST notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span>
+<span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Support for inline table data and external files.</p></li>
+<li><p>Optional sticky header support for one or more header rows.</p></li>
+<li><p>Provides a minimal set of spreadsheet formulas.</p></li>
+<li><p>Set table cell alignment and per-cell alignment in both horizontal and vertical directions.</p></li>
+<li><p>Set custom cell text and background colors.</p></li>
+<li><p>Custom status pill.</p></li>
+<li><p>Support for Font Awesome and Bootstrip icons if installed by your theme.</p></li>
+</ul>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">3.11</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sphinx</span></code> &gt;= <code class="docutils literal notranslate"><span class="pre">7</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docutils</span></code> &gt;= <code class="docutils literal notranslate"><span class="pre">0.20</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">myst-parser</span></code> &gt;= <code class="docutils literal notranslate"><span class="pre">5</span></code></p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Install from the Python Package Index.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-tabular
+</pre></div>
+</div>
+<p>Enable the extension in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;sphinx_tabular&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>The extension also loads <code class="docutils literal notranslate"><span class="pre">myst_parser</span></code> so that <code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code> cells can be
+parsed as MyST Markdown.</p>
+</section>
+<section id="directives">
+<h2>Directives<a class="headerlink" href="#directives" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">sphinx-tabular</span></code> provides two directives.</p>
+<section id="rcsv-table">
+<h3><code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code><a class="headerlink" href="#rcsv-table" title="Link to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code> for CSV tables whose cells contain reStructuredText.</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">Inline</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="highlight-RST notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span> Interface Matrix
+    <span class="nc">:header-rows:</span> 1
+    <span class="nc">:width:</span> 100%
+
+    Name,State,Rendered
+    SendingActivity,Active,=STATUS(Active; green)
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">External file.</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
+<div class="highlight-RST notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span> Interface Matrix
+    <span class="nc">:file:</span> table.rcsv
+    <span class="nc">:header-rows:</span> 1
+    <span class="nc">:width:</span> 100%
+</pre></div>
+</div>
+</div>
+</section>
+<section id="mcsv-table">
+<h3><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code><a class="headerlink" href="#mcsv-table" title="Link to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code> for CSV tables whose cells contain MyST Markdown.</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">Inline</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> Markdown Matrix
+    <span class="nc">:header-rows:</span> 1
+    <span class="nc">:width:</span> 100%
+
+    Name,Description,Status
+    SendingActivity,<span class="gs">**Bold Markdown text**</span>,=STATUS(Active; green)
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">External file.</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> Markdown Matrix
+    <span class="nc">:file:</span> table.mcsv
+    <span class="nc">:header-rows:</span> 1
+    <span class="nc">:width:</span> 100%
+</pre></div>
+</div>
+</div>
+</section>
+<section id="options">
+<h3>Options<a class="headerlink" href="#options" title="Link to this heading">#</a></h3>
+<p>Supported options include:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">:file:</span></code> Path to the <cite>.rcsv</cite> or <cite>.mcsv</cite> file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:header-rows:</span></code> Number of top rows to format as header rows. If <cite>:sticky-header:</cite> is set, these rows become sticky.</p></li>
+<li><p><cite>:width:</cite> Optional.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:width:</span></code> CSS width for the table, such as <cite>100%</cite>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:widths:</span></code> A space-separated list of column widths.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:class:</span></code> Additional classes to add to the table.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:text-align:</span></code> Horizontal alignment of text in the cells. Default is <code class="docutils literal notranslate"><span class="pre">left</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:vertical-align:</span></code> Vertical alignment of text in cells. Default is <code class="docutils literal notranslate"><span class="pre">middle</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:sticky-header:</span></code> Make the header rows sticky when scrolling long tables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:sticky-offset:</span></code>  CSS offset for sticky headers, such as <cite>3.5rem</cite>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:strict:</span></code>  Treat ragged rows and malformed input as errors instead of warnings.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>‘Text</cite> literal rendering of text without evaluation.</p></li>
+<li><p>Basic arithmetic expressions support <cite>+</cite>, <cite>-</cite>, <cite>*</cite>, and <cite>/</cite>.</p></li>
+<li><p><cite>=CELL</cite> cell refernces.</p></li>
+<li><p><cite>=CELL1:CELL2</cite> range references.</p></li>
+<li><p><cite>=ALIGN()</cite>, <cite>=HALIGN()</cite>, and <cite>=VALIGN()</cite> aligns the cell contents in the horizontal and vertical directions.</p></li>
+<li><p><cite>=AVG()</cite> averages numeric values from cells, ranges, or literal arguments.</p></li>
+<li><p><cite>=BG()</cite> / <cite>=BACKGROUND()</cite> sets a cell background color.</p></li>
+<li><p><cite>=CONCAT()</cite> joins text, cell references, icons, and status pills into one rendered cell.</p></li>
+<li><p><cite>=COUNT()</cite> counts numeric values from cells, ranges, or literal arguments.</p></li>
+<li><p><cite>=FG()</cite> / <cite>=TEXTCOLOR()</cite> sets a cell text color.</p></li>
+<li><p><cite>=ICON()</cite> generates a Font Awesome or Bootstrap icon with fallback icons if your theme doesn’t support those.</p></li>
+<li><p><cite>=IF()</cite> conditionally renders one value or another using <cite>==</cite>, <cite>!=</cite>, or <cite>&lt;&gt;</cite> comparisons.</p></li>
+<li><p><cite>=MAX()</cite> returns the largest numeric value from cells, ranges, or literal arguments.</p></li>
+<li><p><cite>=MIN()</cite> returns the smallest numeric value from cells, ranges, or literal arguments.</p></li>
+<li><p><cite>=STATUS()</cite> generates a status pill with text and color.</p></li>
+<li><p><cite>=SUM()</cite> totals numeric values from cells, ranges, or literal arguments.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>### Circular References</p>
+<p>Circular references will display <cite>#CYCLE!</cite> because they are invalid.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>A, B
+=B2,=A2</p>
+</div></blockquote>
+<p>### Aggregate formulas</p>
+<p><cite>AVG()</cite>, <cite>MIN()</cite>, <cite>MAX()</cite>, and <cite>COUNT()</cite> operate on numeric values from cells, ranges, or literal arguments.</p>
+<ul class="simple">
+<li><p><cite>=AVG(B2:B4)</cite> returns the average.</p></li>
+<li><p><cite>=MIN(B2:B4)</cite> returns the smallest value.</p></li>
+<li><p><cite>=MAX(B2:B4)</cite> returns the largest value.</p></li>
+<li><p><cite>=COUNT(B2:B4)</cite> returns the number of numeric values.</p></li>
+</ul>
+<p>Blank values are ignored. Non-numeric values are ignored and produce a warning.</p>
+<p><cite>AVG()</cite>, <cite>MIN()</cite>, and <cite>MAX()</cite> return <cite>#VALUE!</cite> if no numeric values are found. <cite>COUNT()</cite> returns <cite>0</cite>.</p>
+<p>### Alignment</p>
+<p>Align a cell’s contents horizontally or vertically. Default alignment is <cite>left</cite> and <cite>middle</cite>.</p>
+<p>#### Function</p>
+<ul class="simple">
+<li><p><cite>=ALIGN(VALUE; HORIZONTAL; VERTICAL)</cite></p></li>
+<li><p><cite>=HALIGN(VALUE; HORIZONTAL)</cite></p></li>
+<li><p><cite>=VALIGN(VALUE; VERTICAL)</cite></p></li>
+</ul>
+<p>#### VALUE</p>
+<p>The value that will appear in the rendered cell.</p>
+<p>#### HORIZONTAL Values</p>
+<ul class="simple">
+<li><p><cite>l</cite> or <cite>left</cite></p></li>
+<li><p><cite>c</cite> or <cite>center</cite></p></li>
+<li><p><cite>r</cite> or <cite>right</cite></p></li>
+<li><p><cite>j</cite> or <cite>justify</cite></p></li>
+</ul>
+<p>#### VERTICAL Values</p>
+<ul class="simple">
+<li><p><cite>t</cite> or <cite>top</cite></p></li>
+<li><p><cite>m</cite> or <cite>middle</cite></p></li>
+<li><p><cite>b</cite> or <cite>bottom</cite></p></li>
+</ul>
+<p>#### Rendered Classes</p>
+<p>Rendered class will use the full names.</p>
+<ul class="simple">
+<li><p><cite>sphinx-tabular-halign-center</cite></p></li>
+<li><p><cite>sphinx-tabular-valign-middle</cite></p></li>
+</ul>
+<p>#### Examples</p>
+<ul class="simple">
+<li><p><cite>=ALIGN(B4; center; middle)</cite> displays the contents of cell <cite>B4</cite> horizontally centered and vertically middle-aligned.</p></li>
+<li><p><cite>=ALIGN(STATUS(Active; green); r; b)</cite> displays a status pill aligned right and bottom.</p></li>
+<li><p><cite>=B4 | ALIGN(c; m)</cite> displays the contents of cell <cite>B4</cite> centered and middle-aligned.</p></li>
+</ul>
+<p>#### Pipe Modifier Example</p>
+<ul class="simple">
+<li><p><cite>=B4 | ALIGN(c; m)</cite> displays the <cite>B4</cite> cell contents centered and middle.</p></li>
+</ul>
+<p>#### Shortcuts</p>
+<ul class="simple">
+<li><p><cite>=B4 | CM</cite> displays the contents of cell <cite>B4</cite> center and middle.</p></li>
+<li><p><cite>=B4 | LT</cite> displays the contents of cell <cite>B4</cite> left and top.</p></li>
+<li><p><cite>=B4 | RB</cite> displays the contents of cell <cite>B4</cite> right and bottom.</p></li>
+</ul>
+<p>### Cell References</p>
+<p>Place the value from another cell in the current cell.</p>
+<ul class="simple">
+<li><p><cite>=A1</cite> Place the value of cell <cite>A1</cite> in this cell.</p></li>
+<li><p><cite>=BB12</cite> Place the value of cell <cite>BB12</cite> in this cell.</p></li>
+<li><p><cite>=STATUS(B2;C4)</cite> Place a status pill with the text from <cite>B2</cite> and the color from <cite>C4</cite>.</p></li>
+</ul>
+<p>### Basic Arithmetic</p>
+<p>Basic arithmetic expressions can be used in formulas.</p>
+<p>Supported operators:</p>
+<ul class="simple">
+<li><p><cite>+</cite> addition</p></li>
+<li><p><cite>-</cite> subtraction</p></li>
+<li><p><cite>*</cite> multiplication</p></li>
+<li><p><cite>/</cite> division</p></li>
+</ul>
+<p>Arithmetic expressions can use:</p>
+<ul class="simple">
+<li><p>Literal numbers</p></li>
+<li><p>Cell references</p></li>
+<li><p>Numeric results from formulas such as <cite>SUM()</cite>, <cite>AVG()</cite>, <cite>MIN()</cite>, <cite>MAX()</cite>, and <cite>COUNT()</cite></p></li>
+<li><p>Parentheses for grouping</p></li>
+</ul>
+<p>#### Examples</p>
+<ul class="simple">
+<li><p><cite>=A2 + B2</cite> adds the values from <cite>A2</cite> and <cite>B2</cite>.</p></li>
+<li><p><cite>=A2 - B2</cite> subtracts <cite>B2</cite> from <cite>A2</cite>.</p></li>
+<li><p><cite>=A2 * B2</cite> multiplies <cite>A2</cite> and <cite>B2</cite>.</p></li>
+<li><p><cite>=A2 / B2</cite> divides <cite>A2</cite> by <cite>B2</cite>.</p></li>
+<li><p><cite>=(A2 + B2) / 2</cite> averages two cells.</p></li>
+<li><p><cite>=SUM(B2:B4) / COUNT(B2:B4)</cite> computes an average using aggregate formulas.</p></li>
+<li><p><cite>=IF((A2 + B2) &gt;= 10; STATUS(Passing; green); STATUS(Failing; red))</cite> uses arithmetic inside a conditional formula.</p></li>
+</ul>
+<p>#### Example table</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">Name,A,B,Rendered</span>
+<span class="pre">Add,2,3,=B2</span> <span class="pre">+</span> <span class="pre">C2</span>
+<span class="pre">Multiply,4,5,=B3</span> <span class="pre">*</span> <span class="pre">C3</span>
+<span class="pre">Average,1,3,=(B4</span> <span class="pre">+</span> <span class="pre">C4)</span> <span class="pre">/</span> <span class="pre">2</span>
+<span class="pre">`</span></code></p>
+<p>Rendered results:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span>
+<span class="pre">5</span>
+<span class="pre">20</span>
+<span class="pre">2</span>
+<span class="pre">`</span></code></p>
+<p>Division by zero returns <cite>#VALUE!</cite> and produces a warning.</p>
+<p>Arithmetic expressions are intentionally basic. They are intended for simple documentation calculations, not full spreadsheet-style formulas.</p>
+<p>### Cell Color Formulas</p>
+<p>Cell color formulas set the visual style of the current table cell while returning the rendered value.</p>
+<p>#### Background color</p>
+<p><cite>BG()</cite> sets the cell background color.</p>
+<p>Aliases:</p>
+<ul class="simple">
+<li><p><cite>BG()</cite></p></li>
+<li><p><cite>BACKGROUND()</cite></p></li>
+</ul>
+<p>Function:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span>
+<span class="pre">=BG(VALUE;</span> <span class="pre">COLOR)</span>
+<span class="pre">`</span></code></p>
+<p>Examples:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">=BG(Active;</span> <span class="pre">#e3fcef)</span>
+<span class="pre">=BG(A2;</span> <span class="pre">B2)</span>
+<span class="pre">=BG(STATUS(Active;</span> <span class="pre">green);</span> <span class="pre">#e3fcef)</span>
+<span class="pre">=BG(Active;</span> <span class="pre">var(--pst-color-success-bg))</span>
+<span class="pre">`</span></code></p>
+<p>#### Text color</p>
+<p><cite>FG()</cite> sets the cell text color.</p>
+<p>Aliases:</p>
+<ul class="simple">
+<li><p><cite>FG()</cite></p></li>
+<li><p><cite>TEXTCOLOR()</cite></p></li>
+</ul>
+<p>Function:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span>
+<span class="pre">=FG(VALUE;</span> <span class="pre">COLOR)</span>
+<span class="pre">`</span></code></p>
+<p>Examples:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">=FG(Active;</span> <span class="pre">#006644)</span>
+<span class="pre">=FG(A2;</span> <span class="pre">B2)</span>
+<span class="pre">=FG(STATUS(Active;</span> <span class="pre">green);</span> <span class="pre">#006644)</span>
+<span class="pre">=FG(Active;</span> <span class="pre">var(--pst-color-success-fg))</span>
+<span class="pre">`</span></code></p>
+<p>#### Combined background and text color</p>
+<p><cite>BG()</cite> and <cite>FG()</cite> can be nested.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">=BG(FG(Active;</span> <span class="pre">#006644);</span> <span class="pre">#e3fcef)</span>
+<span class="pre">`</span></code></p>
+<p>This renders <cite>Active</cite> with a custom text color and background color.</p>
+<p>Color formulas can also wrap rich rendered values:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">=BG(FG(STATUS(Active;</span> <span class="pre">green);</span> <span class="pre">#006644);</span> <span class="pre">#e3fcef)</span>
+<span class="pre">`</span></code></p>
+<p>#### Example table</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">Name,State,Rendered</span>
+<span class="pre">Background,Active,=BG(B2;</span> <span class="pre">#e3fcef)</span>
+<span class="pre">Text,Active,=FG(B3;</span> <span class="pre">#006644)</span>
+<span class="pre">Both,Active,=BG(FG(B4;</span> <span class="pre">#006644);</span> <span class="pre">#e3fcef)</span>
+<span class="pre">Variable,Active,=BG(B5;</span> <span class="pre">var(--pst-color-success-bg))</span>
+<span class="pre">`</span></code></p>
+<p>Supported color values include:</p>
+<ul class="simple">
+<li><p>CSS named colors, such as <cite>red</cite>, <cite>green</cite>, <cite>transparent</cite>, and <cite>currentColor</cite></p></li>
+<li><p>Hex colors, such as <cite>#fff</cite>, <cite>#ffffff</cite>, and <cite>#ffffffff</cite></p></li>
+<li><p>CSS custom properties, such as <cite>var(–pst-color-primary)</cite></p></li>
+</ul>
+<p>Invalid color values are ignored and produce a warning. The cell value still renders unless the formula has the wrong number of arguments.</p>
+<p>### Concatenation</p>
+<p><cite>CONCAT()</cite> joins multiple values together in one rendered cell.</p>
+<p>#### Function</p>
+<ul class="simple">
+<li><p><cite>=CONCAT(VALUE; VALUE; …)</cite></p></li>
+</ul>
+<p>#### Fields</p>
+<p>Each <cite>VALUE</cite> can be:</p>
+<ul class="simple">
+<li><p>Literal text</p></li>
+<li><p>A quoted string</p></li>
+<li><p>A cell reference</p></li>
+<li><p>A rendered value from another formula, such as <cite>ICON()</cite> or <cite>STATUS()</cite></p></li>
+</ul>
+<p>Formula arguments use semicolons (<cite>;</cite>) instead of commas.</p>
+<p>#### Examples</p>
+<ul class="simple">
+<li><p><cite>=CONCAT(“Status: “; B4)</cite> displays <cite>Status: ` followed by the contents of cell `B4</cite>.</p></li>
+<li><p><cite>=CONCAT(A2; “: “; B2)</cite> joins the contents of <cite>A2</cite>, literal text, and the contents of <cite>B2</cite>.</p></li>
+<li><p><cite>=CONCAT(ICON(fa-solid; circle-check); “ “; B4)</cite> displays an icon followed by a space and the contents of <cite>B4</cite>.</p></li>
+<li><p><cite>=CONCAT(STATUS(B4; C4); “ “; D4)</cite> displays a status pill followed by a space and the contents of <cite>D4</cite>.</p></li>
+</ul>
+<p><cite>CONCAT()</cite> preserves rich rendered values. For example, an <cite>ICON()</cite> inside <cite>CONCAT()</cite> still renders as an icon, and a <cite>STATUS()</cite> inside <cite>CONCAT()</cite> still renders as a status pill.</p>
+<p>#### Pipe modifier example</p>
+<ul class="simple">
+<li><p><cite>=CONCAT(ICON(fa-solid; circle-check); “ “; “Ready”) | CM</cite> displays the icon and text centered horizontally and vertically.</p></li>
+</ul>
+<p>### Icons</p>
+<p>Renders a class-based icon span.</p>
+<p><cite>ICON()</cite> emits CSS classes only. To use full Font Awesome or Bootstrap Icons, load those icon fonts locally through your Sphinx theme/static assets.</p>
+<p>#### Function</p>
+<ul class="simple">
+<li><p><cite>=ICON(ICON_SET; ICON_NAME)</cite></p></li>
+<li><p><cite>=ICON(ICON_SET; ICON_NAME; ACCESSIBLE_LABEL)</cite> [Optional]</p></li>
+</ul>
+<p>#### Fields</p>
+<p>See the Font Awesome or Bootstrap icon website for the actual names of the icons.</p>
+<p><cite>ICON_SET</cite>:</p>
+<ul class="simple">
+<li><p><cite>fa-solid</cite> from Font Awesome.</p></li>
+<li><p><cite>fa-regular</cite> from Font Awesome.</p></li>
+<li><p><cite>fa-brands</cite> from Font Awesome.</p></li>
+<li><p><cite>bi</cite> for Bootstrap Icons.</p></li>
+</ul>
+<p><cite>ICON_NAME</cite> is the name of the Font Awesome or Bootstrap icon.</p>
+<p>Font Awesome is similar to <cite>circle-check</cite>, <cite>github</cite>.</p>
+<p>Bootstrap is similar to <cite>exclamation-triangle</cite>.</p>
+<p><cite>ACCESSIBLE_LABEL</cite> sets the aria label for accessibility.</p>
+<p>### Conditional Rendering</p>
+<p><cite>IF()</cite> conditionally renders one value when a comparison is true and another value when the comparison is false.</p>
+<p>#### Function</p>
+<ul class="simple">
+<li><p><cite>=IF(CONDITION; TRUE_VALUE; FALSE_VALUE)</cite></p></li>
+</ul>
+<p>#### Condition syntax</p>
+<p>Conditions currently support these comparison operators:</p>
+<ul class="simple">
+<li><p><cite>==</cite> equals</p></li>
+<li><p><cite>!=</cite> not equals</p></li>
+<li><p><cite>&lt;&gt;</cite> not equals</p></li>
+<li><p><cite>&gt;</cite> greater than</p></li>
+<li><p><cite>&gt;=</cite> greater than or equal</p></li>
+<li><p><cite>&lt;</cite> less than</p></li>
+<li><p><cite>&lt;=</cite> less than or equal</p></li>
+</ul>
+<p>Single equals (<cite>=</cite>) is not supported as a comparison operator. Use <cite>==</cite> for equality checks.</p>
+<p>Equality comparisons are string-based. Numeric comparisons with <cite>&gt;</cite>, <cite>&gt;=</cite>, <cite>&lt;</cite>, and <cite>&lt;=</cite> require both sides to be numeric.</p>
+<p>#### Fields</p>
+<ul class="simple">
+<li><p><cite>CONDITION</cite> is a comparison between two values.</p></li>
+<li><p><cite>TRUE_VALUE</cite> is rendered when the condition is true.</p></li>
+<li><p><cite>FALSE_VALUE</cite> is rendered when the condition is false.</p></li>
+</ul>
+<p>Each value can be:</p>
+<ul class="simple">
+<li><p>Literal text</p></li>
+<li><p>A quoted string</p></li>
+<li><p>A cell reference</p></li>
+<li><p>A rendered value from another formula, such as <cite>STATUS()</cite>, <cite>ICON()</cite>, or <cite>CONCAT()</cite></p></li>
+</ul>
+<p>#### Examples</p>
+<ul class="simple">
+<li><p><cite>=IF(B2 == “Active”; STATUS(B2; green); STATUS(B2; gray))</cite> displays a green status pill when <cite>B2</cite> is <cite>Active</cite>; otherwise it displays a gray status pill.</p></li>
+<li><p><cite>=IF(B3 != “Blocked”; ICON(fa-solid; circle-check); ICON(fa-solid; triangle-exclamation))</cite> displays a check icon unless <cite>B3</cite> is <cite>Blocked</cite>.</p></li>
+<li><p><cite>=IF(B4 &lt;&gt; “”; CONCAT(ICON(fa-solid; circle-check); “ “; B4); “”)</cite> displays an icon and text when <cite>B4</cite> is not empty.</p></li>
+</ul>
+<ul class="simple">
+<li><p><cite>=IF(C2 &gt;= 90; STATUS(Passing; green); STATUS(Failing; red))</cite> displays a green status when <cite>C2</cite> is 90 or higher.</p></li>
+<li><p><cite>=IF(D2 &lt; 1; STATUS(Blocked; red); STATUS(Ready; green))</cite> displays a red status when <cite>D2</cite> is less than 1.</p></li>
+</ul>
+<p><cite>IF()</cite> evaluates only the selected branch. If the condition is true, the false branch is not evaluated. If the condition is false, the true branch is not evaluated.</p>
+<p>### Literal Cell Rendering</p>
+<p>Add a leading single quote <cite>‘</cite> to render a formula literally instead of evaluating it.</p>
+<ul class="simple">
+<li><p><cite>‘=STATUS(Active; green)</cite> displays <cite>=STATUS(Active; green)</cite>.</p></li>
+</ul>
+<p>### Range References</p>
+<p>Range references select multiple cells using spreadsheet-style coordinates.</p>
+<p>#### Syntax</p>
+<ul class="simple">
+<li><p><cite>=A2:A4</cite></p></li>
+<li><p><cite>=A2:C4</cite></p></li>
+<li><p><cite>=CONCAT(A2:A4)</cite></p></li>
+</ul>
+<p>Ranges are resolved row by row from the top-left cell to the bottom-right cell.</p>
+<p>#### Behavior</p>
+<p>A range reference can be used anywhere a formula argument is accepted.</p>
+<p>Standalone ranges render as comma-separated values:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">Name,State,Rendered</span>
+<span class="pre">A,Active,</span>
+<span class="pre">B,Blocked,</span>
+<span class="pre">C,Ready,=B2:B4</span>
+<span class="pre">`</span></code></p>
+<p>Rendered result:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span>
+<span class="pre">Active,</span> <span class="pre">Blocked,</span> <span class="pre">Ready</span>
+<span class="pre">`</span></code></p>
+<p>Rectangular ranges are resolved in row-major order:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">A2,B2</span>
+<span class="pre">A3,B3</span>
+<span class="pre">`</span></code></p>
+<p><cite>=A2:B3</cite> resolves as:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span>
+<span class="pre">A2,</span> <span class="pre">B2,</span> <span class="pre">A3,</span> <span class="pre">B3</span>
+<span class="pre">`</span></code></p>
+<p>Reversed ranges are normalized automatically. For example, <cite>=A4:A2</cite> resolves the same cells as <cite>=A2:A4</cite>.</p>
+<p>#### Ranges with merged cells</p>
+<p>If a range includes a cell hidden by a merge marker, the hidden cell resolves to its visible parent cell.</p>
+<p>Example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">System,Rendered</span>
+<span class="pre">Ground,</span>
+<span class="pre">^,=A2:A3</span>
+<span class="pre">`</span></code></p>
+<p>The range resolves as:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span>
+<span class="pre">Ground,</span> <span class="pre">Ground</span>
+<span class="pre">`</span></code></p>
+<p>#### Ranges with <cite>CONCAT()</cite></p>
+<p><cite>CONCAT()</cite> flattens ranges.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">=CONCAT(&quot;States:</span> <span class="pre">&quot;;</span> <span class="pre">A2:A4)</span>
+<span class="pre">`</span></code></p>
+<p>This joins the values directly:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span>
+<span class="pre">States:</span> <span class="pre">ActiveBlockedReady</span>
+<span class="pre">`</span></code></p>
+<p><cite>CONCAT()</cite> does not automatically add separators. Add separators explicitly when needed:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span>
+<span class="pre">=CONCAT(A2;</span> <span class="pre">&quot;,</span> <span class="pre">&quot;;</span> <span class="pre">A3;</span> <span class="pre">&quot;,</span> <span class="pre">&quot;;</span> <span class="pre">A4)</span>
+<span class="pre">`</span></code></p>
+<p>#### Notes</p>
+<p>Range references provide the foundation for aggregate formulas such as <cite>SUM()</cite>, <cite>AVG()</cite>, <cite>MIN()</cite>, and <cite>MAX()</cite>, but those aggregate functions are not implemented yet.</p>
+<p>### Status pills</p>
+<p>Renders a status pill.</p>
+<p>#### Function</p>
+<ul class="simple">
+<li><p><cite>=STATUS(LABEL; COLOR)</cite></p></li>
+</ul>
+<p>#### Fields</p>
+<ul>
+<li><p><cite>LABEL</cite> is any text or a cell reference.</p></li>
+<li><p><cite>COLOR</cite> can be:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>green</cite> or <cite>success</cite></p></li>
+<li><p><cite>yellow</cite> or <cite>warning</cite></p></li>
+<li><p><cite>red</cite> or <cite>danger</cite> or <cite>error</cite></p></li>
+<li><p><cite>blue</cite> or <cite>info</cite></p></li>
+<li><p><cite>gray</cite> (default) or <cite>grey</cite> or <cite>neutral</cite> </p></li>
+<li><p><cite>purple</cite></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>#### Pipe Modifier Example</p>
+<ul class="simple">
+<li><p><cite>=B4 | STATUS(C4)</cite> is equivalent to <cite>=STATUS(B4; C4)</cite>.</p></li>
+<li><p><cite>=D4 | STATUS(E4) | CM</cite> displays the <cite>D4</cite> cell contents in a status pill with color from cell <cite>E4</cite> center and middle.</p></li>
+</ul>
+<p>### Summation</p>
+<p><cite>SUM()</cite> totals numeric values from cells, ranges, or literal arguments.</p>
+<p>#### Function</p>
+<ul class="simple">
+<li><p><cite>=SUM(VALUE; VALUE; …)</cite></p></li>
+</ul>
+<p>#### Fields</p>
+<p>Each <cite>VALUE</cite> can be:</p>
+<ul class="simple">
+<li><p>A literal number</p></li>
+<li><p>A cell reference</p></li>
+<li><p>A range reference</p></li>
+<li><p>Another formula that renders a numeric value</p></li>
+</ul>
+<p>Blank values are ignored.</p>
+<p>Non-numeric values are ignored and produce a warning.</p>
+<p>If no numeric values are found, <cite>SUM()</cite> returns <cite>0</cite>.</p>
+<p>#### Examples</p>
+<ul class="simple">
+<li><p><cite>=SUM(B2:B4)</cite> totals the numeric values in cells <cite>B2</cite> through <cite>B4</cite>.</p></li>
+<li><p><cite>=SUM(B2; B3; B4)</cite> totals separate cell references.</p></li>
+<li><p><cite>=SUM(B2:B4; 10)</cite> totals a range and a literal number.</p></li>
+<li><p><cite>=IF(SUM(B2:B4) &gt;= 100; STATUS(Passing; green); STATUS(Failing; red))</cite> uses a sum inside a conditional formula.</p></li>
+</ul>
+<p>#### Example table</p>
+<p><code class="docutils literal notranslate"><span class="pre">`csv</span> <span class="pre">id=&quot;1hkm74&quot;</span>
+<span class="pre">Name,Value,Rendered</span>
+<span class="pre">A,1,</span>
+<span class="pre">B,2,</span>
+<span class="pre">C,3,</span>
+<span class="pre">Total,,=SUM(B2:B4)</span>
+<span class="pre">`</span></code></p>
+<p>Rendered result:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`text</span> <span class="pre">id=&quot;bxqh7k&quot;</span>
+<span class="pre">6</span>
+<span class="pre">`</span></code></p>
+<p>## Theme support</p>
+<p><cite>sphinx-tabular</cite> is designed to work with standard Sphinx HTML themes and theme-aware color systems.</p>
+<p>The generated tables use semantic CSS classes and CSS custom properties instead of hard-coded theme colors wherever possible. The default stylesheet supports light and dark themes by using <cite>–pst-*</cite> variables when they are available, which makes the extension work well with themes such as <cite>pydata-sphinx-theme</cite> and <cite>sphinx-book-theme</cite>.</p>
+<p>For themes that do not provide <cite>–pst-*</cite> variables, <cite>sphinx-tabular</cite> includes fallback colors so tables still render correctly.</p>
+<p>The extension supports:</p>
+<ul class="simple">
+<li><p>Light and dark theme styling</p></li>
+<li><p>Theme-aware table backgrounds, text colors, borders, and hover states</p></li>
+<li><p>Sticky headers</p></li>
+<li><p>Header row styling</p></li>
+<li><p>Status pill colors</p></li>
+<li><p>Alignment classes</p></li>
+<li><p>Class-based icons</p></li>
+</ul>
+<p>Projects can override the default appearance by redefining the <cite>–sphinx-tabular-*</cite> CSS variables in their own Sphinx static CSS file.</p>
+<p>Example:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>css
+:root {</p>
+<blockquote>
+<div><p>–sphinx-tabular-border-color: #d0d7de;
+–sphinx-tabular-header-bg: #f6f8fa;
+–sphinx-tabular-header-fg: #24292f;
+–sphinx-tabular-row-hover-bg: #f6f8fa;</p>
+</div></blockquote>
+<p>}</p>
+<dl class="simple">
+<dt>html[data-theme=”dark”] {</dt><dd><p>–sphinx-tabular-border-color: #30363d;
+–sphinx-tabular-header-bg: #161b22;
+–sphinx-tabular-header-fg: #f0f6fc;
+–sphinx-tabular-row-hover-bg: #21262d;</p>
+</dd>
+</dl>
+<section id="id5">
+<h4>}<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<p>Icon formulas emit CSS classes only. To use the full Font Awesome or Bootstrap Icons icon sets, load those icon styles locally through your Sphinx theme or <cite>_static</cite> directory. <cite>sphinx-tabular</cite> includes small fallback glyphs for a few common icons so tables remain usable in offline/static builds.</p>
+<p>## Known limitations</p>
+<p><cite>sphinx-tabular</cite> is intended for documentation tables, not as a full spreadsheet engine.</p>
+<p>Current limitations:</p>
+<ul class="simple">
+<li><p>Formula support is intentionally small. The extension currently supports cell references, <cite>STATUS()</cite>, <cite>ICON()</cite>, <cite>ALIGN()</cite>, <cite>HALIGN()</cite>, <cite>VALIGN()</cite>, and pipe modifiers. Arithmetic expressions support basic <cite>+</cite>, <cite>-</cite>, <cite>*</cite>, and <cite>/</cite> operations. Advanced spreadsheet-style math functions and complex expression parsing are not currently supported.</p></li>
+<li><p>Formula arguments use semicolons (<cite>;</cite>) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.</p></li>
+<li><p>Merge markers are fixed. An unquoted <cite>&lt;</cite> merges with the cell to the left, and an unquoted <cite>^</cite> merges with the cell above. Quoted <cite>“&lt;”</cite> and <cite>“^”</cite> render as literal text. These markers are not currently configurable.</p></li>
+<li><p>Complex or invalid merge layouts may produce warnings or unexpected output. The extension is designed for simple horizontal and vertical merges, not arbitrary spreadsheet-like merge regions.</p></li>
+<li><p><cite>.rcsv</cite> cells are parsed as reStructuredText. <cite>.mcsv</cite> cells are parsed with MyST Markdown. Mixing both markup syntaxes in the same table is not supported.</p></li>
+<li><p><cite>.mcsv</cite> support requires <cite>myst-parser</cite>. The extension loads it automatically, but projects should still include <cite>myst-parser</cite> as an installed dependency.</p></li>
+<li><p><cite>ICON()</cite> emits CSS classes only. Full Font Awesome or Bootstrap Icons support requires the project to load those icon styles and fonts locally. <cite>sphinx-tabular</cite> includes fallback glyphs for a small set of common icons, but it does not bundle full icon font libraries.</p></li>
+<li><p>Sticky headers use a small JavaScript helper to support multi-row headers. If JavaScript is disabled, tables still render normally, but multi-row sticky header offsets may not work.</p></li>
+<li><p>Sticky headers may require theme-specific CSS adjustments in heavily customized Sphinx themes, especially themes that apply unusual table wrappers, overflow rules, or custom table border behavior.</p></li>
+<li><p>Tables are normalized to the longest row. Shorter rows are padded with empty cells. In non-strict mode this produces warnings; in strict mode it raises an error.</p></li>
+<li><p>The extension does not currently provide an interactive editor. Tables are authored as inline directive content or external <cite>.rcsv</cite> / <cite>.mcsv</cite> files.</p></li>
+<li><p>The extension does not bundle DataTables, sorting, filtering, pagination, or other interactive table libraries. Additional classes such as <cite>datatables</cite> are passed through so projects can integrate their own local JavaScript if needed.</p></li>
+<li><p><cite>IF()</cite> numeric comparisons support simple numeric values only. Full arithmetic expressions such as <cite>A2 + B2 &gt; 10</cite> are not currently supported.</p></li>
+<li><p>Range references are supported. <cite>SUM()</cite> is implemented, but <cite>AVG()</cite>, <cite>MIN()</cite>, and <cite>MAX()</cite> are not currently implemented.</p></li>
+<li><p>Arithmetic expressions are numeric-only. Non-numeric operands return <cite>#VALUE!</cite> and produce a warning.</p></li>
+<li><p><cite>BG()</cite> and <cite>FG()</cite> intentionally support a limited set of safe CSS color formats: named colors, hex colors, and simple CSS custom properties such as <cite>var(–pst-color-primary)</cite>.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="formulas">
+<h2>Formulas<a class="headerlink" href="#formulas" title="Link to this heading">#</a></h2>
+<p>Formula arguments use semicolons instead of commas.</p>
+<section id="status">
+<h3>Status<a class="headerlink" href="#status" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=STATUS(Active; green)
+=STATUS(In Review; yellow)
+=STATUS(Blocked; red)
+</pre></div>
+</div>
+</section>
+<section id="icons">
+<h3>Icons<a class="headerlink" href="#icons" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=ICON(fa-solid; circle-check)
+=ICON(bi; exclamation-triangle; Warning)
+</pre></div>
+</div>
+</section>
+<section id="alignment">
+<h3>Alignment<a class="headerlink" href="#alignment" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=ALIGN(Ready; center; middle)
+=HALIGN(Ready; center)
+=VALIGN(Ready; top)
+</pre></div>
+</div>
+</section>
+<section id="cell-references">
+<h3>Cell references<a class="headerlink" href="#cell-references" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=A2
+=$A$2
+</pre></div>
+</div>
+</section>
+<section id="ranges">
+<h3>Ranges<a class="headerlink" href="#ranges" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=A2:A4
+=A2:C4
+</pre></div>
+</div>
+</section>
+<section id="aggregates">
+<h3>Aggregates<a class="headerlink" href="#aggregates" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=SUM(B2:B4)
+=AVG(B2:B4)
+=MIN(B2:B4)
+=MAX(B2:B4)
+=COUNT(B2:B4)
+</pre></div>
+</div>
+</section>
+<section id="arithmetic">
+<h3>Arithmetic<a class="headerlink" href="#arithmetic" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=A2 + B2
+=(A2 + B2) / 2
+=SUM(B2:B4) / COUNT(B2:B4)
+</pre></div>
+</div>
+</section>
+<section id="conditional-rendering">
+<h3>Conditional rendering<a class="headerlink" href="#conditional-rendering" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=IF(B2 == &quot;Active&quot;; STATUS(Active; green); STATUS(Inactive; gray))
+=IF(SUM(B2:B4) &gt;= 100; STATUS(Passing; green); STATUS(Failing; red))
+</pre></div>
+</div>
+</section>
+<section id="cell-colors">
+<h3>Cell colors<a class="headerlink" href="#cell-colors" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=BG(Active; #ffb700)
+=FG(Active; #006644)
+=BG(FG(Active; #006644); #143892)
+=BG(Active; var(--pst-color-success-bg))
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+</section>
+
+</article></main>
+  </div>
+<footer class="bz-footer">
+  <div class="bz-footer-copyright"><p class="bz-copyright">© Copyright 2026, sphinx-tabular contributors</p><p>
+    
+    
+    
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/aksiome/breeze">Breeze theme</a>.
+    
+  </p>
+</div>
+</footer><a href="#" class="bz-back-to-top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
+    </svg>
+    <span>Back to top</span>
+  </a>
+  <label class="bz-overlay bz-overlay-primary" for="bz-sidebar-primary"></label>
+  <label class="bz-overlay bz-overlay-secondary" for="bz-sidebar-secondary"></label>
+  <input type="checkbox" name="bz-sidebar-primary" id="bz-sidebar-primary" aria-label="Toggle section navigation">
+  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=5929fcd5"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/sphinx-tabular.js?v=b9f5d447"></script></body>
+</html>
