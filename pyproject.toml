@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sphinx-tabular"
+version = "0.1.0"
+description = "Sphinx directives for RCSV and MCSV tabular authoring."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "sphinx>=7",
+  "docutils>=0.20",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "beautifulsoup4",
+  "myst-parser",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sphinx_tabular = ["static/*.css"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

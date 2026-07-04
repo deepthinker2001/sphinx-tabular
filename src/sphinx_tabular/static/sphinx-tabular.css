@@ -1,0 +1,240 @@
+/* ==========================================================================
+   sphinx-tabular base theme variables
+   Compatible with pydata-sphinx-theme and Sphinx Book Theme data-theme modes.
+   ========================================================================== */
+
+:root {
+  --sphinx-tabular-border-color: var(--pst-color-border, #d0d7de);
+  --sphinx-tabular-header-border-color: var(--pst-color-border, #8c959f);
+
+  --sphinx-tabular-bg: var(--pst-color-background, #ffffff);
+  --sphinx-tabular-fg: var(--pst-color-text-base, #24292f);
+  --sphinx-tabular-header-bg: var(--pst-color-surface, var(--pst-color-background, #ffffff));
+  --sphinx-tabular-header-fg: var(--pst-color-text-base, #24292f);
+
+  --sphinx-tabular-row-hover-bg: color-mix(
+    in srgb,
+    var(--pst-color-primary, #0969da) 8%,
+    transparent
+  );
+
+  --sphinx-tabular-sticky-top: 0;
+
+  --sphinx-tabular-status-green-bg: #e3fcef;
+  --sphinx-tabular-status-green-fg: #006644;
+
+  --sphinx-tabular-status-yellow-bg: #fff0b3;
+  --sphinx-tabular-status-yellow-fg: #7a5d00;
+
+  --sphinx-tabular-status-red-bg: #ffebe6;
+  --sphinx-tabular-status-red-fg: #bf2600;
+
+  --sphinx-tabular-status-blue-bg: #deebff;
+  --sphinx-tabular-status-blue-fg: #0747a6;
+
+  --sphinx-tabular-status-gray-bg: #f4f5f7;
+  --sphinx-tabular-status-gray-fg: #42526e;
+
+  --sphinx-tabular-status-purple-bg: #eae6ff;
+  --sphinx-tabular-status-purple-fg: #403294;
+}
+
+/* pydata-sphinx-theme / sphinx-book-theme dark mode */
+html[data-theme="dark"] {
+  --sphinx-tabular-border-color: var(--pst-color-border, #48566a);
+  --sphinx-tabular-header-border-color: var(--pst-color-border, #6b778d);
+
+  --sphinx-tabular-bg: var(--pst-color-background, #0f1117);
+  --sphinx-tabular-fg: var(--pst-color-text-base, #d0d7de);
+  --sphinx-tabular-header-bg: var(--pst-color-surface, #161b22);
+  --sphinx-tabular-header-fg: var(--pst-color-text-base, #f0f3f6);
+
+  --sphinx-tabular-status-green-bg: #033a29;
+  --sphinx-tabular-status-green-fg: #7ee787;
+
+  --sphinx-tabular-status-yellow-bg: #4d3800;
+  --sphinx-tabular-status-yellow-fg: #f2cc60;
+
+  --sphinx-tabular-status-red-bg: #4a1212;
+  --sphinx-tabular-status-red-fg: #ff7b72;
+
+  --sphinx-tabular-status-blue-bg: #0b2d4d;
+  --sphinx-tabular-status-blue-fg: #79c0ff;
+
+  --sphinx-tabular-status-gray-bg: #30363d;
+  --sphinx-tabular-status-gray-fg: #c9d1d9;
+
+  --sphinx-tabular-status-purple-bg: #2d214d;
+  --sphinx-tabular-status-purple-fg: #d2a8ff;
+}
+
+/* Explicit light override for themes that set data-theme="light" */
+html[data-theme="light"] {
+  --sphinx-tabular-border-color: var(--pst-color-border, #d0d7de);
+  --sphinx-tabular-header-border-color: var(--pst-color-border, #8c959f);
+
+  --sphinx-tabular-bg: var(--pst-color-background, #ffffff);
+  --sphinx-tabular-fg: var(--pst-color-text-base, #24292f);
+  --sphinx-tabular-header-bg: var(--pst-color-surface, var(--pst-color-background, #ffffff));
+  --sphinx-tabular-header-fg: var(--pst-color-text-base, #24292f);
+}
+
+
+/* ==========================================================================
+   Table layout
+   ========================================================================== */
+
+.sphinx-tabular {
+  width: auto;
+  border-collapse: collapse;
+  color: var(--sphinx-tabular-fg);
+  background: var(--sphinx-tabular-bg);
+}
+
+.sphinx-tabular caption {
+  color: var(--sphinx-tabular-fg);
+}
+
+.sphinx-tabular th,
+.sphinx-tabular td {
+  border-top: 1px solid var(--sphinx-tabular-border-color);
+  border-bottom: 1px solid var(--sphinx-tabular-border-color);
+  color: var(--sphinx-tabular-fg);
+  background: var(--sphinx-tabular-bg);
+}
+
+.sphinx-tabular thead th,
+.sphinx-tabular thead td {
+  color: var(--sphinx-tabular-header-fg);
+  background: var(--sphinx-tabular-header-bg);
+  border-top: 1px solid var(--sphinx-tabular-border-color);
+  border-bottom: 1px solid var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead tr:first-child th,
+.sphinx-tabular thead tr:first-child td {
+  border-top: 2px solid var(--sphinx-tabular-header-border-color);
+}
+
+.sphinx-tabular thead tr:last-child th,
+.sphinx-tabular thead tr:last-child td {
+  border-bottom: 2px solid var(--sphinx-tabular-header-border-color);
+}
+
+.sphinx-tabular thead th[rowspan],
+.sphinx-tabular thead td[rowspan] {
+  border-bottom: 2px solid var(--sphinx-tabular-header-border-color);
+}
+
+.sphinx-tabular tbody tr:hover td,
+.sphinx-tabular tbody tr:hover th {
+  background: var(--sphinx-tabular-row-hover-bg);
+}
+
+
+/* ==========================================================================
+   Sticky headers
+   ========================================================================== */
+
+.sphinx-tabular-sticky-header thead th,
+.sphinx-tabular-sticky-header thead td {
+  position: sticky;
+  top: var(--sphinx-tabular-sticky-top, 0);
+  z-index: 5;
+  background: var(--sphinx-tabular-header-bg);
+}
+
+
+/* ==========================================================================
+   Alignment
+   ========================================================================== */
+
+.sphinx-tabular-halign-left {
+  text-align: left;
+}
+
+.sphinx-tabular-halign-center {
+  text-align: center;
+}
+
+.sphinx-tabular-halign-right {
+  text-align: right;
+}
+
+.sphinx-tabular-halign-justify {
+  text-align: justify;
+}
+
+.sphinx-tabular-valign-top {
+  vertical-align: top;
+}
+
+.sphinx-tabular-valign-middle {
+  vertical-align: middle;
+}
+
+.sphinx-tabular-valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/* ==========================================================================
+   Status pills
+   ========================================================================== */
+
+.sphinx-tabular-status {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.78em;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sphinx-tabular-status-green {
+  background: var(--sphinx-tabular-status-green-bg);
+  color: var(--sphinx-tabular-status-green-fg);
+}
+
+.sphinx-tabular-status-yellow {
+  background: var(--sphinx-tabular-status-yellow-bg);
+  color: var(--sphinx-tabular-status-yellow-fg);
+}
+
+.sphinx-tabular-status-red {
+  background: var(--sphinx-tabular-status-red-bg);
+  color: var(--sphinx-tabular-status-red-fg);
+}
+
+.sphinx-tabular-status-blue {
+  background: var(--sphinx-tabular-status-blue-bg);
+  color: var(--sphinx-tabular-status-blue-fg);
+}
+
+.sphinx-tabular-status-gray {
+  background: var(--sphinx-tabular-status-gray-bg);
+  color: var(--sphinx-tabular-status-gray-fg);
+}
+
+.sphinx-tabular-status-purple {
+  background: var(--sphinx-tabular-status-purple-bg);
+  color: var(--sphinx-tabular-status-purple-fg);
+}
+
+
+/* ==========================================================================
+   Icons
+   ========================================================================== */
+
+.sphinx-tabular-icon {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: -0.125em;
+  color: currentColor;
+}
+
+.sphinx-tabular-icon + .sphinx-tabular-status {
+  margin-left: 0.25rem;
+}
