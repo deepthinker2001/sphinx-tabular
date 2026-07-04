@@ -21,7 +21,8 @@
 - Provides a minimal set of spreadsheet functions with cell referencing.
 
     - `'Text` literal rendering of text without evaluation.
-    - `=CELL` cell refernce.
+    - `=CELL` cell refernces.
+    * `=CELL1:CELL2` range references.
     - `=ALIGN()` aligns the cell contents in the horizontal and vertical directions.
     - `=CONCAT()` joins text, cell references, icons, and status pills into one rendered cell.
     - `=ICON()` generates a Font Awesome or Bootstrap icon with fallback icons if your theme doesn't support those.
