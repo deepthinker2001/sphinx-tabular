@@ -114,12 +114,22 @@ html[data-theme="light"] {
     inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
 
+/*
+   Header cells use box-shadow instead of real borders because sticky table
+   headers and border-collapse do not render reliably together.
+
+   Header border model:
+   - top of the full header block is strong
+   - separators between header rows are normal
+   - bottom of the full header block is strong
+   - rowspan header cells get strong top and strong bottom
+*/
+
 .sphinx-tabular thead th,
 .sphinx-tabular thead td {
   color: var(--sphinx-tabular-header-fg);
   background: var(--sphinx-tabular-header-bg);
   box-shadow:
-    inset 0 1px 0 var(--sphinx-tabular-header-border-color),
     inset 0 -1px 0 var(--sphinx-tabular-border-color),
     inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
@@ -128,29 +138,82 @@ html[data-theme="light"] {
 .sphinx-tabular thead td:first-child {
   box-shadow:
     inset 1px 0 0 var(--sphinx-tabular-border-color),
-    inset 0 1px 0 var(--sphinx-tabular-header-border-color),
     inset 0 -1px 0 var(--sphinx-tabular-border-color),
     inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
 
-/* Strong bottom boundary under the full header block. */
-.sphinx-tabular thead tr:last-child th,
-.sphinx-tabular thead tr:last-child td,
-.sphinx-tabular thead th[rowspan],
-.sphinx-tabular thead td[rowspan] {
+/* Strong top edge across the full header block. */
+.sphinx-tabular thead tr:first-child th,
+.sphinx-tabular thead tr:first-child td {
   box-shadow:
-    inset 0 1px 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead tr:first-child th:first-child,
+.sphinx-tabular thead tr:first-child td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/* Strong bottom edge across the final visual header row. */
+.sphinx-tabular thead tr:last-child th,
+.sphinx-tabular thead tr:last-child td {
+  box-shadow:
     inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
     inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
 
 .sphinx-tabular thead tr:last-child th:first-child,
-.sphinx-tabular thead tr:last-child td:first-child,
+.sphinx-tabular thead tr:last-child td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/*
+   Row-spanned header cells, such as "Color", skip the final header row.
+   They need both the strong top edge and the strong bottom edge.
+*/
+.sphinx-tabular thead th[rowspan],
+.sphinx-tabular thead td[rowspan] {
+  box-shadow:
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
 .sphinx-tabular thead th[rowspan]:first-child,
 .sphinx-tabular thead td[rowspan]:first-child {
   box-shadow:
     inset 1px 0 0 var(--sphinx-tabular-border-color),
-    inset 0 1px 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/*
+   Corner case: a cell can be both in the first row and the last row
+   when there is only one header row.
+*/
+.sphinx-tabular thead tr:first-child:last-child th,
+.sphinx-tabular thead tr:first-child:last-child td {
+  box-shadow:
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead tr:first-child:last-child th:first-child,
+.sphinx-tabular thead tr:first-child:last-child td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
     inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
     inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
@@ -159,7 +222,6 @@ html[data-theme="light"] {
 .sphinx-tabular tbody tr:hover th {
   background: var(--sphinx-tabular-row-hover-bg);
 }
-
 
 /* ==========================================================================
    Sticky headers
@@ -256,21 +318,6 @@ html[data-theme="light"] {
   color: var(--sphinx-tabular-status-purple-fg);
 }
 
-
-/* ==========================================================================
-   Icons
-   ========================================================================== */
-
-.sphinx-tabular-icon {
-  display: inline-block;
-  line-height: 1;
-  vertical-align: -0.125em;
-  color: currentColor;
-}
-
-.sphinx-tabular-icon + .sphinx-tabular-status {
-  margin-left: 0.25rem;
-}
 
 /* ==========================================================================
    Icons
