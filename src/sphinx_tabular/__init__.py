@@ -13,6 +13,7 @@ def setup(app):
 
     app.connect("builder-inited", _copy_static_assets)
     app.add_css_file("sphinx-tabular.css")
+    app.add_js_file("sphinx-tabular.js")
 
     return {
         "version": "0.1.0",

@@ -81,12 +81,13 @@ html[data-theme="light"] {
 
 
 /* ==========================================================================
-   Table layout
+   Table layout and borders
    ========================================================================== */
 
 .sphinx-tabular {
   width: auto;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   color: var(--sphinx-tabular-fg);
   background: var(--sphinx-tabular-bg);
 }
@@ -97,33 +98,61 @@ html[data-theme="light"] {
 
 .sphinx-tabular th,
 .sphinx-tabular td {
-  border-top: 1px solid var(--sphinx-tabular-border-color);
-  border-bottom: 1px solid var(--sphinx-tabular-border-color);
   color: var(--sphinx-tabular-fg);
   background: var(--sphinx-tabular-bg);
+  border: 0;
+  box-shadow:
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular th:first-child,
+.sphinx-tabular td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
 
 .sphinx-tabular thead th,
 .sphinx-tabular thead td {
   color: var(--sphinx-tabular-header-fg);
   background: var(--sphinx-tabular-header-bg);
-  border-top: 1px solid var(--sphinx-tabular-border-color);
-  border-bottom: 1px solid var(--sphinx-tabular-border-color);
+  box-shadow:
+    inset 0 1px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
 
-.sphinx-tabular thead tr:first-child th,
-.sphinx-tabular thead tr:first-child td {
-  border-top: 2px solid var(--sphinx-tabular-header-border-color);
+.sphinx-tabular thead th:first-child,
+.sphinx-tabular thead td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 1px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
 
+/* Strong bottom boundary under the full header block. */
 .sphinx-tabular thead tr:last-child th,
-.sphinx-tabular thead tr:last-child td {
-  border-bottom: 2px solid var(--sphinx-tabular-header-border-color);
-}
-
+.sphinx-tabular thead tr:last-child td,
 .sphinx-tabular thead th[rowspan],
 .sphinx-tabular thead td[rowspan] {
-  border-bottom: 2px solid var(--sphinx-tabular-header-border-color);
+  box-shadow:
+    inset 0 1px 0 var(--sphinx-tabular-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead tr:last-child th:first-child,
+.sphinx-tabular thead tr:last-child td:first-child,
+.sphinx-tabular thead th[rowspan]:first-child,
+.sphinx-tabular thead td[rowspan]:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 1px 0 var(--sphinx-tabular-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
 }
 
 .sphinx-tabular tbody tr:hover td,
@@ -138,10 +167,14 @@ html[data-theme="light"] {
 
 .sphinx-tabular-sticky-header thead th,
 .sphinx-tabular-sticky-header thead td {
-  position: sticky;
-  top: var(--sphinx-tabular-sticky-top, 0);
   z-index: 5;
   background: var(--sphinx-tabular-header-bg);
+}
+
+/* JS adds this after applying per-row sticky offsets. */
+.sphinx-tabular-sticky-ready thead th,
+.sphinx-tabular-sticky-ready thead td {
+  position: sticky;
 }
 
 
