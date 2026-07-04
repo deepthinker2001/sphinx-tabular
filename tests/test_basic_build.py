@@ -4,6 +4,7 @@ import subprocess
 from pathlib import Path
 
 
+
 def test_basic_html_build_subprocess():
     subprocess.run(
         [
@@ -35,6 +36,10 @@ def test_basic_html_build_subprocess():
 
     assert 'href="#ephemeris-interface"' in html
 
+    css = Path("tests/_build/basic/_static/sphinx-tabular.css").read_text(encoding="utf-8")
+    assert ".sphinx-tabular-icon-fa.fa-circle-check::before" in css
+    assert 'content: "✓"' in css
+
     assert "_static/sphinx-tabular.css" in html
     assert "_static/sphinx-tabular.js" in html
     assert "sphinx-tabular-sticky-header" in html
@@ -47,4 +52,4 @@ def test_basic_html_build_subprocess():
     assert "<strong>Bold Markdown text</strong>" in html
     assert "sphinx-tabular-status-yellow" in html
 
-    
+    assert "sphinx-tabular-icon-fa fa-solid fa-circle-check" in html

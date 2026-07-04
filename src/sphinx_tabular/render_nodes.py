@@ -9,17 +9,29 @@ from .formulas import FormulaContext, evaluate_cell_value, value_to_node
 from .model import Cell
 from .markup import add_markup_to_entry
 
+from sphinx.util import logging
+logger = logging.getLogger(__name__)
+
 def resolve_simple_merges(rows: list[list[Cell]]) -> None:
-    for r, row in enumerate(rows):
-        for c, cell in enumerate(row):
+    for row_index, row in enumerate(rows):
+        for col_index, cell in enumerate(row):
+            if cell.hidden:
+                continue
+
             if cell.is_hmerge_marker:
-                if c == 0:
+                if col_index == 0:
+                    logger.warning(
+                        "rcsv-table: invalid horizontal merge marker '<' in first column "
+                        "at row %s, column %s; rendering it literally.",
+                        cell.row,
+                        cell.col,
+                    )
                     continue
 
-                parent = row[c - 1]
+                parent = row[col_index - 1]
 
-                while parent.hidden and parent.parent_col is not None:
-                    parent = row[parent.parent_col - 1]
+                while parent.hidden and parent.parent_row is not None:
+                    parent = rows[parent.parent_row - 1][parent.parent_col - 1]
 
                 parent.colspan += 1
                 cell.hidden = True
@@ -27,10 +39,16 @@ def resolve_simple_merges(rows: list[list[Cell]]) -> None:
                 cell.parent_col = parent.col
 
             elif cell.is_vmerge_marker:
-                if r == 0:
+                if row_index == 0:
+                    logger.warning(
+                        "rcsv-table: invalid vertical merge marker '^' in first row "
+                        "at row %s, column %s; rendering it literally.",
+                        cell.row,
+                        cell.col,
+                    )
                     continue
 
-                parent = rows[r - 1][c]
+                parent = rows[row_index - 1][col_index]
 
                 while parent.hidden and parent.parent_row is not None:
                     parent = rows[parent.parent_row - 1][parent.parent_col - 1]

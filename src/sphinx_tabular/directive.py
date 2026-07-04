@@ -3,32 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from docutils.parsers.rst import directives
+from sphinx.errors import ExtensionError
 from sphinx.util.docutils import SphinxDirective
 
 from .normalize import normalize_rows
-from .parser import parse_csv_with_quote_tracking
+from .parser import RcsvParseError, parse_csv_with_quote_tracking
 from .render_nodes import build_table_node
-
-
-ALIGN_H = {
-    "l": "left",
-    "left": "left",
-    "r": "right",
-    "right": "right",
-    "c": "center",
-    "center": "center",
-    "j": "justify",
-    "justify": "justify",
-}
-
-ALIGN_V = {
-    "t": "top",
-    "top": "top",
-    "m": "middle",
-    "middle": "middle",
-    "b": "bottom",
-    "bottom": "bottom",
-}
 
 
 class BaseTabularDirective(SphinxDirective):
@@ -38,11 +18,11 @@ class BaseTabularDirective(SphinxDirective):
     final_argument_whitespace = True
 
     markup = "rst"
-    directive_name = "rcsv-table"
-    dialect_class = "sphinx-tabular-rcsv"
+    directive_name = "tabular-table"
+    dialect_class = "sphinx-tabular"
 
     option_spec = {
-        "file": directives.path,
+        "file": directives.unchanged_required,
         "header-rows": directives.nonnegative_int,
         "width": directives.unchanged,
         "widths": directives.unchanged,
@@ -58,25 +38,17 @@ class BaseTabularDirective(SphinxDirective):
         caption = self.arguments[0] if self.arguments else None
 
         has_file = "file" in self.options
-        has_inline = bool(self.content)
+        has_inline_content = any(line.strip() for line in self.content)
 
-        strict = "strict" in self.options or bool(
-            getattr(self.config, "sphinx_tabular_strict", False)
-        )
+        if has_file and has_inline_content:
+            raise ExtensionError(
+                f"{self.directive_name}: specify either :file: or inline content, not both"
+            )
 
-        if has_file and has_inline:
-            message = f"{self.directive_name} cannot use both :file: and inline content."
-            if strict:
-                raise self.error(message)
-            return [self.state_machine.reporter.warning(message, line=self.lineno)]
-
-        if not has_file and not has_inline:
-            message = f"{self.directive_name} requires either :file: or inline content."
-            if strict:
-                raise self.error(message)
-            return [self.state_machine.reporter.warning(message, line=self.lineno)]
-
-        source = self.env.docname
+        if not has_file and not has_inline_content:
+            raise ExtensionError(
+                f"{self.directive_name}: specify either :file: or inline content"
+            )
 
         if has_file:
             rel_file = self.options["file"]
@@ -84,44 +56,44 @@ class BaseTabularDirective(SphinxDirective):
             doc_dir = Path(self.env.doc2path(self.env.docname)).parent
             source_path = (doc_dir / rel_file).resolve()
 
+            if not source_path.exists():
+                raise ExtensionError(
+                    f"{self.directive_name}: file not found: {rel_file}"
+                )
+
             self.env.note_dependency(str(source_path))
             text = source_path.read_text(encoding="utf-8")
             source = str(source_path)
         else:
             text = "\n".join(self.content)
+            source = self.env.doc2path(self.env.docname)
 
-        raw_rows = parse_csv_with_quote_tracking(text)
-
-        rows = normalize_rows(
-            raw_rows,
-            source=source,
-            strict=strict,
-            directive_name=self.directive_name,
+        strict = bool(
+            "strict" in self.options
+            or getattr(self.config, "sphinx_tabular_strict", False)
         )
 
-        default_halign = ALIGN_H.get(
-            self.options.get("text-align", "left").strip().lower(),
-            "left",
-        )
-        default_valign = ALIGN_V.get(
-            self.options.get("vertical-align", "middle").strip().lower(),
-            "middle",
-        )
-
-        for row in rows:
-            for cell in row:
-                cell.halign = default_halign
-                cell.valign = default_valign
+        try:
+            raw_rows = parse_csv_with_quote_tracking(text)
+            rows = normalize_rows(
+                raw_rows,
+                source=source,
+                strict=strict,
+                directive_name=self.directive_name,
+            )
+        except RcsvParseError as exc:
+            raise ExtensionError(f"{self.directive_name}: {exc}") from exc
+        except ValueError as exc:
+            raise ExtensionError(f"{self.directive_name}: {exc}") from exc
 
         classes = [
             "sphinx-tabular",
             self.dialect_class,
         ]
+        classes.extend(self.options.get("class", []))
 
         if "sticky-header" in self.options:
             classes.append("sphinx-tabular-sticky-header")
-
-        classes.extend(self.options.get("class", []))
 
         table = build_table_node(
             rows,

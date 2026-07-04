@@ -12,7 +12,7 @@
     - `^`  merge this cell with the one above it.
 
 - CSV can be imported from an external file or inline with the directive.
-- Interpret text as reStructuredText (.rcsv) or Markdown (.mcsv).
+- Interpret text as reStructuredText (`.rcsv`) or Markdown (`.mcsv`).
 - Optional sticky header support for one or more header rows.
 - Provides a minimal set of spreadsheet functions with cell referencing.
 
@@ -33,9 +33,10 @@
 
 ## conf.py setup
 
-Add `"sphinx_tabular",` to your extensions list.
+Add `"sphinx_tabular",` to your extensions list like this:
 
-    extensions = [...,
+    extensions = [
+        ...,
         "sphinx_tabular",
         ...,
         ]

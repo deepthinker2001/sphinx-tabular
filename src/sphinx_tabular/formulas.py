@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 CELL_REF_RE = re.compile(r"^\$?([A-Za-z]+)\$?([0-9]+)$")
 FUNC_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)\((.*)\)$")
 
+VALID_ICON_SETS = {"fa-solid", "fa-regular", "fa-brands", "bi"}
+
 
 @dataclass(frozen=True)
 class StatusValue:
@@ -41,7 +43,12 @@ class FormulaContext:
     def warn(self, message: str) -> None:
         if self.strict:
             raise ValueError(message)
-        logger.warning(message, location=self.source)
+
+        logger.warning(
+            "sphinx-tabular: %s",
+            message,
+            location=self.source,
+        )
 
     def get_cell(self, row: int, col: int) -> Cell | None:
         if row < 1 or col < 1:
@@ -56,7 +63,9 @@ class FormulaContext:
         cell = self.get_cell(row, col)
 
         if cell is None:
-            self.warn(f"formula reference {format_cell_ref(row, col)} is outside the table.")
+            self.warn(
+                f"formula reference {format_cell_ref(row, col)} is outside the table."
+            )
             return "#REF!"
 
         # If the referenced cell is hidden by a merge, return the parent cell value.
@@ -142,8 +151,10 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
         if name == "VALIGN":
             return func_valign(args, cell=cell, context=context)
 
-        context.warn(f"unknown formula function {name} in {format_cell_ref(cell.row, cell.col)}.")
-        return f"#UNKNOWN:{name}"
+        context.warn(
+            f"unknown formula function '{name}' at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#NAME!"
 
     # MVP behavior: bare words are treated as literal strings.
     return expr
@@ -167,26 +178,47 @@ def apply_modifier(value: Any, modifier: str, *, cell: Cell, context: FormulaCon
             # =B4 | STATUS(C4)
             # Existing value is the status label.
             color = evaluate_arg(args[0], cell=cell, context=context) if args else "gray"
-            return StatusValue(label=stringify_value(value), color=normalize_status_color(stringify_value(color)))
+            return StatusValue(
+                label=stringify_value(value),
+                color=normalize_status_color(stringify_value(color)),
+            )
 
         if name == "ALIGN":
             if len(args) >= 1:
-                cell.halign = normalize_halign(stringify_value(evaluate_arg(args[0], cell=cell, context=context)), context, cell)
+                cell.halign = normalize_halign(
+                    stringify_value(evaluate_arg(args[0], cell=cell, context=context)),
+                    cell=cell,
+                    context=context,
+                )
             if len(args) >= 2:
-                cell.valign = normalize_valign(stringify_value(evaluate_arg(args[1], cell=cell, context=context)), context, cell)
+                cell.valign = normalize_valign(
+                    stringify_value(evaluate_arg(args[1], cell=cell, context=context)),
+                    cell=cell,
+                    context=context,
+                )
             return value
 
         if name == "HALIGN":
             if args:
-                cell.halign = normalize_halign(stringify_value(evaluate_arg(args[0], cell=cell, context=context)), context, cell)
+                cell.halign = normalize_halign(
+                    stringify_value(evaluate_arg(args[0], cell=cell, context=context)),
+                    cell=cell,
+                    context=context,
+                )
             return value
 
         if name == "VALIGN":
             if args:
-                cell.valign = normalize_valign(stringify_value(evaluate_arg(args[0], cell=cell, context=context)), context, cell)
+                cell.valign = normalize_valign(
+                    stringify_value(evaluate_arg(args[0], cell=cell, context=context)),
+                    cell=cell,
+                    context=context,
+                )
             return value
 
-        context.warn(f"unknown formula modifier {name} in {format_cell_ref(cell.row, cell.col)}.")
+        context.warn(
+            f"unknown formula modifier '{name}' at {format_cell_ref(cell.row, cell.col)}."
+        )
         return value
 
     # Convenience aliases:
@@ -217,19 +249,23 @@ def apply_modifier(value: Any, modifier: str, *, cell: Cell, context: FormulaCon
         return value
 
     if len(shortcut) == 2:
-        h = normalize_halign(shortcut[0], context, cell)
-        v = normalize_valign(shortcut[1], context, cell)
+        h = normalize_halign(shortcut[0], cell=cell, context=context)
+        v = normalize_valign(shortcut[1], cell=cell, context=context)
         cell.halign = h
         cell.valign = v
         return value
 
-    context.warn(f"unknown formula modifier {modifier!r} in {format_cell_ref(cell.row, cell.col)}.")
+    context.warn(
+        f"unknown formula modifier '{modifier}' at {format_cell_ref(cell.row, cell.col)}."
+    )
     return value
 
 
 def func_status(args: list[str], *, cell: Cell, context: FormulaContext) -> StatusValue:
     if len(args) < 2:
-        context.warn(f"STATUS requires 2 arguments in {format_cell_ref(cell.row, cell.col)}.")
+        context.warn(
+            f"STATUS requires 2 arguments at {format_cell_ref(cell.row, cell.col)}."
+        )
         return StatusValue(label="#STATUS!", color="gray")
 
     label = evaluate_arg(args[0], cell=cell, context=context)
@@ -243,23 +279,30 @@ def func_status(args: list[str], *, cell: Cell, context: FormulaContext) -> Stat
 
 def func_icon(args: list[str], *, cell: Cell, context: FormulaContext) -> IconValue | str:
     if len(args) < 2:
-        context.warn(f"ICON requires at least 2 arguments in {format_cell_ref(cell.row, cell.col)}.")
-        return "#ICON!"
+        context.warn(
+            f"ICON requires at least 2 arguments at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
 
-    icon_set = stringify_value(evaluate_arg(args[0], cell=cell, context=context))
-    icon_name = stringify_value(evaluate_arg(args[1], cell=cell, context=context))
+    icon_set = stringify_value(evaluate_arg(args[0], cell=cell, context=context)).strip()
+    icon_name = stringify_value(evaluate_arg(args[1], cell=cell, context=context)).strip()
     label = None
 
     if len(args) >= 3:
         label = stringify_value(evaluate_arg(args[2], cell=cell, context=context))
 
-    if icon_set not in {"fa-solid", "fa-regular", "fa-brands", "bi"}:
-        context.warn(f'unsupported icon set "{icon_set}" in {format_cell_ref(cell.row, cell.col)}.')
-        return f"[icon: {icon_set} {icon_name}]"
+    if icon_set not in VALID_ICON_SETS:
+        context.warn(
+            f"invalid icon set '{icon_set}' at {format_cell_ref(cell.row, cell.col)}; "
+            f"expected one of {', '.join(sorted(VALID_ICON_SETS))}."
+        )
+        return "#VALUE!"
 
     if not re.match(r"^[A-Za-z0-9-]+$", icon_name):
-        context.warn(f'invalid icon name "{icon_name}" in {format_cell_ref(cell.row, cell.col)}.')
-        return f"[icon: {icon_set} {icon_name}]"
+        context.warn(
+            f"invalid icon name '{icon_name}' at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
 
     return IconValue(icon_set=icon_set, icon_name=icon_name, label=label)
 
@@ -271,10 +314,18 @@ def func_align(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
     value = evaluate_arg(args[0], cell=cell, context=context)
 
     if len(args) >= 2:
-        cell.halign = normalize_halign(stringify_value(evaluate_arg(args[1], cell=cell, context=context)), context, cell)
+        cell.halign = normalize_halign(
+            stringify_value(evaluate_arg(args[1], cell=cell, context=context)),
+            cell=cell,
+            context=context,
+        )
 
     if len(args) >= 3:
-        cell.valign = normalize_valign(stringify_value(evaluate_arg(args[2], cell=cell, context=context)), context, cell)
+        cell.valign = normalize_valign(
+            stringify_value(evaluate_arg(args[2], cell=cell, context=context)),
+            cell=cell,
+            context=context,
+        )
 
     return value
 
@@ -286,7 +337,11 @@ def func_halign(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
     value = evaluate_arg(args[0], cell=cell, context=context)
 
     if len(args) >= 2:
-        cell.halign = normalize_halign(stringify_value(evaluate_arg(args[1], cell=cell, context=context)), context, cell)
+        cell.halign = normalize_halign(
+            stringify_value(evaluate_arg(args[1], cell=cell, context=context)),
+            cell=cell,
+            context=context,
+        )
 
     return value
 
@@ -298,7 +353,11 @@ def func_valign(args: list[str], *, cell: Cell, context: FormulaContext) -> Any:
     value = evaluate_arg(args[0], cell=cell, context=context)
 
     if len(args) >= 2:
-        cell.valign = normalize_valign(stringify_value(evaluate_arg(args[1], cell=cell, context=context)), context, cell)
+        cell.valign = normalize_valign(
+            stringify_value(evaluate_arg(args[1], cell=cell, context=context)),
+            cell=cell,
+            context=context,
+        )
 
     return value
 
@@ -383,8 +442,13 @@ def normalize_status_color(color: str) -> str:
     return color
 
 
-def normalize_halign(value: str, context: FormulaContext, cell: Cell) -> str:
-    value = value.strip().lower()
+def normalize_halign(
+    value: str,
+    *,
+    cell: Cell | None = None,
+    context: FormulaContext | None = None,
+) -> str:
+    raw = value.strip().lower()
 
     mapping = {
         "l": "left",
@@ -395,17 +459,27 @@ def normalize_halign(value: str, context: FormulaContext, cell: Cell) -> str:
         "center": "center",
         "j": "justify",
         "justify": "justify",
+        "justified": "justify",
     }
 
-    if value not in mapping:
-        context.warn(f'invalid horizontal alignment "{value}" in {format_cell_ref(cell.row, cell.col)}; using left.')
+    if raw not in mapping:
+        if cell is not None and context is not None:
+            context.warn(
+                f"invalid horizontal alignment '{value}' at "
+                f"{format_cell_ref(cell.row, cell.col)}; using left."
+            )
         return "left"
 
-    return mapping[value]
+    return mapping[raw]
 
 
-def normalize_valign(value: str, context: FormulaContext, cell: Cell) -> str:
-    value = value.strip().lower()
+def normalize_valign(
+    value: str,
+    *,
+    cell: Cell | None = None,
+    context: FormulaContext | None = None,
+) -> str:
+    raw = value.strip().lower()
 
     mapping = {
         "t": "top",
@@ -416,11 +490,15 @@ def normalize_valign(value: str, context: FormulaContext, cell: Cell) -> str:
         "bottom": "bottom",
     }
 
-    if value not in mapping:
-        context.warn(f'invalid vertical alignment "{value}" in {format_cell_ref(cell.row, cell.col)}; using middle.')
+    if raw not in mapping:
+        if cell is not None and context is not None:
+            context.warn(
+                f"invalid vertical alignment '{value}' at "
+                f"{format_cell_ref(cell.row, cell.col)}; using middle."
+            )
         return "middle"
 
-    return mapping[value]
+    return mapping[raw]
 
 
 def parse_cell_ref(value: str) -> tuple[int, int] | None:

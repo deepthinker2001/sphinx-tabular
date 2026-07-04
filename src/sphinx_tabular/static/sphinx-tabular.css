@@ -271,3 +271,71 @@ html[data-theme="light"] {
 .sphinx-tabular-icon + .sphinx-tabular-status {
   margin-left: 0.25rem;
 }
+
+/* ==========================================================================
+   Icons
+   ========================================================================== */
+
+.sphinx-tabular-icon {
+  display: inline-block;
+  min-width: 1em;
+  min-height: 1em;
+  line-height: 1;
+  text-align: center;
+  vertical-align: -0.125em;
+}
+
+/*
+   Offline fallback for common Font Awesome-style icons.
+
+   If real Font Awesome is loaded, its own ::before rules can take over.
+   If it is not loaded, these keep ICON(...) from rendering as an empty cell.
+*/
+.sphinx-tabular-icon-fa.fa-circle-check::before {
+  content: "✓";
+}
+
+.sphinx-tabular-icon-fa.fa-circle-xmark::before,
+.sphinx-tabular-icon-fa.fa-xmark-circle::before {
+  content: "✕";
+}
+
+.sphinx-tabular-icon-fa.fa-triangle-exclamation::before,
+.sphinx-tabular-icon-fa.fa-exclamation-triangle::before {
+  content: "⚠";
+}
+
+.sphinx-tabular-icon-fa.fa-circle-info::before,
+.sphinx-tabular-icon-fa.fa-info-circle::before {
+  content: "ⓘ";
+}
+
+.sphinx-tabular-icon-fa.fa-circle-question::before,
+.sphinx-tabular-icon-fa.fa-question-circle::before {
+  content: "?";
+}
+
+.sphinx-tabular-icon-fa.fa-plus::before {
+  content: "+";
+}
+
+.sphinx-tabular-icon-fa.fa-minus::before {
+  content: "−";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-right::before {
+  content: "→";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-left::before {
+  content: "←";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-up::before {
+  content: "↑";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-down::before {
+  content: "↓";
+}
+
