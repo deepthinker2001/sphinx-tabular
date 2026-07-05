@@ -15,7 +15,7 @@ Example - Column Span
 
 .. rcsv-table:: Horizontal merge.
    
-    Merged,<
+    =Merged | CM,<
     Unmerged, Unmerged 
 
 
@@ -25,7 +25,7 @@ Example - Column Span
 
     .. rcsv-table:: Horizontal merge.
     
-        Merged,<
+        =Merged | CM,<
         Unmerged, Unmerged 
 
 
