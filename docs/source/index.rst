@@ -3,6 +3,7 @@ sphinx-tabular
 ==============
 
 .. toctree::
+   :hidden:
 
    Features <https://deepthinker2001.github.io/sphinx-tabular#features>
    Dependencies <https://deepthinker2001.github.io/sphinx-tabular#dependencies>
