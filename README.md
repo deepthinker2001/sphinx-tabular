@@ -1,6 +1,16 @@
 # sphinx-tabular
 
+[![PyPI](https://img.shields.io/pypi/v/sphinx-tabular.svg)](https://pypi.org/project/sphinx-tabular/)
+[![Python](https://img.shields.io/pypi/pyversions/sphinx-tabular.svg)](https://pypi.org/project/sphinx-tabular/)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://deepthinker2001.github.io/sphinx-tabular/)
+
 [Full documentation](https://deepthinker2001.github.io/sphinx-tabular/index.html)
+
+
+## Donations to help support this project...
+
+[Venmo](https://venmo.com/code?user_id=3950053597120230543&created=1783274674)
+
 
 ## Features
 
