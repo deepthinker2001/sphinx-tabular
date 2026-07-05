@@ -9,7 +9,10 @@ from sphinx.util.docutils import SphinxDirective
 from .normalize import normalize_rows
 from .parser import RcsvParseError, parse_csv_with_quote_tracking
 from .render_nodes import build_table_node
+from docutils import nodes
+from sphinx.util import logging
 
+logger = logging.getLogger(__name__)
 
 class BaseTabularDirective(SphinxDirective):
     has_content = True
@@ -33,20 +36,45 @@ class BaseTabularDirective(SphinxDirective):
         "sticky-offset": directives.unchanged,
         "strict": directives.flag,
     }
+    def _is_strict(self) -> bool:
+        return bool(
+            "strict" in self.options
+            or getattr(self.config, "sphinx_tabular_strict", False)
+        )
 
+
+    def _warn_or_raise(self, message: str) -> list[nodes.Node]:
+        if self._is_strict():
+            raise ExtensionError(message)
+
+        source, line = self.get_source_info()
+
+        logger.warning(
+            "sphinx-tabular: %s",
+            message,
+            location=(source, line),
+        )
+
+        return []
+    
     def run(self):
         caption = self.arguments[0] if self.arguments else None
 
         has_file = "file" in self.options
         has_inline_content = any(line.strip() for line in self.content)
 
+        strict = bool(
+            "strict" in self.options
+            or getattr(self.config, "sphinx_tabular_strict", False)
+        )
+
         if has_file and has_inline_content:
-            raise ExtensionError(
+            return self._warn_or_raise(
                 f"{self.directive_name}: specify either :file: or inline content, not both"
             )
 
         if not has_file and not has_inline_content:
-            raise ExtensionError(
+            return self._warn_or_raise(
                 f"{self.directive_name}: specify either :file: or inline content"
             )
 
@@ -57,7 +85,7 @@ class BaseTabularDirective(SphinxDirective):
             source_path = (doc_dir / rel_file).resolve()
 
             if not source_path.exists():
-                raise ExtensionError(
+                return self._warn_or_raise(
                     f"{self.directive_name}: file not found: {rel_file}"
                 )
 
@@ -68,10 +96,6 @@ class BaseTabularDirective(SphinxDirective):
             text = "\n".join(self.content)
             source = self.env.doc2path(self.env.docname)
 
-        strict = bool(
-            "strict" in self.options
-            or getattr(self.config, "sphinx_tabular_strict", False)
-        )
 
         try:
             raw_rows = parse_csv_with_quote_tracking(text)
@@ -80,11 +104,13 @@ class BaseTabularDirective(SphinxDirective):
                 source=source,
                 strict=strict,
                 directive_name=self.directive_name,
+                warning_docname=self.env.docname,
+                warning_line_offset=self.content_offset - 1,
             )
         except RcsvParseError as exc:
-            raise ExtensionError(f"{self.directive_name}: {exc}") from exc
+            return self._warn_or_raise(f"{self.directive_name}: {exc}")
         except ValueError as exc:
-            raise ExtensionError(f"{self.directive_name}: {exc}") from exc
+            return self._warn_or_raise(f"{self.directive_name}: {exc}")
 
         classes = [
             "sphinx-tabular",

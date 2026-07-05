@@ -8,7 +8,9 @@ Usage
 - ``<`` merge this cell with the one to the left of it.
 - ``^`` merge this cell with the one above it.
 
-Example 1 - Column Span
+- Avoid merging body cells and header rows.
+
+Example - Column Span
 =======================
 
 .. rcsv-table:: Horizontal merge.
@@ -17,10 +19,9 @@ Example 1 - Column Span
     Unmerged, Unmerged 
 
 
-Example 1 - Code
-----------------
 
 .. code-block:: RST
+    :caption: Example - Column Span Code 
 
     .. rcsv-table:: Horizontal merge.
     
@@ -28,7 +29,7 @@ Example 1 - Code
         Unmerged, Unmerged 
 
 
-Example 2 - Row Span
+Example - Row Span
 ====================
 
 .. rcsv-table:: Vertical merge.
@@ -36,10 +37,9 @@ Example 2 - Row Span
     Merged, Unmerged
     ^, Unmerged 
 
-Example 2 - Code 
------------------
 
 .. code-block:: RST
+    :caption: Example - Row Span Code 
 
 
     .. rcsv-table:: Vertical merge.
@@ -47,7 +47,7 @@ Example 2 - Code
         Merged, Unmerged
         ^, Unmerged 
 
-Example 3 - Row and Column Span
+Example - Row and Column Span
 ===============================
 
 .. rcsv-table:: Both.
@@ -56,10 +56,9 @@ Example 3 - Row and Column Span
     Vertical Merge,Vertical Merge , Unmerged
     ^,^,Unmerged
 
-Example 3 - Code 
------------------
 
 .. code-block:: RST
+    :caption: Example - Row and Column Span Code 
 
 
     .. rcsv-table:: Vertical row merge.

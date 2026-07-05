@@ -13,6 +13,8 @@ def normalize_rows(
     source: str,
     strict: bool = False,
     directive_name: str = "rcsv-table",
+    warning_docname: str | None = None,
+    warning_line_offset: int = 0,
 ) -> list[list[Cell]]:
     if not raw_rows:
         return []
@@ -39,7 +41,13 @@ def normalize_rows(
             if strict:
                 raise ValueError(message)
 
-            logger.warning(message, location=source)
+            if warning_docname is not None:
+                logger.warning(
+                    message,
+                    location=(warning_docname, warning_line_offset + row_index),
+                )
+            else:
+                logger.warning(message)
 
             raw_row = raw_row + [
                 RawCell(
@@ -55,7 +63,7 @@ def normalize_rows(
         normalized.append(
             [
                 Cell(
-                    value=raw.value,
+                    value=raw.value if raw.was_quoted else raw.value.strip(),
                     row=raw.row,
                     col=raw.col,
                     was_quoted=raw.was_quoted,

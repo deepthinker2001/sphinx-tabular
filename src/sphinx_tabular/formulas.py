@@ -1,13 +1,11 @@
 from __future__ import annotations
-
 import html
 import re
 from dataclasses import dataclass
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from typing import Any
-
 from docutils import nodes
 from sphinx.util import logging
-
 from .model import Cell
 
 logger = logging.getLogger(__name__)
@@ -236,8 +234,6 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
             return arithmetic_value
 
     func_match = FUNC_RE.match(expr)
-
-    func_match = FUNC_RE.match(expr)
     if func_match:
         name = func_match.group(1).upper()
         arg_text = func_match.group(2)
@@ -284,6 +280,9 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
 
         if name in {"FG", "TEXTCOLOR"}:
             return func_text_color(args, cell=cell, context=context)
+        
+        if name == "ROUND":
+            return func_round(args, cell=cell, context=context)
 
         context.warn(
             f"unknown formula function '{name}' at {format_cell_ref(cell.row, cell.col)}."
@@ -292,6 +291,100 @@ def evaluate_expression(expr: str, *, cell: Cell, context: FormulaContext) -> An
 
     # MVP behavior: bare words are treated as literal strings.
     return expr
+
+def func_round_modifier(
+    value: Any,
+    args: list[str],
+    *,
+    cell: Cell,
+    context: FormulaContext,
+) -> str:
+    if len(args) > 1:
+        context.warn(
+            f"ROUND pipe modifier expected 0 or 1 arguments at "
+            f"{format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    number = parse_decimal(stringify_value(value))
+
+    if number is None:
+        context.warn(
+            f"ROUND pipe modifier expected a numeric value at "
+            f"{format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    digits = 0
+
+    if len(args) == 1 and args[0].strip() != "":
+        digits_value = evaluate_arg(args[0], cell=cell, context=context)
+        digits_number = parse_decimal(stringify_value(digits_value))
+
+        if digits_number is None or digits_number != digits_number.to_integral_value():
+            context.warn(
+                f"ROUND pipe modifier expected an integer digit count at "
+                f"{format_cell_ref(cell.row, cell.col)}."
+            )
+            return "#VALUE!"
+
+        digits = int(digits_number)
+
+    quantizer = Decimal("1").scaleb(-digits)
+
+    try:
+        rounded = number.quantize(quantizer, rounding=ROUND_HALF_UP)
+    except InvalidOperation:
+        context.warn(
+            f"ROUND pipe modifier could not round value at "
+            f"{format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    return format_decimal(rounded)
+
+def func_round(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
+    if len(args) not in {1, 2}:
+        context.warn(
+            f"ROUND expected 1 or 2 arguments at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    value = evaluate_arg(args[0], cell=cell, context=context)
+    number = parse_decimal(stringify_value(value))
+
+    if number is None:
+        context.warn(
+            f"ROUND expected a numeric value at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    digits = 0
+
+    if len(args) == 2:
+        digits_value = evaluate_arg(args[1], cell=cell, context=context)
+        digits_number = parse_decimal(stringify_value(digits_value))
+
+        if digits_number is None or digits_number != digits_number.to_integral_value():
+            context.warn(
+                f"ROUND expected an integer digit count at "
+                f"{format_cell_ref(cell.row, cell.col)}."
+            )
+            return "#VALUE!"
+
+        digits = int(digits_number)
+
+    quantizer = Decimal("1").scaleb(-digits)
+
+    try:
+        rounded = number.quantize(quantizer, rounding=ROUND_HALF_UP)
+    except InvalidOperation:
+        context.warn(
+            f"ROUND could not round value at {format_cell_ref(cell.row, cell.col)}."
+        )
+        return "#VALUE!"
+
+    return format_decimal(rounded)
 
 
 def apply_modifier(value: Any, modifier: str, *, cell: Cell, context: FormulaContext) -> Any:
@@ -349,7 +442,67 @@ def apply_modifier(value: Any, modifier: str, *, cell: Cell, context: FormulaCon
                     context=context,
                 )
             return value
+        
+        if name == "ROUND":
+            return func_round_modifier(
+                value,
+                args,
+                cell=cell,
+                context=context,
+            )
+        
+        if name in {"BG", "BACKGROUND"}:
+            if len(args) != 1:
+                context.warn(
+                    f"{name} pipe modifier expected 1 argument at "
+                    f"{format_cell_ref(cell.row, cell.col)}."
+                )
+                return "#VALUE!"
 
+            color = evaluate_css_color_arg(
+                args[0],
+                cell=cell,
+                context=context,
+            )
+
+            color_value = normalize_css_color(
+                color,
+                cell=cell,
+                context=context,
+                function_name=name,
+            )
+
+            if color_value is not None:
+                cell.styles["background-color"] = color_value
+
+            return value
+
+        if name in {"FG", "TEXTCOLOR"}:
+            if len(args) != 1:
+                context.warn(
+                    f"{name} pipe modifier expected 1 argument at "
+                    f"{format_cell_ref(cell.row, cell.col)}."
+                )
+                return "#VALUE!"
+
+            color = evaluate_css_color_arg(
+                args[0],
+                cell=cell,
+                context=context,
+            )
+
+            color_value = normalize_css_color(
+                color,
+                cell=cell,
+                context=context,
+                function_name=name,
+            )
+
+            if color_value is not None:
+                cell.styles["color"] = color_value
+
+            return value
+        
         context.warn(
             f"unknown formula modifier '{name}' at {format_cell_ref(cell.row, cell.col)}."
         )
@@ -358,6 +511,7 @@ def apply_modifier(value: Any, modifier: str, *, cell: Cell, context: FormulaCon
     # Convenience aliases:
     # =B4 | CM
     # =B4 | LEFT
+    # =B4 | ROUND
     shortcut = modifier.upper()
 
     if shortcut in {"LEFT", "L"}:
@@ -381,7 +535,16 @@ def apply_modifier(value: Any, modifier: str, *, cell: Cell, context: FormulaCon
     if shortcut in {"BOTTOM", "B"}:
         cell.valign = "bottom"
         return value
-
+    if shortcut == "ROUND":
+        return func_round_modifier(
+            value,
+            [],
+            cell=cell,
+            context=context,
+        )
+    if shortcut in {"LEFT", "L"}:
+        cell.halign = "left"
+        return value
     if len(shortcut) == 2:
         h = normalize_halign(shortcut[0], cell=cell, context=context)
         v = normalize_valign(shortcut[1], cell=cell, context=context)
@@ -564,6 +727,7 @@ def func_min(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
         cell=cell,
         context=context,
         function_name="MIN",
+        warn_non_numeric=False,
     )
 
     if not numbers:
@@ -581,6 +745,7 @@ def func_max(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
         cell=cell,
         context=context,
         function_name="MAX",
+        warn_non_numeric=False,
     )
 
     if not numbers:
@@ -598,6 +763,7 @@ def func_count(args: list[str], *, cell: Cell, context: FormulaContext) -> str:
         cell=cell,
         context=context,
         function_name="COUNT",
+        warn_non_numeric=False,
     )
 
     return str(len(numbers))
@@ -864,6 +1030,7 @@ def collect_all_numeric_args(
     cell: Cell,
     context: FormulaContext,
     function_name: str,
+    warn_non_numeric: bool = True,
 ) -> list[float]:
     numbers: list[float] = []
 
@@ -875,6 +1042,7 @@ def collect_all_numeric_args(
                 cell=cell,
                 context=context,
                 function_name=function_name,
+                warn_non_numeric=warn_non_numeric,
             )
         )
 
@@ -886,6 +1054,7 @@ def collect_numeric_values(
     cell: Cell,
     context: FormulaContext,
     function_name: str,
+    warn_non_numeric: bool = True,
 ) -> list[float]:
     if isinstance(value, RangeValue):
         numbers: list[float] = []
@@ -897,6 +1066,7 @@ def collect_numeric_values(
                     cell=cell,
                     context=context,
                     function_name=function_name,
+                    warn_non_numeric=warn_non_numeric,
                 )
             )
 
@@ -910,10 +1080,11 @@ def collect_numeric_values(
     number = parse_number(text)
 
     if number is None:
-        context.warn(
-            f"{function_name} ignored non-numeric value '{text}' at "
-            f"{format_cell_ref(cell.row, cell.col)}."
-        )
+        if warn_non_numeric:
+            context.warn(
+                f"{function_name} ignored non-numeric value '{text}' at "
+                f"{format_cell_ref(cell.row, cell.col)}."
+            )
         return []
 
     return [number]
@@ -1022,6 +1193,36 @@ def format_number(value: float) -> str:
         return str(int(value))
 
     return str(value)
+
+def parse_decimal(value: str) -> Decimal | None:
+    value = value.strip()
+
+    quoted = parse_quoted_string(value)
+    if quoted is not None:
+        value = quoted.strip()
+
+    if value == "":
+        return None
+
+    try:
+        number = Decimal(value)
+    except InvalidOperation:
+        return None
+
+    if not number.is_finite():
+        return None
+
+    return number
+
+
+def format_decimal(value: Decimal) -> str:
+    if value == 0:
+        return "0"
+
+    if value == value.to_integral_value():
+        return str(value.quantize(Decimal("1")))
+
+    return format(value.normalize(), "f")
 
 def evaluate_arg(arg: str, *, cell: Cell, context: FormulaContext) -> Any:
     return evaluate_expression(arg, cell=cell, context=context)

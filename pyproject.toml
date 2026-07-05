@@ -24,7 +24,8 @@ dev = [
 docs = [
   "sphinx>=9.1",
   "myst-parser>=5",
-  "sphinx-breeze-theme>=0.13.2",
+  "sphinx-book-theme",
+  "sphinx-design>=0.7.0",
 ]
 
 [tool.setuptools.packages.find]

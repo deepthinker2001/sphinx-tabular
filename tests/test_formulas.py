@@ -1110,4 +1110,239 @@ def test_background_color_bad_arity_returns_value_error():
     assert value == "#VALUE!"
     assert "background-color" not in cell.styles
 
-    
+def test_color_pipe_modifiers_can_chain():
+    rows = make_rows(
+        [
+            ["A", "B", "C", "Total"],
+            ["1", "2", "3", "=A2+B2+C2 | FG(#000000) | BG(#FFFF00)"],
+        ]
+    )
+
+    cell = rows[1][3]
+    value = eval_cell(rows, 2, 4)
+
+    assert value == "6"
+    assert cell.styles["color"] == "#000000"
+    assert cell.styles["background-color"] == "#FFFF00"
+
+def test_round_defaults_to_zero_digits():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["2.6", "=ROUND(A2)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "3"
+
+
+def test_round_with_decimal_digits():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["1.234", "=ROUND(A2; 2)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "1.23"
+
+
+def test_round_half_up_positive_and_negative():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["2.5", "=ROUND(A2)"],
+            ["-2.5", "=ROUND(A3)"],
+        ]
+    )
+
+    assert eval_cell(rows, 2, 2) == "3"
+    assert eval_cell(rows, 3, 2) == "-3"
+
+
+def test_round_can_round_formula_result():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["1", ""],
+            ["2", ""],
+            ["4", "=ROUND(AVG(A2:A4); 2)"],
+        ]
+    )
+
+    value = eval_cell(rows, 4, 2)
+
+    assert value == "2.33"
+
+
+def test_round_bad_arity_returns_value_error():
+    rows = make_rows(
+        [
+            ["Rendered"],
+            ["=ROUND(1; 2; 3)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 1)
+
+    assert value == "#VALUE!"
+
+
+def test_round_non_numeric_value_returns_value_error():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["Active", "=ROUND(A2)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "#VALUE!"
+
+
+def test_round_digit_count_must_be_integer():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["1.234", "=ROUND(A2; 1.5)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "#VALUE!"
+
+def test_round_pipe_modifier_defaults_to_zero_digits():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["2.6", "=A2 | ROUND"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "3"
+
+
+def test_round_pipe_modifier_empty_call_defaults_to_zero_digits():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["2.6", "=A2 | ROUND()"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "3"
+
+
+def test_round_pipe_modifier_with_decimal_digits():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["1.234", "=A2 | ROUND(2)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "1.23"
+
+
+def test_round_pipe_modifier_can_chain_with_colors():
+    rows = make_rows(
+        [
+            ["A", "B", "C", "Total"],
+            ["1.111", "2.222", "3.333", "=A2+B2+C2 | ROUND(2) | FG(#000000) | BG(#FFFF00)"],
+        ]
+    )
+
+    cell = rows[1][3]
+    value = eval_cell(rows, 2, 4)
+
+    assert value == "6.67"
+    assert cell.styles["color"] == "#000000"
+    assert cell.styles["background-color"] == "#FFFF00"
+
+
+def test_round_pipe_modifier_bad_arity_returns_value_error():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["1.234", "=A2 | ROUND(1; 2)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "#VALUE!"
+
+
+def test_round_pipe_modifier_non_numeric_value_returns_value_error():
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["Active", "=A2 | ROUND(2)"],
+        ]
+    )
+
+    value = eval_cell(rows, 2, 2)
+
+    assert value == "#VALUE!"
+
+
+def test_count_ignores_non_numeric_values_without_warning(caplog):
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["1", ""],
+            ["Active", ""],
+            ["3", ""],
+            ["Total", "=COUNT(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 2)
+
+    assert value == "2"
+    assert "COUNT ignored non-numeric value" not in caplog.text
+
+def test_min_ignores_non_numeric_values_without_warning(caplog):
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["3", ""],
+            ["Active", ""],
+            ["1", ""],
+            ["Result", "=MIN(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 2)
+
+    assert value == "1"
+    assert "MIN ignored non-numeric value" not in caplog.text
+
+
+def test_max_ignores_non_numeric_values_without_warning(caplog):
+    rows = make_rows(
+        [
+            ["Value", "Rendered"],
+            ["3", ""],
+            ["Active", ""],
+            ["1", ""],
+            ["Result", "=MAX(A2:A4)"],
+        ]
+    )
+
+    value = eval_cell(rows, 5, 2)
+
+    assert value == "3"
+    assert "MAX ignored non-numeric value" not in caplog.text

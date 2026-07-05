@@ -84,6 +84,30 @@ html[data-theme="light"] {
    Table layout and borders
    ========================================================================== */
 
+   /*
+   Sphinx wraps table nodes in a div.table container.
+
+   Only the actual <table> should get the visual table frame.
+   The wrapper should not look like a full-width table background.
+*/
+div.table.sphinx-tabular {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow-x: auto;
+}
+
+div.table.sphinx-tabular > table.sphinx-tabular {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .sphinx-tabular {
   width: auto;
   border-collapse: separate;
