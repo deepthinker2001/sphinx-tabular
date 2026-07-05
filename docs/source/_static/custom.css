@@ -26,3 +26,45 @@
 .bd-main .bd-content {
   max-width: 100% !important;
 }
+/* When the primary/left sidebar is hidden, remove its layout footprint too. */
+.bd-sidebar-primary.pst-sidebar-hidden,
+.bd-sidebar-primary[hidden],
+.bd-sidebar-primary[aria-hidden="true"] {
+  display: none !important;
+  flex: 0 0 0 !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Let the main content fill the space released by the primary sidebar. */
+.bd-main {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.bd-main .bd-content {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+/* Let the article container actually stretch. */
+.bd-main .bd-content .bd-article-container {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+/* Let the article itself use that available width. */
+.bd-main .bd-content .bd-article {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
