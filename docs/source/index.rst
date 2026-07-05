@@ -3,6 +3,15 @@ sphinx-tabular
 ==============
 
 .. toctree::
+
+   Features <#features>
+   Dependencies <#dependencies>
+   Installation <#installation>
+   Directives <#directives>
+   Options <#options>
+   Known Limitations <#known-limitations>
+
+.. toctree::
    :maxdepth: 1
    :caption: Operations
    :hidden:
