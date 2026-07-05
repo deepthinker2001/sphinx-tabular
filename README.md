@@ -61,14 +61,14 @@ RST, inline data.
     Col 2, Row 2
 ```
 
-MD, external file:
+Markdown, external file:
 
 ```RST
 .. rcsv-table:: Title
     :file: table.rcsv
 ```
 
-MD, inline data.
+Markdown, inline data.
 
 ```RST
 .. rcsv-table:: Title
@@ -99,5 +99,33 @@ Rows
 ```
 
 
+## Additional Capabilities
+
+See [full documentation](https://deepthinker2001.github.io/sphinx-tabular/) for additional capabilities:
+
+### Formatting
+
+* Custom theming.
+* `=ALIGN()` horizontal/vertical cell value alignment.
+* `=BG()` set the background cell color.
+* `=FG()` set text color.
+* `=ICON()` use a Font Awesome or Bootstrap icon, or a fallback.
+* `=STATUS()` insert a colored status pill.
+
+
+### Spreadsheet
+
+* `'` interprest as literal text without evaluation.
+* `+`,`-`,`*`,`/` arithmetic operations on cells.
+* `=C4` cell references.
+* `=A4:B4` cell ranges.
+* `=AVG()` take the average.
+* `=CONCAT()` concatenation of cell values.
+* `=COUNT()` count number of numerical values.
+* `=IF()` conditional evaluation.
+* `=MAX()` find the maximum value.
+* `=MIN()` find the minimum value.
+* `=ROUND()` round the number to an int or the specified decimal places.
+* `=SUM()` sum a set or range of values.
 
 

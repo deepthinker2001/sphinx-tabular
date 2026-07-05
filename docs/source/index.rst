@@ -57,7 +57,6 @@ sphinx-tabular
    :alt: Python link
    :target: https://pypi.org/project/sphinx-tabular/
 
-
 .. image:: https://img.shields.io/badge/docs-GitHub%20Pages-blue
    :alt: Docs link
    :target: https://deepthinker2001.github.io/sphinx-tabular/
@@ -250,9 +249,10 @@ Initial release.
 
 Features:
 
-- `rcsv-table` directive for reStructuredText cell content.
-- `mcsv-table` directive for MyST Markdown cell content.
+- ``rcsv-table`` directive for reStructuredText cell content.
+- ``mcsv-table`` directive for MyST Markdown cell content.
 - External and inline CSV table support.
 - Horizontal and vertical merge markers.
 - Formula support.
 - Alignment, status, icons, background color, and text color helpers.
+
