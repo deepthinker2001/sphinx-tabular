@@ -5,11 +5,37 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sphinx-tabular"
 version = "0.1.0"
-description = "Sphinx directives for RCSV and MCSV tabular authoring."
+description = "Sphinx directives for CSV-powered tabular authoring."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [
+  { name = "Your Name" }
+]
+keywords = [
+  "sphinx",
+  "documentation",
+  "csv",
+  "tables",
+  "restructuredtext",
+  "myst",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: Sphinx",
+  "Framework :: Sphinx :: Extension",
+  "Intended Audience :: Developers",
+  "Topic :: Documentation",
+  "Topic :: Documentation :: Sphinx",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+
 dependencies = [
-  "sphinx>=7",
+  "sphinx>=9.1",
   "docutils>=0.20",
   "myst-parser>=5",
 ]
@@ -22,11 +48,16 @@ dev = [
 ]
 
 docs = [
-  "sphinx>=9.1",
-  "myst-parser>=5",
+  "sphinx>=9.1; python_version >= '3.12'",
   "sphinx-book-theme",
   "sphinx-design>=0.7.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/deepthinker2001/sphinx-tabular"
+Documentation = "https://deepthinker2001.github.io/sphinx-tabular/"
+Repository = "https://github.com/deepthinker2001/sphinx-tabular"
+Issues = "https://github.com/deepthinker2001/sphinx-tabular/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
