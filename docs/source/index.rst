@@ -3,16 +3,6 @@ sphinx-tabular
 ==============
 
 .. toctree::
-   :hidden:
-
-   Features <https://deepthinker2001.github.io/sphinx-tabular#features>
-   Dependencies <https://deepthinker2001.github.io/sphinx-tabular#dependencies>
-   Installation <https://deepthinker2001.github.io/sphinx-tabular#installation>
-   Directives <https://deepthinker2001.github.io/sphinx-tabular#directives>
-   Options <https://deepthinker2001.github.io/sphinx-tabular#options>
-   Known Limitations <https://deepthinker2001.github.io/sphinx-tabular#known-limitations>
-
-.. toctree::
    :maxdepth: 1
    :caption: Operations
    :hidden:
