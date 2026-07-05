@@ -50,7 +50,7 @@ Example - Row Span
 Example - Row and Column Span
 ===============================
 
-.. rcsv-table:: Both.
+.. rcsv-table:: 
    
     Horizontal Merge, <, Unmerged
     Vertical Merge,Vertical Merge , Unmerged
@@ -61,10 +61,10 @@ Example - Row and Column Span
     :caption: Example - Row and Column Span Code 
 
 
-    .. rcsv-table:: Vertical row merge.
+    .. rcsv-table:: 
     
-        Merged, <, Unmerged
-        Unmerged,Unmerged , Unmerged
+        Horizontal Merge, <, Unmerged
+        Vertical Merge,Vertical Merge , Unmerged
         ^,^,Unmerged
 
-    
+        
