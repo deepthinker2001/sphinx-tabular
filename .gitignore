@@ -6,3 +6,17 @@ tests/_build/
 build/
 dist/
 *.egg-info/
+
+# Python virtual environments
+.venv/
+venv/
+bin/
+lib/
+lib64
+pyvenv.cfg
+
+# Sphinx build output
+docs/_build/
+
+# Node/npm
+node_modules/

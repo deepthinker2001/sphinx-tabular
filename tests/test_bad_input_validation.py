@@ -71,8 +71,10 @@ def test_missing_external_file_fails_cleanly():
         "tests/_build/invalid-missing-file",
     )
 
-    assert result.returncode != 0
-    assert "rcsv-table: file not found" in result.stderr + result.stdout
+    assert result.returncode == 0
+    assert "WARNING" in result.stderr
+    assert "rcsv-table: file not found: _tables/does_not_exist.rcsv" in result.stderr
+    assert "Traceback" not in result.stderr
 
 
 def test_file_plus_inline_content_fails_cleanly():
@@ -81,7 +83,7 @@ def test_file_plus_inline_content_fails_cleanly():
         "tests/_build/invalid-file-plus-inline",
     )
 
-    assert result.returncode != 0
-    assert "rcsv-table: specify either :file: or inline content, not both" in (
-        result.stderr + result.stdout
-    )
+    assert result.returncode == 0
+    assert "WARNING" in result.stderr
+    assert "rcsv-table: specify either :file: or inline content, not both" in result.stderr
+    assert "Traceback" not in result.stderr

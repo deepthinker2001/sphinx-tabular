@@ -37,7 +37,7 @@ nitpicky = False
 # Book theme
 html_theme_options = {
     "repository_url": "https://github.com/deepthinker2001/sphinx-tabular",
-    
+
     "use_repository_button": True,
     "use_source_button": True,
     "home_page_in_toc": False,
@@ -50,7 +50,8 @@ html_theme_options = {
     # Disable the right in-page TOC/sidebar.
     "secondary_sidebar_items": [],
     "footer_start": [],
-    "footer_end": []
+    "footer_end": [],
+
 }
 
 html_sidebars = {
