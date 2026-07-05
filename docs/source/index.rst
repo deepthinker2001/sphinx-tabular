@@ -47,6 +47,29 @@ sphinx-tabular
 
    cycle
    value
+   
+
+.. image:: https://img.shields.io/pypi/v/sphinx-tabular.svg
+   :alt: PyPI link
+   :target: https://pypi.org/project/sphinx-tabular/
+
+.. image:: https://img.shields.io/pypi/pyversions/sphinx-tabular.svg
+   :alt: Python link
+   :target: https://pypi.org/project/sphinx-tabular/
+
+
+.. image:: https://img.shields.io/badge/docs-GitHub%20Pages-blue
+   :alt: Docs link
+   :target: https://deepthinker2001.github.io/sphinx-tabular/
+
+
+Domations to help support this project...
+==========================================
+
+- `Venmo <https://venmo.com/code?user_id=3950053597120230543&created=1783274674>`__
+
+
+
 
 
 Features
@@ -216,3 +239,20 @@ Known Limitations
 
 
 
+
+Changelog
+=========
+
+0.1.0
+-----
+
+Initial release.
+
+Features:
+
+- `rcsv-table` directive for reStructuredText cell content.
+- `mcsv-table` directive for MyST Markdown cell content.
+- External and inline CSV table support.
+- Horizontal and vertical merge markers.
+- Formula support.
+- Alignment, status, icons, background color, and text color helpers.
