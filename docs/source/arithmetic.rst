@@ -1,5 +1,5 @@
 ==========
-Arimethtic
+Arithmetic
 ==========
 
 
