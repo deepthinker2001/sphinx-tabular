@@ -1,5 +1,7 @@
 # sphinx-tabular
 
+[Full documentation](https://deepthinker2001.github.io/sphinx-tabular/index.html)
+
 ## Features
 
 - Sphinx extension.
