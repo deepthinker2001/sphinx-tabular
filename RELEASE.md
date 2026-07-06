@@ -1,5 +1,14 @@
 # Release checklist
 
+0. Spell check:
+
+```bash
+export PATH="$HOME/.cargo/bin:$PATH"
+~/.cargo/bin/typos docs/source \
+  --exclude docs/source/_build \
+  --exclude docs/source/_static
+```
+
 1. Start clean:
 
 ```bash

@@ -61,8 +61,12 @@ sphinx-tabular
    :alt: Docs link
    :target: https://deepthinker2001.github.io/sphinx-tabular/
 
+.. image:: https://img.shields.io/pepy/dt/sphinx-tabular.svg
+   :target: https://pypi.org/project/sphinx-tabular/ 
+   :alt: PyPI total downloads
 
-Domations to help support this project...
+
+Donations to help support this project...
 ==========================================
 
 - `Venmo <https://venmo.com/code?user_id=3950053597120230543&created=1783274674>`__

@@ -10,7 +10,7 @@ Example - Literal Text
 .. rcsv-table::
     :header-rows: 1
 
-    Literal Text, Evaluted Text 
+    Literal Text, Evaluated Text 
     '=Some Text | BG(#ffff00) | FG(#000000) | CENTER,=Some Text | BG(#ffff00) | FG(#000000) | CENTER
     '=STATUS(Active; green) | CENTER,=STATUS(Active; green) | CENTER
 
@@ -22,6 +22,6 @@ Example - Literal Text
     .. rcsv-table::
         :header-rows: 1
 
-        Literal Text, Evaluted Text 
+        Literal Text, Evaluated Text 
         '=Some Text | BG(#ffff00) | FG(#000000) | CENTER,=Some Text | BG(#ffff00) | FG(#000000) | CENTER
         '=STATUS(Active; green) | CENTER,=STATUS(Active; green) | CENTER
