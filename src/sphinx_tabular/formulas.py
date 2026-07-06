@@ -542,9 +542,6 @@ def apply_modifier(value: Any, modifier: str, *, cell: Cell, context: FormulaCon
             cell=cell,
             context=context,
         )
-    if shortcut in {"LEFT", "L"}:
-        cell.halign = "left"
-        return value
     if len(shortcut) == 2:
         h = normalize_halign(shortcut[0], cell=cell, context=context)
         v = normalize_valign(shortcut[1], cell=cell, context=context)

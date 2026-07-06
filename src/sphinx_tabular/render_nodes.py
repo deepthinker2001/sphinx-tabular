@@ -74,7 +74,7 @@ def build_table_node(
     context = FormulaContext(
         rows,
         source=source,
-        strict="strict" in directive.options or bool(getattr(directive.config, "sphinx_tabular_strict", False)),
+        strict=directive._is_strict(),
     )
 
     table = nodes.table()

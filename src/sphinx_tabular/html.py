@@ -16,11 +16,6 @@ def visit_entry_html(self, node: nodes.entry) -> None:
         atts["style"] = node["style"]
 
     if isinstance(node.parent.parent, nodes.thead):
-        tagname = "th"
-    else:
-        tagname = "td"
-
-    if isinstance(node.parent.parent, nodes.thead):
         node["classes"].append("head")
         tagname = "th"
     else:

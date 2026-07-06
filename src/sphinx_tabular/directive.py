@@ -63,10 +63,7 @@ class BaseTabularDirective(SphinxDirective):
         has_file = "file" in self.options
         has_inline_content = any(line.strip() for line in self.content)
 
-        strict = bool(
-            "strict" in self.options
-            or getattr(self.config, "sphinx_tabular_strict", False)
-        )
+        strict = self._is_strict()
 
         if has_file and has_inline_content:
             return self._warn_or_raise(
@@ -79,6 +76,12 @@ class BaseTabularDirective(SphinxDirective):
             )
 
         if has_file:
+            if not self.state.document.settings.file_insertion_enabled:
+                return self._warn_or_raise(
+                    f"{self.directive_name}: file insertion is disabled by "
+                    "the build's file_insertion_enabled setting"
+                )
+
             rel_file = self.options["file"]
 
             doc_dir = Path(self.env.doc2path(self.env.docname)).parent
