@@ -28,7 +28,7 @@ def setup(app):
     app.add_js_file("sphinx-tabular.js")
 
     return {
-        "version": "0.2.0",
+        "version": "0.2.1",
         "parallel_read_safe": True,
         "parallel_write_safe": True,
     }
