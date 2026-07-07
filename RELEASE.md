@@ -32,7 +32,7 @@ Does not include:
 
 2. Update version in `pyproject.toml` and `src/__init__.py`.
 
-    version = "0.1.8"
+    version = "0.1.9"
 
 Find and replace all instances of version with the new version.
 
@@ -106,7 +106,7 @@ rm -rf docs/_build dist build src/*.egg-info
 
 ```bash
 git add pyproject.toml LICENSE .gitignore .github/workflows docs/source tests README.md RELEASE.md
-git commit -m "Release 0.1.8"
+git commit -m "Release 0.1.9"
 git push
 ```
 
@@ -115,14 +115,14 @@ If some paths did not change, Git will ignore them.
 10. Create and push the release tag
 
 ```bash
-git tag v0.1.8
-git push origin v0.1.8
+git tag v0.1.9
+git push origin v0.1.9
 ```
 
 
 11. Publish the GitHub release
 
-    GitHub → Releases → Draft a new release → Choose tag v0.1.8 → Publish release
+    GitHub → Releases → Draft a new release → Choose tag v0.1.9 → Publish release
 
 Publishing the GitHub release triggers .github/workflows/publish.yml.
 
@@ -135,7 +135,7 @@ python3 -m venv /tmp/sphinx-tabular-pypi-test
 source /tmp/sphinx-tabular-pypi-test/bin/activate
 
 python -m pip install --upgrade pip
-python -m pip install sphinx-tabular==0.1.8
+python -m pip install sphinx-tabular==0.1.9
 
 python - <<'PY'
 import sphinx_tabular
