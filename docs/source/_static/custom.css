@@ -19,10 +19,6 @@
   margin-left: 0 !important;
 }
 
-.bd-sidebar-secondary {
-  display: none !important;
-}
-
 .bd-main .bd-content {
   max-width: 100% !important;
 }
@@ -67,4 +63,13 @@
   max-width: none !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+.bd-footer-content:empty,
+.bd-footer-content {
+  display: none !important;
+}
+
+.bd-footer {
+  display: none !important;
 }

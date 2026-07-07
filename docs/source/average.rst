@@ -20,7 +20,7 @@ Example - Horizontal Average
     :header-rows: 1
 
     A, B, C, D, E, F,Formula, Result 
-    1,2,3,4,5,6,'=AVG(A2:F2),=AVG(A2:F2)
+    1,2,3,4,5,6,``=AVG(A2:F2)``,=AVG(A2:F2)
 
 
 
@@ -32,7 +32,7 @@ Example - Horizontal Average
         :header-rows: 1
 
         A, B, C, D, E, F,Formula, Result 
-        1,2,3,4,5,6,'=AVG(A2:F2),=AVG(A2:F2)
+        1,2,3,4,5,6,``=AVG(A2:F2)``,=AVG(A2:F2)
 
 
 Example - Vertical Averages 

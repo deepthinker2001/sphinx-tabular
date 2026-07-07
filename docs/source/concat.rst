@@ -18,7 +18,7 @@ Function VALUE Field
 - Cell reference 
 - Icon 
 - Status pill 
-- A rendered value from another formula, such as `ICON()` or `STATUS()`
+- A rendered value from another formula, such as ``ICON()`` or ``STATUS()``
 
 
 Example 

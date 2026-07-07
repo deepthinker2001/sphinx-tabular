@@ -47,22 +47,19 @@ Pipe Modifier Example
 - ``=B4 | ALIGN(c; m)`` displays the contents of cell ``B4`` centered and middle-aligned.
 
 
-Pipe Modifier Shortcut Values 
+Pipe Modifier Shortcut Usage 
 -----------------------------
 
+- ``=VALUE | #``
 - ``=VALUE | ##``
 
-Pipe Modifier Shortcut First # Values 
+Pipe Modifier Shortcut Values 
 ------------------------------------------
 
 - ``L`` left 
 - ``C`` center 
 - ``R`` right 
 - ``J`` justify 
-
-Pipe Modifier Shortcut Second # Values 
--------------------------------------------
-
 - ``T`` top 
 - ``M`` middle 
 - ``B`` bottom 
@@ -71,7 +68,12 @@ Pipe Modifier Shortcut Standalone Values
 ----------------------------------------
 
 - ``LEFT`` 
+- ``CENTER``
 - ``RIGHT``
+- ``JUSTIFY``
+- ``TOP``
+- ``MIDDLE``
+- ``BOTTOM``
 
 Pipe Modifier Shortcut Examples 
 -------------------------------

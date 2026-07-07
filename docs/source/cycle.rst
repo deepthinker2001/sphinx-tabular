@@ -14,7 +14,7 @@ Example - Inducing a #CYCLE! error code.
 .. rcsv-table:: Invalid References
 
     A, B
-    '=B2,'=A2
+    ``=B2``,``=A2``
 
 
 .. code-block::
@@ -23,4 +23,4 @@ Example - Inducing a #CYCLE! error code.
     .. rcsv-table:: Invalid References
 
         A, B
-        =B2,=A2
+        ``=B2``,``=A2``

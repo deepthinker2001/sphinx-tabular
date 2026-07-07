@@ -240,6 +240,7 @@ Known Limitations
 
 * ``BG()`` and ``FG()`` intentionally support a limited set of safe CSS color formats: named colors, hex colors, and simple CSS custom properties such as ``var(--pst-color-primary)``.
 
+* While the table structure and merged cells will workk in the LaTeX builder PDF output, the table formatting (colors, icons, bacgkround color, text color, and alignment) is HTML only.
 
 
 

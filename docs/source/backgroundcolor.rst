@@ -19,10 +19,10 @@ Example - Highlighting
     :header-rows: 1
 
     A,B,C,Sum
-    1,2,3,=A2+B2+C2 | FG(#000000) | BG(#FFFF00)
-    5,6,7,=A2+B2+C2 | FG(#FFFFFF) | BG(#065535)
-    7,8,9,=A2+B2+C2 | FG(#FFFFFF) | BG(#FF0000)
-    10,11,12,=A2+B2+C2 | FG(#f0f8ff) | BG(#000080)
+    1,2,3,=A2+B2+C2 | FG(#000000) | BG(#FFFF00) | CENTER
+    5,6,7,=A2+B2+C2 | FG(#FFFFFF) | BG(#065535) | CENTER
+    7,8,9,=A2+B2+C2 | FG(#FFFFFF) | BG(#FF0000) | CENTER
+    10,11,12,=A2+B2+C2 | FG(#f0f8ff) | BG(#000080) | CENTER
 
 
 
@@ -33,9 +33,9 @@ Example - Highlighting
         :header-rows: 1
 
         A,B,C,Sum
-        1,2,3,=A2+B2+C2 | FG(#000000) | BG(#FFFF00)
-        5,6,7,=A2+B2+C2 | FG(#FFFFFF) | BG(#065535)
-        7,8,9,=A2+B2+C2 | FG(#FFFFFF) | BG(#FF0000)
-        10,11,12,=A2+B2+C2 | FG(#f0f8ff) | BG(#000080)
+        1,2,3,=A2+B2+C2 | FG(#000000) | BG(#FFFF00) | CENTER
+        5,6,7,=A2+B2+C2 | FG(#FFFFFF) | BG(#065535) | CENTER
+        7,8,9,=A2+B2+C2 | FG(#FFFFFF) | BG(#FF0000) | CENTER
+        10,11,12,=A2+B2+C2 | FG(#f0f8ff) | BG(#000080) | CENTER
 
 

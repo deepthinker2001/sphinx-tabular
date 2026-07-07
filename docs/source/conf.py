@@ -48,9 +48,7 @@ html_theme_options = {
     "use_repository_button": True,
 
     # Disable the right in-page TOC/sidebar.
-    "secondary_sidebar_items": [],
-    "footer_start": [],
-    "footer_end": [],
+    "footer_content_items": [],
 
 }
 

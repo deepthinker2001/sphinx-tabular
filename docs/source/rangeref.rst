@@ -6,6 +6,8 @@ Range references select multiple cells using spreadsheet-style coordinates.
 Ranges are resolved row by row from the top-left cell to the bottom-right cell.
 A range reference can be used anywhere a formula argument is accepted.
 
+* Range references support spreadsheet-style absolute-reference ``$`` prefixes (``$A$1``, ``A$1``, ``$A1``).
+
 Function
 =========
 
@@ -36,7 +38,7 @@ Standalone ranges render as comma-separated values:
     A,Active,
     B,Blocked,^
     C,Ready,^
-    '=B2:B4 | RIGHT,<,=B2:B4 | RIGHT
+    =``=B2:B4`` | RIGHT,<,=B2:B4 | RIGHT
 
 
 
@@ -50,7 +52,7 @@ Standalone ranges render as comma-separated values:
         A,Active,
         B,Blocked,^
         C,Ready,^
-        '=B2:B4 | RIGHT,<,=B2:B4 | RIGHT
+        =``=B2:B4`` | RIGHT,<,=B2:B4 | RIGHT
 
 
 Example - Rectangular Ranges 
@@ -62,7 +64,7 @@ Rectangular ranges are resolved in row-major order:
 
     A1,B1,
     A2,B2,
-    '=A1:B2 ,,=A1:B2 
+    =``=A1:B2`` | RIGHT,<,=A1:B2 
 
 
 .. code-block:: RST 
@@ -72,7 +74,7 @@ Rectangular ranges are resolved in row-major order:
 
         A1,B1,
         A2,B2,
-        '=A1:B2 ,,=A1:B2 
+        =``=A1:B2`` | RIGHT,<,=A1:B2 
 
 
 
@@ -85,7 +87,7 @@ Reversed ranges are normalized automatically. For example, ``=A4:A2`` resolves t
 
     A1,B1,
     A2,B2,
-    '=B2:A1 ,,=B2:A1 
+    '=B2:A1 | RIGHT,<,=B2:A1 
 
 
 .. code-block:: RST 
@@ -95,7 +97,7 @@ Reversed ranges are normalized automatically. For example, ``=A4:A2`` resolves t
 
         A1,B1,
         A2,B2,
-        '=B2:A1,,=B2:A1 
+        '=B2:A1 | RIGHT,<,=B2:A1 
 
 
 
@@ -114,7 +116,7 @@ If a range includes a cell hidden by a merge marker, the hidden cell resolves to
     Ground,
     Excelsior,
     Manmouth,
-    '=A2:A3,=A2:A3
+    =``=A2:A3``,=A2:A3
 
 
 
@@ -130,7 +132,7 @@ Example - Ranges with merged cells - Code
         Ground,
         Excelsior,
         Manmouth,
-        '=A2:A3,=A2:A3
+        =``=A2:A3`` | RIGHT,=A2:A3
 
 
 
@@ -150,7 +152,7 @@ Example - Ranges with CONCAT()
     Ground,
     Excelsior,
     Manmouth,
-    '=CONCAT("States: "; A2:A4),=CONCAT("States: "; A2:A4)
+    =``=CONCAT("States: "; A2:A4)``,=CONCAT("States: "; A2:A4)
 
 
 
@@ -166,7 +168,7 @@ Example - Ranges with CONCAT() - Code
         Ground,
         Excelsior,
         Manmouth,
-        '=CONCAT("States: "; A2:A4),=CONCAT("States: "; A2:A4)
+        =``=CONCAT("States: "; A2:A4)``,=CONCAT("States: "; A2:A4)
 
 
 
@@ -184,7 +186,7 @@ Add separators explicitly when needed:
     Ground,
     Excelsior,
     Manmouth,
-    "'=CONCAT(A2; "", ""; A3; "", ""; A4)","=CONCAT(A2; "", ""; A3; "", ""; A4)"
+    "=``=CONCAT(A2; "", ""; A3; "", ""; A4)``","=CONCAT(A2; "", ""; A3; "", ""; A4)"
 
 
 
@@ -198,7 +200,7 @@ Example - Ranges with CONCAT() and separators - Code
 
         System,Rendered
         Ground,
-        "'=CONCAT(A2; "", ""; A3; "", ""; A4)",=CONCAT(A2; ", "; A3; ", "; A4)
+        "=``=CONCAT(A2; "", ""; A3; "", ""; A4)``",=CONCAT(A2; ", "; A3; ", "; A4)
 
 
 

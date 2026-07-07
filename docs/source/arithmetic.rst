@@ -52,12 +52,12 @@ Example - Arithmetic Table
    :header-rows: 1
 
    Row,Name,C,D,Formula,Rendered
-   2,Add,2,3,'=C2 + D2,=C2 + D2
-   =A2+1,Subtract,10,20,'=C3 - D3,=C3 - D3 
-   =A3+1,Multiply,4,5,'=C4 * D4,=C4 * D4
-   =A4+1,Multiply,4.5,5.5,'=C5 * D5,=C5 * D5 
-   =A5+1,Divide,10,2,'=C6 / D6,=C6 / D6
-   =A6+1,Divide,10.5,-3.4,'=C7 / D7,=C7 / D7 | ROUND(2)
+   2,Add,2,3,``=C2 + D2``,=C2 + D2
+   =A2+1,Subtract,10,20,``=C3 - D3``,=C3 - D3 
+   =A3+1,Multiply,4,5,``=C4 * D4``,=C4 * D4
+   =A4+1,Multiply,4.5,5.5,``=C5 * D5``,=C5 * D5 
+   =A5+1,Divide,10,2,``=C6 / D6``,=C6 / D6
+   =A6+1,Divide,10.5,-3.4,``=C7 / D7``,=C7 / D7 | ROUND(2)
 
 
 
@@ -68,10 +68,10 @@ Example - Arithmetic Table
          :header-rows: 1
 
          Row,Name,C,D,Formula,Rendered
-         2,Add,2,3,'=C2 + D2,=C2 + D2
-         =A2+1,Subtract,10,20,'=C3 - D3,=C3 - D3 
-         =A3+1,Multiply,4,5,'=C4 * D4,=C4 * D4
-         =A4+1,Multiply,4.5,5.5,'=C5 * D5,=C5 * D5 
-         =A5+1,Divide,10,2,'=C6 / D6,=C6 / D6
-         =A6+1,Divide,10.5,-3.4,'=C7 / D7,=C7 / D7 | ROUND(2)
+         2,Add,2,3,``=C2 + D2``,=C2 + D2
+         =A2+1,Subtract,10,20,``=C3 - D3``,=C3 - D3 
+         =A3+1,Multiply,4,5,``=C4 * D4``,=C4 * D4
+         =A4+1,Multiply,4.5,5.5,``=C5 * D5``,=C5 * D5 
+         =A5+1,Divide,10,2,``=C6 / D6``,=C6 / D6
+         =A6+1,Divide,10.5,-3.4,``=C7 / D7``,=C7 / D7 | ROUND(2)
       

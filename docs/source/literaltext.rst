@@ -2,7 +2,7 @@
 Literal Text 
 ============
 
-Force cell text to be rendered literally by adding an apostrophe in the beginning of the text.
+Force cell text to be rendered literally by adding an apostrophe (``'``) in the beginning of the text.
 
 Example - Literal Text 
 =======================

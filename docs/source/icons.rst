@@ -27,9 +27,9 @@ Function ICON_NAME Field
 
 ``ICON_NAME`` is the name of the Font Awesome or Bootstrap icon.
 
-Font Awesome is similar to `circle-check`, `github`.
+Font Awesome is similar to ``circle-check``, ``github``.
 
-Bootstrap is similar to `exclamation-triangle`.
+Bootstrap is similar to ``exclamation-triangle``.
 
 Function ACCESSIBLE_LABEL Field 
 --------------------------------

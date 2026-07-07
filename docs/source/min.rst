@@ -6,7 +6,7 @@ Min
 * Returns the smallest numeric value from cells, ranges, or literal arguments.
 * Blank values are ignored. 
 * Non-numeric values are ignored.
-* Returns `#VALUE!` if no numeric values are found
+* Returns ``#VALUE!`` if no numeric values are found
 
 Function 
 ========
