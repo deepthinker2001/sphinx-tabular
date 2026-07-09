@@ -70,7 +70,7 @@ Markdown, external file:
 
 ```RST
 .. rcsv-table:: Title
-    :file: table.rcsv
+    :file: table.mcsv
 ```
 
 Markdown, inline data.
