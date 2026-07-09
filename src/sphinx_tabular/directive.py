@@ -35,6 +35,7 @@ class BaseTabularDirective(SphinxDirective):
         "sticky-header": directives.flag,
         "sticky-offset": directives.unchanged,
         "strict": directives.flag,
+        "sortable": directives.flag,
     }
     def _is_strict(self) -> bool:
         return bool(
@@ -124,6 +125,9 @@ class BaseTabularDirective(SphinxDirective):
         if "sticky-header" in self.options:
             classes.append("sphinx-tabular-sticky-header")
 
+        if "sortable" in self.options:
+            classes.append("sphinx-tabular-sortable")
+
         table = build_table_node(
             rows,
             directive=self,
@@ -135,6 +139,9 @@ class BaseTabularDirective(SphinxDirective):
             table_width=self.options.get("width"),
             sticky_offset=self.options.get("sticky-offset"),
         )
+
+        if "sortable" in self.options:
+            classes.append("sphinx-tabular-sortable")
 
         return [table]
 

@@ -3,7 +3,12 @@ from __future__ import annotations
 from docutils import nodes
 from sphinx.util.docutils import SphinxDirective
 
-from .formulas import FormulaContext, evaluate_cell_value, value_to_node
+from .formulas import (
+    FormulaContext,
+    evaluate_cell_value,
+    stringify_value,
+    value_to_node,
+)
 from .model import Cell
 from .markup import add_markup_to_entry
 
@@ -114,6 +119,8 @@ def build_table_node(
             )
 
             entry = nodes.entry()
+
+            entry["sphinx_tabular_sort_value"] = stringify_value(rendered_value)
 
             entry["classes"].extend(cell.classes)
             entry["classes"].append(f"sphinx-tabular-halign-{cell.halign}")

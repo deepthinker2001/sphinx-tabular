@@ -3,11 +3,14 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
+import sys
 
 def run_sphinx(src: str, out: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [
-            "sphinx-build",
+            sys.executable,
+            "-m",
+            "sphinx",
             "-b",
             "html",
             "-E",
@@ -17,6 +20,7 @@ def run_sphinx(src: str, out: str) -> subprocess.CompletedProcess[str]:
         ],
         text=True,
         capture_output=True,
+        check=False,
     )
 
 

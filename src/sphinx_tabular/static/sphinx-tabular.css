@@ -452,3 +452,40 @@ div.table.sphinx-tabular > table.sphinx-tabular {
   pointer-events: none;
   z-index: 3;
 }
+
+/* Support sortable tables */
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+
+.sphinx-tabular-sort-indicator {
+  display: inline-block;
+  min-width: 1em;
+  margin-left: 0.35em;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+table.sphinx-tabular-sort-disabled
+  thead
+  th {
+  cursor: default;
+}

@@ -3,11 +3,14 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
+import sys
 
 def test_external_rcsv_file_builds():
     subprocess.run(
         [
-            "sphinx-build",
+            sys.executable,
+            "-m",
+            "sphinx",
             "-b",
             "html",
             "-E",

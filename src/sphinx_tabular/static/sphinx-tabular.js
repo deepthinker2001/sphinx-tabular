@@ -76,4 +76,369 @@
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(scheduleStickyHeaderUpdate);
   }
+  function initializeSortableTables() {
+  document
+    .querySelectorAll("table.sphinx-tabular-sortable")
+    .forEach(initializeSortableTable);
+}
+
+
+function initializeSortableTable(table) {
+  if (table.dataset.sphinxTabularSortInitialized === "true") {
+    return;
+  }
+
+  const thead = table.tHead;
+  const tbody = table.tBodies[0];
+
+  if (!thead || !tbody) {
+    return;
+  }
+
+  table.dataset.sphinxTabularSortInitialized = "true";
+
+  /*
+   * Sorting individual rows is ambiguous when body cells vertically span
+   * multiple rows. Disable it until row-group sorting is implemented.
+   */
+  const hasBodyRowspans = Array.from(tbody.rows).some((row) =>
+    Array.from(row.cells).some((cell) => cell.rowSpan > 1)
+  );
+
+  if (hasBodyRowspans) {
+    table.classList.add("sphinx-tabular-sort-disabled");
+    table.dataset.sphinxTabularSortDisabledReason =
+      "Body rows contain vertically merged cells.";
+    return;
+  }
+
+  const bodyRows = Array.from(tbody.rows);
+
+  bodyRows.forEach((row, index) => {
+    row.dataset.sphinxTabularOriginalIndex = String(index);
+  });
+
+  const sortableHeaders = findSortableLeafHeaders(thead);
+  const collator = new Intl.Collator(undefined, {
+    sensitivity: "base",
+  });
+
+  let activeColumn = null;
+  let direction = "none";
+
+  sortableHeaders.forEach(({ cell, column }) => {
+    cell.classList.add("sphinx-tabular-sort-header");
+    cell.tabIndex = 0;
+    cell.setAttribute("aria-sort", "none");
+    cell.dataset.sortColumn = String(column);
+
+    const indicator = document.createElement("span");
+    indicator.className = "sphinx-tabular-sort-indicator";
+    indicator.setAttribute("aria-hidden", "true");
+    indicator.textContent = "↕";
+    cell.appendChild(indicator);
+
+    const activate = () => {
+      if (activeColumn !== column) {
+        activeColumn = column;
+        direction = "ascending";
+      } else if (direction === "ascending") {
+        direction = "descending";
+      } else if (direction === "descending") {
+        direction = "none";
+      } else {
+        direction = "ascending";
+      }
+
+      applyTableSort({
+        tbody,
+        bodyRows,
+        column,
+        direction,
+        collator,
+      });
+
+      updateSortHeaders({
+        sortableHeaders,
+        activeColumn,
+        direction,
+      });
+    };
+
+    cell.addEventListener("click", (event) => {
+      /*
+       * Preserve links or actual controls placed inside a header.
+       */
+      if (event.target.closest("a, button, input, select, textarea")) {
+        return;
+      }
+
+      activate();
+    });
+
+    cell.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      activate();
+    });
+  });
+}
+
+
+/*
+ * Build a logical grid for all header rows. This accounts for both rowspan
+ * and colspan, so a header can be mapped to its real table column.
+ */
+function findSortableLeafHeaders(thead) {
+  const rows = Array.from(thead.rows);
+  const occupied = [];
+  const headers = [];
+
+  rows.forEach((row, rowIndex) => {
+    occupied[rowIndex] ??= [];
+
+    let column = 0;
+
+    Array.from(row.cells).forEach((cell) => {
+      while (occupied[rowIndex][column]) {
+        column += 1;
+      }
+
+      const rowSpan = cell.rowSpan || 1;
+      const colSpan = cell.colSpan || 1;
+
+      for (
+        let targetRow = rowIndex;
+        targetRow < rowIndex + rowSpan;
+        targetRow += 1
+      ) {
+        occupied[targetRow] ??= [];
+
+        for (
+          let targetColumn = column;
+          targetColumn < column + colSpan;
+          targetColumn += 1
+        ) {
+          occupied[targetRow][targetColumn] = cell;
+        }
+      }
+
+      headers.push({
+        cell,
+        column,
+        rowIndex,
+        rowSpan,
+        colSpan,
+      });
+
+      column += colSpan;
+    });
+  });
+
+  const finalHeaderRow = rows.length - 1;
+
+  return headers.filter((header) => {
+    const finalOccupiedRow =
+      header.rowIndex + header.rowSpan - 1;
+
+    /*
+     * A sortable leaf:
+     *
+     * - represents exactly one logical column, and
+     * - reaches the bottom of the header grid.
+     *
+     * This includes a single-column header with rowspan covering all
+     * header rows.
+     */
+    return (
+      header.colSpan === 1 &&
+      finalOccupiedRow === finalHeaderRow
+    );
+  });
+}
+
+
+function applyTableSort({
+  tbody,
+  bodyRows,
+  column,
+  direction,
+  collator,
+}) {
+  if (direction === "none") {
+    const originalRows = [...bodyRows].sort(
+      (left, right) =>
+        getOriginalIndex(left) - getOriginalIndex(right)
+    );
+
+    originalRows.forEach((row) => tbody.appendChild(row));
+    return;
+  }
+
+  const records = bodyRows.map((row) => {
+    const cell = getLogicalCell(row, column);
+    const rawValue = getCellSortValue(cell);
+
+    return {
+      row,
+      rawValue,
+      numericValue: parseNumericValue(rawValue),
+      originalIndex: getOriginalIndex(row),
+    };
+  });
+
+  const populatedRecords = records.filter(
+    (record) => record.rawValue !== ""
+  );
+
+  const numericColumn =
+    populatedRecords.length > 0 &&
+    populatedRecords.every(
+      (record) => record.numericValue !== null
+    );
+
+  records.sort((left, right) => {
+    /*
+     * Keep blank values at the bottom in both directions.
+     */
+    if (left.rawValue === "" && right.rawValue !== "") {
+      return 1;
+    }
+
+    if (left.rawValue !== "" && right.rawValue === "") {
+      return -1;
+    }
+
+    let comparison = 0;
+
+    if (numericColumn) {
+      comparison =
+        left.numericValue - right.numericValue;
+    } else {
+      comparison = collator.compare(
+        left.rawValue,
+        right.rawValue
+      );
+    }
+
+    if (direction === "descending") {
+      comparison *= -1;
+    }
+
+    /*
+     * Stable tiebreaker.
+     */
+    if (comparison === 0) {
+      comparison =
+        left.originalIndex - right.originalIndex;
+    }
+
+    return comparison;
+  });
+
+  records.forEach(({ row }) => tbody.appendChild(row));
+}
+
+
+function getLogicalCell(row, targetColumn) {
+  let logicalColumn = 0;
+
+  for (const cell of Array.from(row.cells)) {
+    const colSpan = cell.colSpan || 1;
+    const finalColumn = logicalColumn + colSpan;
+
+    if (
+      targetColumn >= logicalColumn &&
+      targetColumn < finalColumn
+    ) {
+      return cell;
+    }
+
+    logicalColumn = finalColumn;
+  }
+
+  return null;
+}
+
+
+function getCellSortValue(cell) {
+  if (!cell) {
+    return "";
+  }
+
+  const explicitValue = cell.dataset.sortValue;
+
+  if (explicitValue !== undefined) {
+    return explicitValue.trim();
+  }
+
+  return cell.textContent.trim();
+}
+
+
+function parseNumericValue(value) {
+  const normalized = value.trim();
+
+  if (
+    !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i.test(
+      normalized
+    )
+  ) {
+    return null;
+  }
+
+  const number = Number(normalized);
+
+  return Number.isFinite(number) ? number : null;
+}
+
+
+function getOriginalIndex(row) {
+  return Number.parseInt(
+    row.dataset.sphinxTabularOriginalIndex,
+    10
+  );
+}
+
+
+function updateSortHeaders({
+  sortableHeaders,
+  activeColumn,
+  direction,
+}) {
+  sortableHeaders.forEach(({ cell, column }) => {
+    const indicator = cell.querySelector(
+      ".sphinx-tabular-sort-indicator"
+    );
+
+    const isActive =
+      column === activeColumn && direction !== "none";
+
+    if (!isActive) {
+      cell.setAttribute("aria-sort", "none");
+
+      if (indicator) {
+        indicator.textContent = "↕";
+      }
+
+      return;
+    }
+
+    cell.setAttribute("aria-sort", direction);
+
+    if (indicator) {
+      indicator.textContent =
+        direction === "ascending" ? "↑" : "↓";
+    }
+  });
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  initializeSortableTables
+);
+
 })();
