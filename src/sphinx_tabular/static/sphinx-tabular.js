@@ -440,5 +440,147 @@ document.addEventListener(
   "DOMContentLoaded",
   initializeSortableTables
 );
+let sphinxTabularSearchCounter = 0;
+
+
+function initializeSearchableTables() {
+  document
+    .querySelectorAll("table.sphinx-tabular-searchable")
+    .forEach(initializeSearchableTable);
+}
+
+
+function initializeSearchableTable(table) {
+  if (table.dataset.sphinxTabularSearchInitialized === "true") {
+    return;
+  }
+
+  const tbody = table.tBodies[0];
+
+  if (!tbody) {
+    return;
+  }
+
+  /*
+   * Hiding individual rows is ambiguous when a body cell spans multiple
+   * rows. Disable search until body row-group support is implemented.
+   */
+  const hasBodyRowspans = Array.from(tbody.rows).some((row) =>
+    Array.from(row.cells).some((cell) => cell.rowSpan > 1)
+  );
+
+  if (hasBodyRowspans) {
+    table.classList.add("sphinx-tabular-search-disabled");
+    table.dataset.sphinxTabularSearchDisabledReason =
+      "Body rows contain vertically merged cells.";
+    return;
+  }
+
+  table.dataset.sphinxTabularSearchInitialized = "true";
+
+  const rows = Array.from(tbody.rows);
+
+  sphinxTabularSearchCounter += 1;
+
+  if (!table.id) {
+    table.id =
+      `sphinx-tabular-table-${sphinxTabularSearchCounter}`;
+  }
+
+  const toolbar = document.createElement("div");
+  toolbar.className = "sphinx-tabular-controls";
+
+  const searchGroup = document.createElement("div");
+  searchGroup.className = "sphinx-tabular-search";
+
+  const label = document.createElement("label");
+  label.className = "sphinx-tabular-visually-hidden";
+
+  const inputId = `${table.id}-search`;
+  label.htmlFor = inputId;
+  label.textContent = "Search table";
+
+  const input = document.createElement("input");
+  input.id = inputId;
+  input.className = "sphinx-tabular-search-input";
+  input.type = "search";
+  input.placeholder = "Search table\u2026";
+  input.autocomplete = "off";
+  input.setAttribute("aria-controls", table.id);
+  input.setAttribute("aria-label", "Search table");
+
+  const count = document.createElement("span");
+  count.className = "sphinx-tabular-search-count";
+  count.setAttribute("aria-live", "polite");
+
+  searchGroup.appendChild(label);
+  searchGroup.appendChild(input);
+  searchGroup.appendChild(count);
+  toolbar.appendChild(searchGroup);
+
+  table.insertAdjacentElement("beforebegin", toolbar);
+
+  /*
+   * Cache searchable row text once. Search uses data-sort-value, which
+   * contains evaluated plain values instead of formula source or HTML.
+   */
+  const searchRecords = rows.map((row) => ({
+    row,
+    text: getRowSearchText(row),
+  }));
+
+  function applySearch() {
+    const query = input.value
+      .trim()
+      .toLocaleLowerCase();
+
+    let visibleRows = 0;
+
+    searchRecords.forEach((record) => {
+      const matches =
+        query === "" || record.text.includes(query);
+
+      record.row.hidden = !matches;
+
+      if (matches) {
+        visibleRows += 1;
+      }
+    });
+
+    count.textContent =
+      `${visibleRows} of ${rows.length} rows`;
+
+    table.classList.toggle(
+      "sphinx-tabular-search-active",
+      query !== ""
+    );
+  }
+
+  input.addEventListener("input", applySearch);
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") {
+      return;
+    }
+
+    input.value = "";
+    applySearch();
+    input.focus();
+  });
+
+  applySearch();
+}
+
+
+function getRowSearchText(row) {
+  return Array.from(row.cells)
+    .map((cell) => getCellSortValue(cell))
+    .join("\u0000")
+    .toLocaleLowerCase();
+}
+document.addEventListener(
+  "DOMContentLoaded",
+  initializeSearchableTables
+);
 
 })();

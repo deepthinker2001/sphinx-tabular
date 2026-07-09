@@ -476,16 +476,134 @@ table.sphinx-tabular-sortable
   outline-offset: -3px;
 }
 
-.sphinx-tabular-sort-indicator {
-  display: inline-block;
-  min-width: 1em;
-  margin-left: 0.35em;
-  font-size: 0.8em;
-  text-align: center;
-}
 
 table.sphinx-tabular-sort-disabled
   thead
   th {
   cursor: default;
 }
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+
+  /* Reserve room for the sort indicator. */
+  padding-right: 1.75rem;
+}
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header
+  > .sphinx-tabular-sort-indicator {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 1rem;
+  min-width: 1rem;
+  margin: 0;
+
+  font-size: 0.8em;
+  line-height: 1;
+  text-decoration: none;
+} 
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header
+  > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.sphinx-tabular-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+
+  width: 100%;
+  margin: 0 0 0.5rem;
+}
+
+.sphinx-tabular-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.sphinx-tabular-search-input {
+  box-sizing: border-box;
+  width: min(18rem, 100%);
+  min-width: 12rem;
+  padding: 0.4rem 0.65rem;
+
+  color: inherit;
+  background: var(--sphinx-tabular-bg, transparent);
+  border: 1px solid var(
+    --sphinx-tabular-border-color,
+    currentColor
+  );
+  border-radius: 0.25rem;
+
+  font: inherit;
+  line-height: 1.25;
+}
+
+.sphinx-tabular-search-input:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.sphinx-tabular-search-count {
+  min-width: 6.5rem;
+  white-space: nowrap;
+
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  opacity: 0.75;
+}
+
+.sphinx-tabular-visually-hidden {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+
+  border: 0 !important;
+}
+
+table.sphinx-tabular-searchable tbody tr[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 480px) {
+  .sphinx-tabular-search,
+  .sphinx-tabular-search-input {
+    width: 100%;
+  }
+
+  .sphinx-tabular-search-count {
+    min-width: auto;
+  }
+}
+

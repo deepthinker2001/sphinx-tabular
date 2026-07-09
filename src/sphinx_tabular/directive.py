@@ -36,6 +36,7 @@ class BaseTabularDirective(SphinxDirective):
         "sticky-offset": directives.unchanged,
         "strict": directives.flag,
         "sortable": directives.flag,
+        "search": directives.flag,
     }
     def _is_strict(self) -> bool:
         return bool(
@@ -128,6 +129,9 @@ class BaseTabularDirective(SphinxDirective):
         if "sortable" in self.options:
             classes.append("sphinx-tabular-sortable")
 
+        if "search" in self.options:
+            classes.append("sphinx-tabular-searchable")
+
         table = build_table_node(
             rows,
             directive=self,
@@ -139,9 +143,6 @@ class BaseTabularDirective(SphinxDirective):
             table_width=self.options.get("width"),
             sticky_offset=self.options.get("sticky-offset"),
         )
-
-        if "sortable" in self.options:
-            classes.append("sphinx-tabular-sortable")
 
         return [table]
 
