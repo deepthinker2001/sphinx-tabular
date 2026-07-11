@@ -46,6 +46,7 @@ dev = [
   "build",
   "twine",
   "sphinx-design",
+  "sphinx-book-theme",
 ]
 
 docs = [

@@ -37,6 +37,20 @@ jobs:
           print("Loaded rlist from:", sphinx_tabular.rlist.__file__)
           PY
 
+      - name: Verify documentation dependencies
+        run: |
+          python - <<'PY'
+          import sphinx_book_theme
+          import sphinx_design
+          import sphinx_tabular
+          import sphinx_tabular.rlist
+
+          print("Book theme:", sphinx_book_theme.__file__)
+          print("Sphinx Design:", sphinx_design.__file__)
+          print("Sphinx Tabular:", sphinx_tabular.__file__)
+          print("RList:", sphinx_tabular.rlist.__file__)
+          PY
+          
       - name: Build documentation
         run: |
           rm -rf docs/_build
