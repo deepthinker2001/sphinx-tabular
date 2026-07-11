@@ -32,7 +32,7 @@ Does not include:
 
 2. Update version in `pyproject.toml` and `src/__init__.py`.
 
-    version = "0.2.3"
+    version = "0.2.4"
 
 Find and replace all instances of version with the new version.
 
@@ -56,8 +56,8 @@ python -m pytest
 5. Build docs
 
 ```bash
-rm -rf docs/_build
-sphinx-build -b html -W --keep-going docs/source docs/_build/html
+    rm -rf docs/_build
+    sphinx-build -b html -W --keep-going docs/source docs/_build/html
 ```
 
 
@@ -105,9 +105,9 @@ rm -rf docs/_build dist build src/*.egg-info
 9. Commit release changes
 
 ```bash
-git add pyproject.toml LICENSE .gitignore .github/workflows docs/source tests README.md RELEASE.md
-git commit -m "Release 0.2.3"
-git push
+    git add pyproject.toml LICENSE .gitignore .github/workflows docs/source tests README.md RELEASE.md
+    git commit -m "Release 0.2.4"
+    git push
 ```
 
 If some paths did not change, Git will ignore them.
@@ -115,14 +115,14 @@ If some paths did not change, Git will ignore them.
 10. Create and push the release tag
 
 ```bash
-git tag v0.2.3
-git push origin v0.2.3
+git tag v0.2.4
+git push origin v0.2.4
 ```
 
 
 11. Publish the GitHub release
 
-    GitHub → Releases → Draft a new release → Choose tag v0.2.3 → Publish release
+    GitHub → Releases → Draft a new release → Choose tag v0.2.4 → Publish release
 
 Publishing the GitHub release triggers .github/workflows/publish.yml.
 
@@ -135,7 +135,7 @@ python3 -m venv /tmp/sphinx-tabular-pypi-test
 source /tmp/sphinx-tabular-pypi-test/bin/activate
 
 python -m pip install --upgrade pip
-python -m pip install sphinx-tabular==0.2.3
+python -m pip install sphinx-tabular==0.2.4
 
 python - <<'PY'
 import sphinx_tabular

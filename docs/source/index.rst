@@ -4,6 +4,33 @@ sphinx-tabular
 
 .. toctree::
    :maxdepth: 1
+   :caption: Directives
+   :hidden:
+
+   directives/rcsv-table
+   directives/mcsv-table
+   directives/rlist-table
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Options
+   :hidden:
+
+   options/initial-sort
+   options/search 
+   options/sortable
+   options/sort-types
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Errors
+   :hidden:
+
+   errors/cycle
+   errors/value
+   
+.. toctree::
+   :maxdepth: 1
    :caption: Operations
    :hidden:
 
@@ -40,23 +67,6 @@ sphinx-tabular
    spreadsheet/round
    spreadsheet/sum
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Errors
-   :hidden:
-
-   errors/cycle
-   errors/value
-   
-.. toctree::
-   :maxdepth: 1
-   :caption: Options
-   :hidden:
-
-   options/search 
-   options/sortable
-   options/sort-types
-
 
 .. image:: https://img.shields.io/pypi/v/sphinx-tabular.svg
    :alt: PyPI link
@@ -91,15 +101,16 @@ Features
 ========
 
 - Sphinx extension.
-- Uses standard CSV file format.
+- Uses standard CSV files or native reStructuredText list-table syntax.
 - Easily merge table cells with ``<`` and ``^``.
 - Support reStructuredText and Markdown.
 
 .. code-block:: RST
-    :caption: Two new directives.
+    :caption: Three table directives.
     
     .. rcsv-table::
     .. mcsv-table::
+    .. rlist-table::
 
 - Support for inline table data and external files.
 - Optional sticky header support for one or more header rows.
@@ -146,10 +157,11 @@ parsed as MyST Markdown.
 Directives
 ==========
 
-``sphinx-tabular`` provides two directives.
+``sphinx-tabular`` provides three directives.
 
-- ``.. rcsv-table::`` for reStructuredText cell content.
-- ``.. mcsv-table::`` for Markdown cell content.
+- ``.. rcsv-table::`` for CSV rows with reStructuredText cell content.
+- ``.. mcsv-table::`` for CSV rows with Markdown cell content.
+- ``.. rlist-table::`` for a two-level reStructuredText bullet list with rich cell content.
 
 
 ``rcsv-table`` for reStructuredText
@@ -201,24 +213,53 @@ Use ``mcsv-table`` for CSV tables whose cells contain MyST Markdown.
         :width: 100%
 
 
+``rlist-table`` for rich reStructuredText
+------------------------------------------
+
+Use ``rlist-table`` when cells need normal reStructuredText block content
+without CSV quoting. Each top-level list item is a row, and each nested list
+item is a cell.
+
+.. code-block:: rst
+    :caption: Inline list table
+
+    .. rlist-table:: Interface Matrix
+        :header-rows: 1
+        :stub-columns: 1
+
+        * - Name
+          - Owner
+          - Status
+        * - Alpha
+          - **Able Team**
+          - =STATUS(Ready; green)
+
+See :doc:`directives/rlist-table` for list structure, literal marker escaping,
+rich cell content, formulas, and interactive options.
+
+
 Options
 =======
 
 Supported options include:
 
-- ``:file:`` Path to the ``.rcsv`` or ``.mcsv`` file.
-- ``:header-rows:`` Number of top rows to format as header rows. If `:sticky-header:` is set, these rows become sticky.
-- ``:width:`` CSS width for the table, such as ``100%``.
-- ``:widths:`` A space-separated list of column widths.
+- ``:align:`` Place the table at ``left``, ``center``, or ``right``. Supported by ``rlist-table``.
 - ``:class:`` Additional classes to add to the table.
-- ``:text-align:`` Horizontal alignment of text in the cells. Default is ``left``.
-- ``:vertical-align:`` Vertical alignment of text in cells. Default is ``middle``.
+- ``:file:`` Path to the ``.rcsv`` or ``.mcsv`` file. This option is not supported by ``rlist-table``.
+- ``:header-rows:`` Number of top rows to format as header rows. If `:sticky-header:` is set, these rows become sticky.
+- ``:initial-sort:`` Apply independent page-load ordering using one-based ``COLUMN=TYPE[:reverse]`` criteria.
+- ``:name:`` Assign an explicit target name. Supported by ``rlist-table``.
+- ``:search:`` Add a search field with a row count to the table and enable searching.
+- ``:sortable:`` Enable row sorting by clicking on the headers.
+- ``:sort-types:`` Assign explicit interactive sort types using one-based ``COLUMN=TYPE`` entries.
 - ``:sticky-header:`` Make the header row or rows sticky when scrolling long tables.
 - ``:sticky-offset:``  CSS offset for sticky headers, such as ``3.5rem``.
 - ``:strict:``  Treat ragged rows and malformed input as errors instead of warnings.
-- ``:sortable:`` Enable row sorting by clicking on the headers.
-- ``:search:`` Add a search field with a row count to the table and enable searching.
-- ``:sort-types:`` Assigns explicit sort types using ``COLUMN=TYPE`` entries.
+- ``:stub-columns:`` Mark leftmost columns as semantic stub columns. Supported by ``rlist-table``.
+- ``:text-align:`` Horizontal alignment of text in the cells. Default is ``left``.
+- ``:width:`` CSS width for the table, such as ``100%``.
+- ``:widths:`` A space-separated list of column widths.
+- ``:vertical-align:`` Vertical alignment of text in cells. Default is ``middle``.
 
 Known Limitations 
 =================
@@ -229,11 +270,11 @@ Known Limitations
 
 * Formula arguments use semicolons (``;``) instead of commas. This is intentional so formulas can be written naturally inside comma-separated table rows without extra quoting.
 
-* Merge markers are fixed. An unquoted ``<`` merges with the cell to the left, and an unquoted ``^`` merges with the cell above. Quoted ``"<"`` and ``"^"`` render as literal text. These markers are not currently configurable.
+* Merge markers are fixed. In CSV directives, an unquoted ``<`` or ``^`` is a marker and a quoted marker is literal. In ``rlist-table``, a plain-text marker is active and an inline literal such as ````<```` or ````^```` is displayed literally. These markers are not currently configurable.
 
 * Complex or invalid merge layouts may produce warnings or unexpected output. The extension is designed for simple horizontal and vertical merges, not arbitrary spreadsheet-like merge regions.
 
-* ``.rcsv`` cells are parsed as reStructuredText. ``.mcsv`` cells are parsed with MyST Markdown. Mixing both markup syntaxes in the same table is not supported.
+* ``.rcsv`` cells are parsed as reStructuredText, ``.mcsv`` cells are parsed with MyST Markdown, and ``rlist-table`` cells retain parsed reStructuredText nodes. Mixing markup syntaxes in the same table is not supported.
 
 * ``.mcsv`` support requires ``myst-parser``. The extension loads it automatically, but projects should still include ``myst-parser`` as an installed dependency.
 
@@ -245,7 +286,7 @@ Known Limitations
 
 * Tables are normalized to the longest row. Shorter rows are padded with empty cells. In non-strict mode this produces warnings; in strict mode it raises an error.
 
-* The extension does not currently provide an interactive editor. Tables are authored as inline directive content or external ``.rcsv`` / ``.mcsv`` files.
+* The extension does not currently provide an interactive editor. Tables are authored as inline directive content, native ``rlist-table`` lists, or external ``.rcsv`` / ``.mcsv`` files.
 
 * The extension does not bundle DataTables, filtering, pagination, or other interactive table libraries. Additional classes such as ``datatables`` are passed through so projects can integrate their own local JavaScript if needed.
 
@@ -263,6 +304,15 @@ Known Limitations
 
 Changelog
 =========
+
+
+0.2.4
+-----
+
+- Added ``rlist-table`` for uniform two-level reStructuredText lists.
+- Added rich parsed reStructuredText cell content for list tables.
+- Added ``:stub-columns:``, ``:align:``, and ``:name:`` support to ``rlist-table``.
+- Added merge markers, formulas, sticky headers, sorting, initial sorting, and searching to list tables.
 
 
 0.2.3

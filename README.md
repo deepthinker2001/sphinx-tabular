@@ -20,9 +20,9 @@ While the table structure and merged cells will work in the LaTeX builder PDF ou
 ## Features
 
 - Sphinx extension.
-- Uses standard CSV file format.
+- Uses standard CSV files or native reStructuredText list-table syntax.
 - Easily merge table cells with `<` and `^`.
-- Support reStructuredText and Markdown.
+- Support reStructuredText, rich reStructuredText list cells, and Markdown.
 - Support for inline table data and external files.
 - Optional sticky header support for one or more header rows.
 - Provides a minimal set of spreadsheet formulas.
@@ -40,87 +40,113 @@ While the table structure and merged cells will work in the LaTeX builder PDF ou
 
 ### conf.py
 
-``bash
+```python
 extensions = [
     ...,
-    'sphinx_tabular',
+    "sphinx_tabular",
     ...,
 ]
-``
+```
 
 ## Directives
 
-RST, external file:
+### `rcsv-table`
 
-``RST
+Use CSV rows with reStructuredText cell content. Data may be inline or loaded
+from an external `.rcsv` file.
+
+```rst
 .. rcsv-table:: Title
     :file: table.rcsv
-``
+```
 
-RST, inline data.
+### `mcsv-table`
 
-``RST
-.. rcsv-table:: Title
+Use CSV rows with MyST Markdown cell content. Data may be inline or loaded from
+an external `.mcsv` file.
 
-    Col 1, Row 1
-    Col 2, Row 2
-``
-
-Markdown, external file:
-
-``RST
-.. rcsv-table:: Title
+```rst
+.. mcsv-table:: Title
     :file: table.mcsv
-``
+```
 
-Markdown, inline data.
+### `rlist-table`
 
-``RST
-.. rcsv-table:: Title
+Use a uniform two-level reStructuredText bullet list. Each top-level item is a
+row, and each nested item is a cell. Rich reStructuredText nodes are preserved
+inside ordinary cells.
 
-    Col 1, Row 1
-    Col 2, Row 2
-``
+```rst
+.. rlist-table:: Interface status
+    :header-rows: 1
+    :stub-columns: 1
+
+    * - Name
+      - Owner
+      - Status
+    * - Alpha
+      - **Able Team**
+      - =STATUS(Ready; green)
+```
+
+`rlist-table` is inline-only. Use `.. include::` when the list should be kept
+in another source file.
 
 
 ## Merging Cells
 
-Columns
+In `rcsv-table` and `mcsv-table`, an unquoted `<` merges with the cell to its
+left and an unquoted `^` merges with the cell above it.
 
-``RST
-.. rcsv-table:: Title
+```rst
+.. rcsv-table:: Horizontal merge
 
     Merged,<
-    Unmerged, Unmerged
-``
+    Unmerged,Unmerged
+```
 
-Rows
-
-``RST
-.. rcsv-table:: Title
+```rst
+.. rcsv-table:: Vertical merge
 
     Merged,Unmerged
-    ^, Unmerged
-``
+    ^,Unmerged
+```
+
+In `rlist-table`, a cell containing one plain-text `<` or `^` is a merge
+marker. Use an inline literal such as `` `<` `` or `` `^` `` when the
+character should be displayed instead.
+
+```rst
+.. rlist-table:: List merge
+
+    * - Merged
+      - <
+    * - Unmerged
+      - Unmerged
+```
 
 
 ## Options
 
 Supported options include:
 
-- `:file:` Path to the `.rcsv` or `.mcsv` file.
-- `:header-rows:` Number of top rows to format as header rows. If `:sticky-header:` is set, these rows become sticky.
-- `:width:` CSS width for the table, such as `100%`.
-- `:widths:` A space-separated list of column widths.
+- `:align:` Place an `rlist-table` at `left`, `center`, or `right`.
 - `:class:` Additional classes to add to the table.
-- `:text-align:` Horizontal alignment of text in the cells. Default is `left`.
-- `:vertical-align:` Vertical alignment of text in cells. Default is `middle`.
+- `:file:` Path to the `.rcsv` or `.mcsv` file. Not supported by `rlist-table`.
+- `:header-rows:` Number of top rows to format as header rows. If `:sticky-header:` is set, these rows become sticky.
+- `:initial-sort:` Apply independent page-load ordering using one-based `COLUMN=TYPE[:reverse]` criteria.
+- `:name:` Assign an explicit target name to an `rlist-table`.
+- `:search:` Add a search field with a row count to the table and enable searching.
+- `:sortable:` Enable row sorting by clicking on the headers.
+- `:sort-types:` Assign interactive sort types using one-based `COLUMN=TYPE` entries.
 - `:sticky-header:` Make the header rows sticky when scrolling long tables.
 - `:sticky-offset:`  CSS offset for sticky headers, such as `3.5rem`.
 - `:strict:`  Treat ragged rows and malformed input as errors instead of warnings.
-- `:sortable:` Enable row sorting by clicking on the headers.
-- ``:search:`` Add a search field with a row count to the table and enable searching.
-- ``:sort-types:`` Assigns explicit sort types using ``COLUMN=TYPE`` entries.
+- `:stub-columns:` Mark leftmost columns as semantic stubs for `rlist-table`.
+- `:text-align:` Horizontal alignment of text in the cells. Default is `left`.
+- `:vertical-align:` Vertical alignment of text in cells. Default is `middle`.
+- `:width:` CSS width for the table, such as `100%`.
+- `:widths:` A space-separated list of column widths.
 
 
 ## Formatting

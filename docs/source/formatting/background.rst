@@ -27,19 +27,19 @@ Example - Background Colors
 .. rcsv-table::
     :header-rows: 1
 
-    Function, Example
-    '=BG(;#FF0000),=BG(;#FF0000)
-    '=BG(;#00FF00),=BG(;#00FF00)
-    '=BG(;#0000FF),=BG(;#0000FF)
-    '=BG(;#6b21a8),=BG(;#6b21a8)
-    '=BG(;#c2410c),=BG(;#c2410c)
-    '=BG(;#facc15),=BG(;#facc15)
-    '=BG(;red),=BG(;red)
-    '=BG(;green),=BG(;green)
-    '=BG(;blue),=BG(;blue)
-    '=BG(;transparent),=BG(;transparent)
-    '=BG(;currentColor),=BG(;currentColor)
-    '=BG(;var(--pst-color-primary)),=BG(;var(--pst-color-primary))
+    Category,Function, Example
+    Explicit,'=BG(;#FF0000),=BG(;#FF0000)
+    ^,'=BG(;#00FF00),=BG(;#00FF00)
+    ^,'=BG(;#0000FF),=BG(;#0000FF)
+    ^,'=BG(;#6b21a8),=BG(;#6b21a8)
+    ^,'=BG(;#c2410c),=BG(;#c2410c)
+    ^,'=BG(;#facc15),=BG(;#facc15)
+    Named,'=BG(;red),=BG(;red)
+    ^,'=BG(;green),=BG(;green)
+    ^,'=BG(;blue),=BG(;blue)
+    Theme Variables,'=BG(;transparent),=BG(;transparent)
+    ^,'=BG(;currentColor),=BG(;currentColor)
+    ^,'=BG(;var(--pst-color-primary)),=BG(;var(--pst-color-primary))
 
 
 
@@ -49,18 +49,18 @@ Example - Background Colors
     .. rcsv-table::
         :header-rows: 1
 
-        Function, Example
-        '=BG(;#FF0000),=BG(;#FF0000)
-        '=BG(;#00FF00),=BG(;#00FF00)
-        '=BG(;#0000FF),=BG(;#0000FF)
-        '=BG(;#6b21a8),=BG(;#6b21a8)
-        '=BG(;#c2410c),=BG(;#c2410c)
-        '=BG(;#facc15),=BG(;#facc15)
-        '=BG(;red),=BG(;red)
-        '=BG(;green),=BG(;green)
-        '=BG(;blue),=BG(;blue)
-        '=BG(;transparent),=BG(;transparent)
-        '=BG(;currentColor),=BG(;currentColor)
-        '=BG(;var(--pst-color-primary)),=BG(;var(--pst-color-primary))
+        Category,Function, Example
+        Explicit,'=BG(;#FF0000),=BG(;#FF0000)
+        ^,'=BG(;#00FF00),=BG(;#00FF00)
+        ^,'=BG(;#0000FF),=BG(;#0000FF)
+        ^,'=BG(;#6b21a8),=BG(;#6b21a8)
+        ^,'=BG(;#c2410c),=BG(;#c2410c)
+        ^,'=BG(;#facc15),=BG(;#facc15)
+        Named,'=BG(;red),=BG(;red)
+        ^,'=BG(;green),=BG(;green)
+        ^,'=BG(;blue),=BG(;blue)
+        Theme Variables,'=BG(;transparent),=BG(;transparent)
+        ^,'=BG(;currentColor),=BG(;currentColor)
+        ^,'=BG(;var(--pst-color-primary)),=BG(;var(--pst-color-primary))
 
 
