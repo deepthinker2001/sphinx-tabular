@@ -56,8 +56,8 @@ python -m pytest
 5. Build docs
 
 ```bash
-    rm -rf docs/_build
-    sphinx-build -b html -W --keep-going docs/source docs/_build/html
+rm -rf docs/_build
+sphinx-build -b html -W --keep-going docs/source docs/_build/html
 ```
 
 

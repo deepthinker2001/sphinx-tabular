@@ -24,20 +24,17 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
 
-      - name: Verify local extension
+      - name: Verify rlist-table installation
         run: |
-          python - <<'PY'
-          import inspect
-          import sphinx_tabular
-          from sphinx_tabular.rlist import RListTableDirective
+          echo "Repository files:"
+          ls -la src/sphinx_tabular
 
-          print("Loaded from:", sphinx_tabular.__file__)
-          print("Directive class:", RListTableDirective)
-          print(
-              "Registered:",
-              'app.add_directive("rlist-table"' in
-              inspect.getsource(sphinx_tabular.setup),
-          )
+          python - <<'PY'
+          import sphinx_tabular
+          import sphinx_tabular.rlist
+
+          print("Loaded package from:", sphinx_tabular.__file__)
+          print("Loaded rlist from:", sphinx_tabular.rlist.__file__)
           PY
 
       - name: Build documentation
