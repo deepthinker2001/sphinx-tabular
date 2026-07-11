@@ -45,6 +45,7 @@ dev = [
   "pytest",
   "build",
   "twine",
+  "sphinx-design",
 ]
 
 docs = [
