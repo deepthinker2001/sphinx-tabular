@@ -105,9 +105,9 @@ rm -rf docs/_build dist build src/*.egg-info
 9. Commit release changes
 
 ```bash
-    git add pyproject.toml LICENSE .gitignore .github/workflows docs/source tests README.md RELEASE.md
-    git commit -m "Release 0.2.4"
-    git push
+git add pyproject.toml LICENSE .gitignore .github/workflows docs/source tests README.md RELEASE.md
+git commit -m "Release 0.2.4"
+git push
 ```
 
 If some paths did not change, Git will ignore them.
