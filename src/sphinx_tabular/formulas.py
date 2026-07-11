@@ -181,6 +181,9 @@ def normalize_css_color(
     return None
 
 def evaluate_cell_value(value: str, *, cell: Cell, context: FormulaContext) -> Any:
+    if not cell.evaluate_formula:
+        return value
+
     raw = value.strip()
 
     if raw.startswith("'="):

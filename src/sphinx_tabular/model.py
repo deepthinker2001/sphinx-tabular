@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from docutils import nodes
 
 
 @dataclass
@@ -19,6 +23,8 @@ class Cell:
     col: int
     was_quoted: bool = False
     synthetic: bool = False
+    parsed_nodes: list[nodes.Node] | None = None
+    evaluate_formula: bool = True
 
     rowspan: int = 1
     colspan: int = 1

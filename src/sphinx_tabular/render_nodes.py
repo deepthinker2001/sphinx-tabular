@@ -73,6 +73,7 @@ def build_table_node(
     table_classes: list[str],
     table_width: str | None,
     sticky_offset: str | None,
+    stub_columns: int = 0,
 ) -> nodes.table:
     resolve_simple_merges(rows)
 
@@ -99,8 +100,11 @@ def build_table_node(
     tgroup = nodes.tgroup(cols=col_count)
     table += tgroup
 
-    for _ in range(col_count):
-        tgroup += nodes.colspec(colwidth=1)
+    for col_index in range(col_count):
+        colspec = nodes.colspec(colwidth=1)
+        if col_index < stub_columns:
+            colspec["stub"] = True
+        tgroup += colspec
 
     thead = nodes.thead()
     tbody = nodes.tbody()
@@ -138,7 +142,19 @@ def build_table_node(
             if cell.colspan > 1:
                 entry["morecols"] = cell.colspan - 1
 
-            if isinstance(rendered_value, str):
+            raw_value = cell.value.strip()
+            uses_control_rendering = bool(
+                cell.evaluate_formula
+                and (
+                    raw_value.startswith("=")
+                    or raw_value.startswith("'=")
+                )
+            )
+
+            if cell.parsed_nodes is not None and not uses_control_rendering:
+                for child in cell.parsed_nodes:
+                    entry += child.deepcopy()
+            elif isinstance(rendered_value, str):
                 add_markup_to_entry(
                     entry,
                     rendered_value,

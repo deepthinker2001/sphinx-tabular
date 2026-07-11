@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from .directive import McsvTableDirective, RcsvTableDirective
+from .rlist import RListTableDirective
 
 from docutils import nodes
 
@@ -14,6 +15,7 @@ def setup(app):
 
     app.add_directive("rcsv-table", RcsvTableDirective)
     app.add_directive("mcsv-table", McsvTableDirective)
+    app.add_directive("rlist-table", RListTableDirective)
 
     app.add_node(
         nodes.entry,
@@ -28,7 +30,7 @@ def setup(app):
     app.add_js_file("sphinx-tabular.js")
 
     return {
-        "version": "0.2.3",
+        "version": "0.2.4",
         "parallel_read_safe": True,
         "parallel_write_safe": True,
     }
