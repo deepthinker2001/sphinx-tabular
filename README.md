@@ -30,85 +30,100 @@ While the table structure and merged cells will work in the LaTeX builder PDF ou
 - Set custom cell text and background colors.
 - Custom status pill.
 - Support for Font Awesome and Bootstrip icons if installed by your theme.
+- Sortable rows by clicking on the header row.
+- Searchable option.
 
-
-
-# Installation
+## Installation
 
 `pip install sphinx-tabular`
 
 
-# conf.py
+### conf.py
 
-```bash
+``bash
 extensions = [
     ...,
     'sphinx_tabular',
     ...,
 ]
-```
+``
 
 ## Directives
 
 RST, external file:
 
-```RST
+``RST
 .. rcsv-table:: Title
     :file: table.rcsv
-```
+``
 
 RST, inline data.
 
-```RST
+``RST
 .. rcsv-table:: Title
 
     Col 1, Row 1
     Col 2, Row 2
-```
+``
 
 Markdown, external file:
 
-```RST
+``RST
 .. rcsv-table:: Title
     :file: table.mcsv
-```
+``
 
 Markdown, inline data.
 
-```RST
+``RST
 .. rcsv-table:: Title
 
     Col 1, Row 1
     Col 2, Row 2
-```
+``
 
 
 ## Merging Cells
 
 Columns
 
-```RST
+``RST
 .. rcsv-table:: Title
 
     Merged,<
     Unmerged, Unmerged
-```
+``
 
 Rows
 
-```RST
+``RST
 .. rcsv-table:: Title
 
     Merged,Unmerged
     ^, Unmerged
-```
+``
 
 
-## Additional Capabilities
+## Options
 
-See [full documentation](https://deepthinker2001.github.io/sphinx-tabular/) for additional capabilities:
+Supported options include:
 
-### Formatting
+- `:file:` Path to the `.rcsv` or `.mcsv` file.
+- `:header-rows:` Number of top rows to format as header rows. If `:sticky-header:` is set, these rows become sticky.
+- `:width:` CSS width for the table, such as `100%`.
+- `:widths:` A space-separated list of column widths.
+- `:class:` Additional classes to add to the table.
+- `:text-align:` Horizontal alignment of text in the cells. Default is `left`.
+- `:vertical-align:` Vertical alignment of text in cells. Default is `middle`.
+- `:sticky-header:` Make the header rows sticky when scrolling long tables.
+- `:sticky-offset:`  CSS offset for sticky headers, such as `3.5rem`.
+- `:strict:`  Treat ragged rows and malformed input as errors instead of warnings.
+- `:sortable:` Enable row sorting by clicking on the headers.
+- ``:search:`` Add a search field with a row count to the table and enable searching.
+- ``:sort-types:`` Assigns explicit sort types using ``COLUMN=TYPE`` entries.
+
+
+## Formatting
 
 * Custom theming.
 * `=ALIGN()` horizontal/vertical cell value alignment.
@@ -118,7 +133,7 @@ See [full documentation](https://deepthinker2001.github.io/sphinx-tabular/) for 
 * `=STATUS()` insert a colored status pill.
 
 
-### Spreadsheet
+## Spreadsheet
 
 * `'` interprest as literal text without evaluation.
 * `+`,`-`,`*`,`/` arithmetic operations on cells.

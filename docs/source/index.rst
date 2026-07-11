@@ -7,53 +7,56 @@ sphinx-tabular
    :caption: Operations
    :hidden:
 
-   merge
+   ops/merge
 
 .. toctree::
    :maxdepth: 1
    :caption: Formatting 
    :hidden: 
 
-   align
-   background
-   backgroundcolor 
-   icons 
-   status 
-   color 
-   theming
+   formatting/align
+   formatting/background
+   formatting/backgroundcolor 
+   formatting/icons 
+   formatting/status 
+   formatting/color 
+   formatting/theming
 
 .. toctree::
    :maxdepth: 1
    :caption: Spreadsheet
    :hidden:
 
-   arithmetic
-   average
-   cellref
-   concat
-   conditional
-   count
-   literaltext
-   max 
-   min 
-   rangeref
-   round
-   sum
+   spreadsheet/arithmetic
+   spreadsheet/average
+   spreadsheet/cellref
+   spreadsheet/concat
+   spreadsheet/conditional
+   spreadsheet/count
+   spreadsheet/literaltext
+   spreadsheet/max 
+   spreadsheet/min 
+   spreadsheet/rangeref
+   spreadsheet/round
+   spreadsheet/sum
 
 .. toctree::
    :maxdepth: 1
    :caption: Errors
    :hidden:
 
-   cycle
-   value
+   errors/cycle
+   errors/value
    
 .. toctree::
    :maxdepth: 1
    :caption: Options
    :hidden:
 
-   sortable
+   options/search 
+   options/sortable
+   options/sort-types
+
 
 .. image:: https://img.shields.io/pypi/v/sphinx-tabular.svg
    :alt: PyPI link
@@ -145,6 +148,10 @@ Directives
 
 ``sphinx-tabular`` provides two directives.
 
+- ``.. rcsv-table::`` for reStructuredText cell content.
+- ``.. mcsv-table::`` for Markdown cell content.
+
+
 ``rcsv-table`` for reStructuredText
 ------------------------------------------
 
@@ -195,7 +202,7 @@ Use ``mcsv-table`` for CSV tables whose cells contain MyST Markdown.
 
 
 Options
--------
+=======
 
 Supported options include:
 
@@ -206,11 +213,12 @@ Supported options include:
 - ``:class:`` Additional classes to add to the table.
 - ``:text-align:`` Horizontal alignment of text in the cells. Default is ``left``.
 - ``:vertical-align:`` Vertical alignment of text in cells. Default is ``middle``.
-- ``:sticky-header:`` Make the header rows sticky when scrolling long tables.
+- ``:sticky-header:`` Make the header row or rows sticky when scrolling long tables.
 - ``:sticky-offset:``  CSS offset for sticky headers, such as ``3.5rem``.
 - ``:strict:``  Treat ragged rows and malformed input as errors instead of warnings.
 - ``:sortable:`` Enable row sorting by clicking on the headers.
-
+- ``:search:`` Add a search field with a row count to the table and enable searching.
+- ``:sort-types:`` Assigns explicit sort types using ``COLUMN=TYPE`` entries.
 
 Known Limitations 
 =================
@@ -256,10 +264,23 @@ Known Limitations
 Changelog
 =========
 
+
+0.2.3
+-----
+
+- Fixed header row spacing with sort button.
+- Added ``:search:`` option.
+- Added hybrid sort. 
+
+   - Default sort is ``auto``, which uses header text and rendered values to determine sort type.
+   - Optional ``:sort-types:`` when automatic detection is not appropriate.
+
+
 0.2.2
 -----
 
 - Added ``:sortable:`` option to sort rows by clicking on the header row. Supports merged header rows.
+
 
 0.1.0
 -----
