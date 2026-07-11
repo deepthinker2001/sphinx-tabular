@@ -198,7 +198,16 @@
     const indicator = document.createElement("span");
     indicator.className = "sphinx-tabular-sort-indicator";
     indicator.setAttribute("aria-hidden", "true");
-    indicator.textContent = "↕";
+    indicator.dataset.sortDirection = "none";
+
+    const priorityElement = document.createElement("span");
+    priorityElement.className = "sphinx-tabular-sort-priority";
+
+    const iconElement = document.createElement("span");
+    iconElement.className = "sphinx-tabular-sort-icon";
+
+    indicator.appendChild(priorityElement);
+    indicator.appendChild(iconElement);
     cell.appendChild(indicator);
 
     const activate = () => {
@@ -846,103 +855,116 @@ function applyTableSortCriteria({
 
 
   function updateInitialSortHeaders({
-  sortableHeaders,
-  criteria,
-}) {
-  const criteriaByColumn = new Map();
+    sortableHeaders,
+    criteria,
+  }) {
+    const criteriaByColumn = new Map();
 
-  criteria.forEach((criterion, index) => {
-    criteriaByColumn.set(criterion.column, {
-      ...criterion,
-      priority: index + 1,
+    criteria.forEach((criterion, index) => {
+      criteriaByColumn.set(criterion.column, {
+        ...criterion,
+        priority: index + 1,
+      });
     });
-  });
 
-  sortableHeaders.forEach(({ cell, column }) => {
-    const indicator = cell.querySelector(
-      ".sphinx-tabular-sort-indicator"
-    );
+    sortableHeaders.forEach(({ cell, column }) => {
+      const indicator = cell.querySelector(
+        ".sphinx-tabular-sort-indicator"
+      );
 
-    const criterion = criteriaByColumn.get(column);
+      const priorityElement = indicator?.querySelector(
+        ".sphinx-tabular-sort-priority"
+      );
 
-    delete cell.dataset.sortPriority;
-    delete cell.dataset.sortDirection;
+      const criterion = criteriaByColumn.get(column);
 
-    if (!criterion) {
-      cell.setAttribute("aria-sort", "none");
+      delete cell.dataset.sortPriority;
+      delete cell.dataset.sortDirection;
 
-      if (indicator) {
-        indicator.textContent = "↕";
+      if (!criterion) {
+        cell.setAttribute("aria-sort", "none");
+
+        if (indicator) {
+          indicator.dataset.sortDirection = "none";
+        }
+
+        if (priorityElement) {
+          priorityElement.textContent = "";
+        }
+
+        return;
       }
 
-      return;
-    }
+      cell.dataset.sortPriority = String(
+        criterion.priority
+      );
 
-    cell.dataset.sortPriority = String(
-      criterion.priority
-    );
+      cell.dataset.sortDirection =
+        criterion.direction;
 
-    cell.dataset.sortDirection =
-      criterion.direction;
-
-    /*
-     * aria-sort is assigned only to the dominant criterion. Secondary
-     * priorities are represented by their visual indicator and data fields.
-     */
-    cell.setAttribute(
-      "aria-sort",
-      criterion.priority === 1
-        ? criterion.direction
-        : "none"
-    );
-
-    if (indicator) {
-      const arrow =
-        criterion.direction === "descending"
-          ? "↓"
-          : "↑";
-
-      indicator.textContent =
-        `${criterion.priority}${arrow}`;
-    }
-  });
-}
-
-
-function updateSortHeaders({
-  sortableHeaders,
-  activeColumn,
-  direction,
-}) {
-  sortableHeaders.forEach(({ cell, column }) => {
-    delete cell.dataset.sortPriority;
-    delete cell.dataset.sortDirection;
-
-    const indicator = cell.querySelector(
-      ".sphinx-tabular-sort-indicator"
-    );
-
-    const isActive =
-      column === activeColumn && direction !== "none";
-
-    if (!isActive) {
-      cell.setAttribute("aria-sort", "none");
+      cell.setAttribute(
+        "aria-sort",
+        criterion.priority === 1
+          ? criterion.direction
+          : "none"
+      );
 
       if (indicator) {
-        indicator.textContent = "↕";
+        indicator.dataset.sortDirection =
+          criterion.direction;
       }
 
-      return;
-    }
+      if (priorityElement) {
+        priorityElement.textContent = String(
+          criterion.priority
+        );
+      }
+    });
+  }
 
-    cell.setAttribute("aria-sort", direction);
 
-    if (indicator) {
-      indicator.textContent =
-        direction === "ascending" ? "↑" : "↓";
-    }
-  });
-}
+  function updateSortHeaders({
+    sortableHeaders,
+    activeColumn,
+    direction,
+  }) {
+    sortableHeaders.forEach(({ cell, column }) => {
+      delete cell.dataset.sortPriority;
+      delete cell.dataset.sortDirection;
+
+      const indicator = cell.querySelector(
+        ".sphinx-tabular-sort-indicator"
+      );
+
+      const priorityElement = indicator?.querySelector(
+        ".sphinx-tabular-sort-priority"
+      );
+
+      if (priorityElement) {
+        priorityElement.textContent = "";
+      }
+
+      const isActive =
+        column === activeColumn &&
+        direction !== "none";
+
+      if (!isActive) {
+        cell.setAttribute("aria-sort", "none");
+
+        if (indicator) {
+          indicator.dataset.sortDirection = "none";
+        }
+
+        return;
+      }
+
+      cell.setAttribute("aria-sort", direction);
+
+      if (indicator) {
+        indicator.dataset.sortDirection = direction;
+      }
+    });
+  }
 
   function initializeSearchableTables() {
     document
@@ -1138,3 +1160,4 @@ function updateSortHeaders({
     document.fonts.ready.then(scheduleStickyHeaderUpdate);
   }
 })();
+
