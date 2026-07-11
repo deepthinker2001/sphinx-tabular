@@ -4,10 +4,10 @@ Sortable table
 .. rcsv-table::
    :header-rows: 2
    :sortable:
+   :sort-types: 1=text,4=percent
 
    Identity,<,Measurements,<
-   Name,Owner,Count,Percentage
-   Bravo,Zed,10,25.5
-   Alpha,Able,2,9.2
-   Charlie,Mike,100,75.1
-   Delta,Baker,,12.4
+   ID,Version,Count,Completion
+   001,1.10,10,25.5%
+   010,1.2,2,9.2%
+   100,2.0,100,75.1%

@@ -14,6 +14,58 @@ from sphinx.util import logging
 
 logger = logging.getLogger(__name__)
 
+VALID_SORT_TYPES = {
+    "auto",
+    "text",
+    "number",
+    "natural",
+    "version",
+    "percent",
+    "date",
+    "none",
+}
+
+def parse_sort_types_option(value: str) -> dict[int, str]:
+    result: dict[int, str] = {}
+
+    for raw_item in value.split(","):
+        item = raw_item.strip()
+
+        if not item:
+            continue
+
+        if "=" not in item:
+            raise ValueError(
+                "sort type entries must use COLUMN=TYPE, "
+                f"got {item!r}"
+            )
+
+        column_text, sort_type = item.split("=", 1)
+        column_text = column_text.strip()
+        sort_type = sort_type.strip().lower()
+
+        try:
+            column = int(column_text)
+        except ValueError as exc:
+            raise ValueError(
+                f"sort column must be an integer, got {column_text!r}"
+            ) from exc
+
+        if column < 1:
+            raise ValueError(
+                f"sort column must be 1 or greater, got {column}"
+            )
+
+        if sort_type not in VALID_SORT_TYPES:
+            valid = ", ".join(sorted(VALID_SORT_TYPES))
+            raise ValueError(
+                f"unknown sort type {sort_type!r}; expected one of: {valid}"
+            )
+
+        result[column] = sort_type
+
+    return result
+
 class BaseTabularDirective(SphinxDirective):
     has_content = True
     required_arguments = 0
@@ -37,6 +89,8 @@ class BaseTabularDirective(SphinxDirective):
         "strict": directives.flag,
         "sortable": directives.flag,
         "search": directives.flag,
+        "sortable": directives.flag,
+        "sort-types": directives.unchanged,
     }
     def _is_strict(self) -> bool:
         return bool(
@@ -131,6 +185,23 @@ class BaseTabularDirective(SphinxDirective):
 
         if "search" in self.options:
             classes.append("sphinx-tabular-searchable")
+
+        if "sort-types" in self.options:
+            try:
+                sort_types = parse_sort_types_option(
+                    self.options["sort-types"]
+                )
+            except ValueError as exc:
+                return self._warn_or_raise(
+                    f"{self.directive_name}: {exc}"
+                )
+
+            for column, sort_type in sort_types.items():
+                classes.append(
+                    "sphinx-tabular-sort-col-"
+                    f"{column}-{sort_type}"
+                )
+
 
         table = build_table_node(
             rows,
