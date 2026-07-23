@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>mcsv-table &#8212; sphinx-tabular</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-tabular.css?v=b7c97af0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/bootstrap-icons/font/bootstrap-icons.min.css?v=9e162993" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=098bb750" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/sphinx-tabular.js?v=a5f4eb29"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'directives/mcsv-table';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rlist-table" href="rlist-table.html" />
+    <link rel="prev" title="rcsv-table" href="rcsv-table.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">sphinx-tabular</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Directives</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="rcsv-table.html"><code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="rlist-table.html"><code class="docutils literal notranslate"><span class="pre">rlist-table</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../options/initial-sort.html"><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../options/search.html"><code class="docutils literal notranslate"><span class="pre">:search:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../options/sortable.html"><code class="docutils literal notranslate"><span class="pre">:sortable:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../options/sort-types.html"><code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Errors</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../errors/cycle.html"><code class="docutils literal notranslate"><span class="pre">#CYCLE!</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors/value.html"><code class="docutils literal notranslate"><span class="pre">#VALUE!</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ops/merge.html">Merging Cells</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Formatting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../formatting/align.html">Alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/background.html">Background Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/backgroundcolor.html">Background and Text Color Simultaneously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/icons.html">Icons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/status.html">Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/color.html">Text Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/theming.html">Theming</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spreadsheet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/arithmetic.html">Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/average.html">Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/cellref.html">Cell References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/concat.html">Concatenation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/conditional.html">Conditional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/count.html">Count Numeric Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/literaltext.html">Literal Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/max.html">Max</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/min.html">Min</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/rangeref.html">Range References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/round.html">Rounding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/sum.html">Sum</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular/blob/main/directives/mcsv-table.rst?plain=1" target="_blank"
+   class="btn btn-sm btn-source-file-button dropdown-item"
+   title="Show source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">Show source</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>mcsv-table</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-syntax">Basic syntax</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rendered-example">Rendered example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-sources">Input sources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#myst-markdown-cells">MyST Markdown cells</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-quoting">CSV quoting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-markers">Merge markers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formulas-and-literal-formula-text">Formulas and literal formula text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rows-headers-and-normalization">Rows, headers, and normalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sorting-and-searching">Sorting and searching</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directive-options">Directive options</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="mcsv-table">
+<h1><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code><a class="headerlink" href="#mcsv-table" title="Link to this heading">#</a></h1>
+<p>Use <code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code> for CSV-formatted tables whose ordinary cell values are
+parsed as MyST Markdown. The directive uses the same merge, formula,
+sticky-header, sorting, initial-sorting, and searching pipeline as
+<code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code> and <code class="docutils literal notranslate"><span class="pre">rlist-table</span></code>.</p>
+<section id="basic-syntax">
+<h2>Basic syntax<a class="headerlink" href="#basic-syntax" title="Link to this heading">#</a></h2>
+<p>The directive accepts CSV data either directly in the directive body or from
+an external <code class="docutils literal notranslate"><span class="pre">.mcsv</span></code> file:</p>
+<ul class="simple">
+<li><p>Each CSV record is a row.</p></li>
+<li><p>Each CSV field is a cell.</p></li>
+<li><p>Commas separate fields unless the field is quoted.</p></li>
+<li><p>Inline content and <code class="docutils literal notranslate"><span class="pre">:file:</span></code> are mutually exclusive.</p></li>
+</ul>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> Interface status
+   <span class="nc">:header-rows:</span> 1
+
+   Name,Owner,Status
+   Alpha,<span class="gs">**Able Team**</span>,=STATUS(Ready; green)
+   Bravo,<span class="nv">`Baker Team`</span>,=STATUS(Blocked; red)
+</pre></div>
+</div>
+<p>The optional directive argument becomes the table caption.</p>
+<section id="rendered-example">
+<h3>Rendered example<a class="headerlink" href="#rendered-example" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="sphinx-tabular sphinx-tabular-mcsv sphinx-tabular-sortable sphinx-tabular-sort-col-1-text table" id="id1">
+<caption><span class="caption-text">Interface status</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Name"><p>Name</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Owner"><p>Owner</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Status"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Alpha"><p>Alpha</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="**Able Team**"><p><strong>Able Team</strong></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Ready"><p><span class="sphinx-tabular-status sphinx-tabular-status-green">Ready</span></p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Bravo"><p>Bravo</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="`Baker Team`"><p><code class="docutils literal notranslate"><span class="pre">Baker</span> <span class="pre">Team</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Blocked"><p><span class="sphinx-tabular-status sphinx-tabular-status-red">Blocked</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="input-sources">
+<h2>Input sources<a class="headerlink" href="#input-sources" title="Link to this heading">#</a></h2>
+<p>Inline data is placed directly beneath the directive options:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> Inline table
+   <span class="nc">:header-rows:</span> 1
+
+   Name,Version,Complete
+   Alpha,1.10,75%
+   Bravo,1.2,25%
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">:file:</span></code> to load the CSV data from a separate UTF-8 file:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> External table
+   <span class="nc">:file:</span> tables/versions.mcsv
+   <span class="nc">:header-rows:</span> 1
+</pre></div>
+</div>
+<p>The external path is resolved relative to the reStructuredText document that
+contains the directive. The file is registered as a Sphinx dependency, so a
+change to the file causes the document to be rebuilt.</p>
+<p>Do not provide inline CSV rows when <code class="docutils literal notranslate"><span class="pre">:file:</span></code> is present. A directive with
+both input forms, or with neither input form, produces a warning. In strict
+mode, the same condition is a build error.</p>
+</section>
+<section id="myst-markdown-cells">
+<h2>MyST Markdown cells<a class="headerlink" href="#myst-markdown-cells" title="Link to this heading">#</a></h2>
+<p>Ordinary cell values are parsed with MyST Markdown. They may contain Markdown
+emphasis, strong text, inline code, links, and MyST roles or other syntax
+supported by the project’s MyST configuration.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> Markdown cells
+   <span class="nc">:header-rows:</span> 1
+
+   Item,Description
+   Receiver,Accepts <span class="gs">**binary**</span> telemetry
+   Transmitter,Uses <span class="nv">`primary`</span> and <span class="nv">`backup`</span> modes
+   Documentation,[Sphinx](https://www.sphinx-doc.org/)
+</pre></div>
+</div>
+<p>Because CSV uses commas as separators, quote a cell when its Markdown content
+contains a comma:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Name,Description
+Alpha,&quot;Primary, backup, and maintenance modes&quot;
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code> requires <code class="docutils literal notranslate"><span class="pre">myst-parser</span></code>. The extension registers the MyST
+parser integration, but <code class="docutils literal notranslate"><span class="pre">myst-parser</span></code> must be installed in the build
+environment.</p>
+</section>
+<section id="csv-quoting">
+<h2>CSV quoting<a class="headerlink" href="#csv-quoting" title="Link to this heading">#</a></h2>
+<p>Use standard CSV double-quote rules:</p>
+<ul class="simple">
+<li><p>Quote a field that contains a comma, line break, or double quote.</p></li>
+<li><p>Represent a double quote inside a quoted field with two double quotes.</p></li>
+<li><p>Quoting controls CSV parsing; it does not disable formulas.</p></li>
+</ul>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Name,Description
+Alpha,&quot;Accepts command, telemetry, and timing data&quot;
+Bravo,&quot;Displays the word &quot;&quot;Ready&quot;&quot; in the interface&quot;
+</pre></div>
+</div>
+<p>The CSV parser preserves whether a field was quoted so merge markers can be
+distinguished from literal marker text.</p>
+</section>
+<section id="merge-markers">
+<h2>Merge markers<a class="headerlink" href="#merge-markers" title="Link to this heading">#</a></h2>
+<p>An unquoted <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> field merges with the cell to its left. An unquoted <code class="docutils literal notranslate"><span class="pre">^</span></code>
+field merges with the cell above it.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> Merged headings
+   <span class="nc">:header-rows:</span> 2
+
+   Identity,&lt;,Measurements,&lt;
+   Name,Owner,Count,Status
+   Alpha,Able,2,Ready
+</pre></div>
+</div>
+<p>Quote a marker when it must be displayed literally:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Marker,Meaning
+&quot;&lt;&quot;,Literal less-than marker
+&quot;^&quot;,Literal caret marker
+</pre></div>
+</div>
+<p>A horizontal marker in the first column or a vertical marker in the first row
+is invalid. In non-strict mode the extension warns and renders the marker
+literally; strict mode converts the condition into a build error.</p>
+</section>
+<section id="formulas-and-literal-formula-text">
+<h2>Formulas and literal formula text<a class="headerlink" href="#formulas-and-literal-formula-text" title="Link to this heading">#</a></h2>
+<p>After CSV decoding, a cell whose trimmed value begins with <code class="docutils literal notranslate"><span class="pre">=</span></code> is evaluated
+by the normal <code class="docutils literal notranslate"><span class="pre">sphinx-tabular</span></code> formula engine. Formula references use
+one-based spreadsheet coordinates, and formula arguments use semicolons.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Name,Count,Status,Rendered
+Alpha,2,Ready,=STATUS(D2; green)
+Bravo,10,Blocked,=STATUS(D3; red)
+</pre></div>
+</div>
+<p>CSV quotes do not make a formula literal. For example, <code class="docutils literal notranslate"><span class="pre">&quot;=SUM(B2:B4)&quot;</span></code> is
+still evaluated after the CSV field is decoded.</p>
+<p>Prefix the equals sign with an apostrophe to display formula-looking text:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Expression,Displayed value
+&#39;=SUM(B2:B4),=SUM(B2:B4)
+</pre></div>
+</div>
+<p>The leading apostrophe is removed from the rendered value. The resulting text
+is then rendered as ordinary MyST Markdown cell content.</p>
+</section>
+<section id="rows-headers-and-normalization">
+<h2>Rows, headers, and normalization<a class="headerlink" href="#rows-headers-and-normalization" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">:header-rows:</span></code> places the specified number of top rows in the table header.
+Header rows participate in column layout and may contain horizontal or
+vertical merges.</p>
+<p>CSV rows are normalized to the longest row. Shorter rows are padded with empty
+cells. In normal mode, ragged input produces warnings; <code class="docutils literal notranslate"><span class="pre">:strict:</span></code> converts
+those warnings into build errors.</p>
+</section>
+<section id="sorting-and-searching">
+<h2>Sorting and searching<a class="headerlink" href="#sorting-and-searching" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code> supports the same interactive features as the other table
+directives:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">:sortable:</span></code> enables normal single-column header sorting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code> assigns interactive sort behavior and also enables sorting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code> controls page-load ordering independently.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:search:</span></code> adds the table search field and visible-row count.</p></li>
+</ul>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mcsv-table</span><span class="p">::</span> Versions
+   <span class="nc">:header-rows:</span> 1
+   <span class="nc">:sortable:</span>
+   <span class="nc">:sort-types:</span> 1=text,2=version,3=percent
+   <span class="nc">:initial-sort:</span> 2=version:reverse,1=text
+   <span class="nc">:search:</span>
+
+   Package,Version,Complete
+   Alpha,1.10,75%
+   Bravo,1.2,25%
+</pre></div>
+</div>
+<p>Initial criteria are applied from left to right. Clicking a header switches to
+normal single-column sorting: ascending, descending, then original order.</p>
+<p>Supported sort types are <code class="docutils literal notranslate"><span class="pre">auto</span></code>, <code class="docutils literal notranslate"><span class="pre">text</span></code>, <code class="docutils literal notranslate"><span class="pre">number</span></code>, <code class="docutils literal notranslate"><span class="pre">natural</span></code>,
+<code class="docutils literal notranslate"><span class="pre">version</span></code>, <code class="docutils literal notranslate"><span class="pre">percent</span></code>, and <code class="docutils literal notranslate"><span class="pre">date</span></code>. <code class="docutils literal notranslate"><span class="pre">none</span></code> is valid only for interactive
+sorting through <code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code> does not enable interactive sorting by itself. Use
+<code class="docutils literal notranslate"><span class="pre">:sortable:</span></code> or <code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code> when users should also be able to click the
+headers.</p>
+<p>Sorting and searching are disabled when the table body contains rowspans.
+Header rowspans do not trigger this restriction.</p>
+</section>
+<section id="directive-options">
+<h2>Directive options<a class="headerlink" href="#directive-options" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code> supports these options:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">:file:</span></code></dt><dd><p>Path to an external UTF-8 <code class="docutils literal notranslate"><span class="pre">.mcsv</span></code> file. Do not combine it with inline
+content.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:header-rows:</span></code></dt><dd><p>Number of top rows placed in the table header.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:width:</span></code></dt><dd><p>CSS width assigned to the table, such as <code class="docutils literal notranslate"><span class="pre">100%</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:class:</span></code></dt><dd><p>Additional CSS classes assigned to the table.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:sticky-header:</span></code></dt><dd><p>Makes all header rows sticky.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:sticky-offset:</span></code></dt><dd><p>CSS offset used by sticky headers, such as <code class="docutils literal notranslate"><span class="pre">3.5rem</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:strict:</span></code></dt><dd><p>Converts malformed CSV, ragged rows, missing files, and invalid option
+combinations from warnings into build errors.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:sortable:</span></code></dt><dd><p>Enables interactive sorting.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code></dt><dd><p>Comma-separated one-based <code class="docutils literal notranslate"><span class="pre">COLUMN=TYPE</span></code> assignments for interactive
+sorting.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code></dt><dd><p>Comma-separated one-based <code class="docutils literal notranslate"><span class="pre">COLUMN=TYPE[:reverse]</span></code> page-load criteria.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:search:</span></code></dt><dd><p>Enables interactive searching and the visible-row count.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="rcsv-table.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rlist-table.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">rlist-table</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-syntax">Basic syntax</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rendered-example">Rendered example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-sources">Input sources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#myst-markdown-cells">MyST Markdown cells</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-quoting">CSV quoting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-markers">Merge markers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formulas-and-literal-formula-text">Formulas and literal formula text</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rows-headers-and-normalization">Rows, headers, and normalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sorting-and-searching">Sorting and searching</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directive-options">Directive options</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Conditional &#8212; sphinx-tabular</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-tabular.css?v=b7c97af0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/bootstrap-icons/font/bootstrap-icons.min.css?v=9e162993" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=098bb750" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/sphinx-tabular.js?v=a5f4eb29"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'spreadsheet/conditional';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Count Numeric Values" href="count.html" />
+    <link rel="prev" title="Concatenation" href="concat.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">sphinx-tabular</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Directives</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../directives/rcsv-table.html"><code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../directives/mcsv-table.html"><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../directives/rlist-table.html"><code class="docutils literal notranslate"><span class="pre">rlist-table</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../options/initial-sort.html"><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../options/search.html"><code class="docutils literal notranslate"><span class="pre">:search:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../options/sortable.html"><code class="docutils literal notranslate"><span class="pre">:sortable:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../options/sort-types.html"><code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Errors</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../errors/cycle.html"><code class="docutils literal notranslate"><span class="pre">#CYCLE!</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors/value.html"><code class="docutils literal notranslate"><span class="pre">#VALUE!</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ops/merge.html">Merging Cells</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Formatting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../formatting/align.html">Alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/background.html">Background Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/backgroundcolor.html">Background and Text Color Simultaneously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/icons.html">Icons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/status.html">Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/color.html">Text Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/theming.html">Theming</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spreadsheet</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="arithmetic.html">Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="average.html">Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cellref.html">Cell References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concat.html">Concatenation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Conditional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="count.html">Count Numeric Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="literaltext.html">Literal Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="max.html">Max</a></li>
+<li class="toctree-l1"><a class="reference internal" href="min.html">Min</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rangeref.html">Range References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="round.html">Rounding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sum.html">Sum</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular/blob/main/spreadsheet/conditional.rst?plain=1" target="_blank"
+   class="btn btn-sm btn-source-file-button dropdown-item"
+   title="Show source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">Show source</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Conditional</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function">Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-condition-field">Function CONDITION Field</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-true-value-field">Function TRUE_VALUE Field</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-false-value-field">Function FALSE_VALUE Field</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-using-conditionals">Example - Using Conditionals</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="conditional">
+<h1>Conditional<a class="headerlink" href="#conditional" title="Link to this heading">#</a></h1>
+<p>Conditionally renders one value or another after evaluation the condition.</p>
+<section id="function">
+<h2>Function<a class="headerlink" href="#function" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">=IF(CONDITION;</span> <span class="pre">TRUE_VALUE;</span> <span class="pre">FALSE_VALUE)</span></code></p></li>
+</ul>
+<section id="function-condition-field">
+<h3>Function CONDITION Field<a class="headerlink" href="#function-condition-field" title="Link to this heading">#</a></h3>
+<p>Conditions currently support these comparison operators:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">==</span></code> equals</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!=</span></code> not equals</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> not equals</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;</span></code> greater than</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> greater than or equal</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code> less than</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> less than or equal</p></li>
+</ul>
+<p>Each value can be:</p>
+<ul class="simple">
+<li><p>Literal text</p></li>
+<li><p>A quoted string</p></li>
+<li><p>A cell reference</p></li>
+<li><p>A rendered value from another formula, such as <code class="docutils literal notranslate"><span class="pre">STATUS()</span></code>, <code class="docutils literal notranslate"><span class="pre">ICON()</span></code>, or <code class="docutils literal notranslate"><span class="pre">CONCAT()</span></code></p></li>
+</ul>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>Single equals (<code class="docutils literal notranslate"><span class="pre">=</span></code>) is not supported as a comparison operator.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">==</span></code> for equality checks.</p></li>
+<li><p>Equality comparisons are string-based.</p></li>
+<li><p>Numeric comparisons with <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> require both sides to be numeric.</p></li>
+</ul>
+</section>
+<section id="function-true-value-field">
+<h3>Function TRUE_VALUE Field<a class="headerlink" href="#function-true-value-field" title="Link to this heading">#</a></h3>
+<p>Renders if the <code class="docutils literal notranslate"><span class="pre">CONDITION</span></code> field is true.</p>
+</section>
+<section id="function-false-value-field">
+<h3>Function FALSE_VALUE Field<a class="headerlink" href="#function-false-value-field" title="Link to this heading">#</a></h3>
+<p>Renders if the <code class="docutils literal notranslate"><span class="pre">CONDITION</span></code> field is false.</p>
+</section>
+</section>
+<section id="example-using-conditionals">
+<h2>Example - Using Conditionals<a class="headerlink" href="#example-using-conditionals" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="sphinx-tabular sphinx-tabular-rcsv table">
+<thead>
+<tr class="row-odd"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Condition"><p>Condition</p></th>
+<th class="sphinx-tabular-halign-center sphinx-tabular-valign-middle head" data-sort-value="Operator"><p>Operator</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="C"><p>C</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="D"><p>D</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Formula"><p>Formula</p></th>
+<th class="sphinx-tabular-halign-right sphinx-tabular-valign-middle head" data-sort-value="Rendered Value"><p>Rendered Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Equals"><p>Equals</p></td>
+<td class="sphinx-tabular-halign-center sphinx-tabular-valign-middle" data-sort-value="``==``"><p><code class="docutils literal notranslate"><span class="pre">==</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="0"><p>0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1"><p>1</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="``IF(C2==D2;FG(True;green);FG(False;red))``"><p><code class="docutils literal notranslate"><span class="pre">IF(C2==D2;FG(True;green);FG(False;red))</span></code></p></td>
+<td class="sphinx-tabular-halign-right sphinx-tabular-valign-middle" data-sort-value="False" style="color: red"><p>False</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Not equal"><p>Not equal</p></td>
+<td class="sphinx-tabular-halign-center sphinx-tabular-valign-middle" data-sort-value="``!=``"><p><code class="docutils literal notranslate"><span class="pre">!=</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="0"><p>0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1"><p>1</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="``=IF(C3!=D3;FG(True;green);FG(False;red))``"><p><code class="docutils literal notranslate"><span class="pre">=IF(C3!=D3;FG(True;green);FG(False;red))</span></code></p></td>
+<td class="sphinx-tabular-halign-right sphinx-tabular-valign-middle" data-sort-value="True" style="color: green"><p>True</p></td>
+</tr>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Not equal"><p>Not equal</p></td>
+<td class="sphinx-tabular-halign-center sphinx-tabular-valign-middle" data-sort-value="``&lt;&gt;``"><p><code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="0"><p>0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1"><p>1</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="``=IF(C4&lt;&gt;D4;FG(True;green);FG(False;red))``"><p><code class="docutils literal notranslate"><span class="pre">=IF(C4&lt;&gt;D4;FG(True;green);FG(False;red))</span></code></p></td>
+<td class="sphinx-tabular-halign-right sphinx-tabular-valign-middle" data-sort-value="True" style="color: green"><p>True</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Greater than"><p>Greater than</p></td>
+<td class="sphinx-tabular-halign-center sphinx-tabular-valign-middle" data-sort-value="``&gt;``"><p><code class="docutils literal notranslate"><span class="pre">&gt;</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="0"><p>0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1"><p>1</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="``=IF(C5&gt;D5;FG(True;green);FG(False;red))``"><p><code class="docutils literal notranslate"><span class="pre">=IF(C5&gt;D5;FG(True;green);FG(False;red))</span></code></p></td>
+<td class="sphinx-tabular-halign-right sphinx-tabular-valign-middle" data-sort-value="False" style="color: red"><p>False</p></td>
+</tr>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Greater than or equal to"><p>Greater than or equal to</p></td>
+<td class="sphinx-tabular-halign-center sphinx-tabular-valign-middle" data-sort-value="``&gt;=``"><p><code class="docutils literal notranslate"><span class="pre">&gt;=</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="0"><p>0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1"><p>1</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="``=IF(C6&gt;=D6;FG(True;green);FG(False;red))``"><p><code class="docutils literal notranslate"><span class="pre">=IF(C6&gt;=D6;FG(True;green);FG(False;red))</span></code></p></td>
+<td class="sphinx-tabular-halign-right sphinx-tabular-valign-middle" data-sort-value="False" style="color: red"><p>False</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Less than"><p>Less than</p></td>
+<td class="sphinx-tabular-halign-center sphinx-tabular-valign-middle" data-sort-value="``&lt;``"><p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="0"><p>0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1"><p>1</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="``=IF(C7&lt;D7;FG(True;green);FG(False;red))``"><p><code class="docutils literal notranslate"><span class="pre">=IF(C7&lt;D7;FG(True;green);FG(False;red))</span></code></p></td>
+<td class="sphinx-tabular-halign-right sphinx-tabular-valign-middle" data-sort-value="True" style="color: green"><p>True</p></td>
+</tr>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Less than or equal to"><p>Less than or equal to</p></td>
+<td class="sphinx-tabular-halign-center sphinx-tabular-valign-middle" data-sort-value="``&lt;=``"><p><code class="docutils literal notranslate"><span class="pre">&lt;=</span></code></p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="0"><p>0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1"><p>1</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="``=IF(C8&lt;=D8;FG(True;green);FG(False;red))``"><p><code class="docutils literal notranslate"><span class="pre">=IF(C8&lt;=D8;FG(True;green);FG(False;red))</span></code></p></td>
+<td class="sphinx-tabular-halign-right sphinx-tabular-valign-middle" data-sort-value="True" style="color: green"><p>True</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Example - Using Conditionals Code</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-RST notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span>
+    <span class="nc">:header-rows:</span> 1
+
+    Condition,=Operator | CENTER,C,D,Formula,=Rendered Value | RIGHT
+    Equals,=<span class="s">``==``</span> | CENTER,0,1,=<span class="s">``IF(C2==D2;FG(True;green);FG(False;red))``</span>,=IF(C2==D2;FG(True;green);FG(False;red)) | RIGHT
+    Not equal,= <span class="s">``!=``</span> | CENTER,0,1,<span class="s">``=IF(C3!=D3;FG(True;green);FG(False;red))``</span>,=IF(C3!=D3;FG(True;green);FG(False;red)) | RIGHT
+    Not equal,= <span class="s">``&lt;&gt;``</span> | CENTER,0,1,<span class="s">``=IF(C4&lt;&gt;D4;FG(True;green);FG(False;red))``</span>,=IF(C4&lt;&gt;D4;FG(True;green);FG(False;red)) | RIGHT
+    Greater than,= <span class="s">``&gt;``</span> | CENTER,0,1,<span class="s">``=IF(C5&gt;D5;FG(True;green);FG(False;red))``</span>,=IF(C5&gt;D5;FG(True;green);FG(False;red)) | RIGHT
+    Greater than or equal to,= <span class="s">``&gt;=``</span> | CENTER,0,1,<span class="s">``=IF(C6&gt;=D6;FG(True;green);FG(False;red))``</span>,=IF(C6&gt;=D6;FG(True;green);FG(False;red)) | RIGHT
+    Less than,= <span class="s">``&lt;``</span> | CENTER,0,1,<span class="s">``=IF(C7&lt;D7;FG(True;green);FG(False;red))``</span>,=IF(C7&lt;D7;FG(True;green);FG(False;red)) | RIGHT
+    Less than or equal to,= <span class="s">``&lt;=``</span> | CENTER,0,1,<span class="s">``=IF(C8&lt;=D8;FG(True;green);FG(False;red))``</span>,=IF(C8&lt;=D8;FG(True;green);FG(False;red)) | RIGHT
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="concat.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Concatenation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="count.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Count Numeric Values</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function">Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-condition-field">Function CONDITION Field</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-true-value-field">Function TRUE_VALUE Field</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-false-value-field">Function FALSE_VALUE Field</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-using-conditionals">Example - Using Conditionals</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

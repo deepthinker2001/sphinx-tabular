@@ -1,0 +1,711 @@
+/* ==========================================================================
+   sphinx-tabular base theme variables
+   Compatible with pydata-sphinx-theme and Sphinx Book Theme data-theme modes.
+   ========================================================================== */
+
+:root {
+  --sphinx-tabular-border-color: var(--pst-color-border, #d0d7de);
+  --sphinx-tabular-header-border-color: var(--pst-color-border, #8c959f);
+
+  --sphinx-tabular-bg: var(--pst-color-background, #ffffff);
+  --sphinx-tabular-fg: var(--pst-color-text-base, #24292f);
+  --sphinx-tabular-header-bg: var(--pst-color-surface, var(--pst-color-background, #ffffff));
+  --sphinx-tabular-header-fg: var(--pst-color-text-base, #24292f);
+
+  --sphinx-tabular-row-hover-bg: color-mix(
+    in srgb,
+    var(--pst-color-primary, #0969da) 8%,
+    transparent
+  );
+
+  --sphinx-tabular-sticky-top: 0;
+
+  --sphinx-tabular-status-green-bg: #006644;
+  --sphinx-tabular-status-green-fg: #e3fcef;
+
+  --sphinx-tabular-status-yellow-bg: #7a5d00;
+  --sphinx-tabular-status-yellow-fg: #fff0b3;
+
+  --sphinx-tabular-status-red-bg: #bf2600;
+  --sphinx-tabular-status-red-fg: #ffebe6;
+
+  --sphinx-tabular-status-blue-bg: #0747a6;
+  --sphinx-tabular-status-blue-fg: #deebff;
+
+  --sphinx-tabular-status-gray-bg: #42526e;
+  --sphinx-tabular-status-gray-fg: #f4f5f7;
+
+  --sphinx-tabular-status-purple-bg: #403294;
+  --sphinx-tabular-status-purple-fg: #eae6ff;
+}
+
+/* pydata-sphinx-theme / sphinx-book-theme dark mode */
+html[data-theme="dark"] {
+  --sphinx-tabular-border-color: var(--pst-color-border, #48566a);
+  --sphinx-tabular-header-border-color: var(--pst-color-border, #6b778d);
+
+  --sphinx-tabular-bg: var(--pst-color-background, #0f1117);
+  --sphinx-tabular-fg: var(--pst-color-text-base, #d0d7de);
+  --sphinx-tabular-header-bg: var(--pst-color-surface, #161b22);
+  --sphinx-tabular-header-fg: var(--pst-color-text-base, #f0f3f6);
+
+  --sphinx-tabular-status-green-bg: #033a29;
+  --sphinx-tabular-status-green-fg: #7ee787;
+
+  --sphinx-tabular-status-yellow-bg: #4d3800;
+  --sphinx-tabular-status-yellow-fg: #f2cc60;
+
+  --sphinx-tabular-status-red-bg: #4a1212;
+  --sphinx-tabular-status-red-fg: #ff7b72;
+
+  --sphinx-tabular-status-blue-bg: #0b2d4d;
+  --sphinx-tabular-status-blue-fg: #79c0ff;
+
+  --sphinx-tabular-status-gray-bg: #30363d;
+  --sphinx-tabular-status-gray-fg: #c9d1d9;
+
+  --sphinx-tabular-status-purple-bg: #2d214d;
+  --sphinx-tabular-status-purple-fg: #d2a8ff;
+}
+
+/* Explicit light override for themes that set data-theme="light" */
+html[data-theme="light"] {
+  --sphinx-tabular-border-color: var(--pst-color-border, #d0d7de);
+  --sphinx-tabular-header-border-color: var(--pst-color-border, #8c959f);
+
+  --sphinx-tabular-bg: var(--pst-color-background, #ffffff);
+  --sphinx-tabular-fg: var(--pst-color-text-base, #24292f);
+  --sphinx-tabular-header-bg: var(--pst-color-surface, var(--pst-color-background, #ffffff));
+  --sphinx-tabular-header-fg: var(--pst-color-text-base, #24292f);
+}
+
+
+/* ==========================================================================
+   Table layout and borders
+   ========================================================================== */
+
+   /*
+   Sphinx wraps table nodes in a div.table container.
+
+   Only the actual <table> should get the visual table frame.
+   The wrapper should not look like a full-width table background.
+*/
+div.table.sphinx-tabular {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow-x: auto;
+}
+
+div.table.sphinx-tabular > table.sphinx-tabular {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.sphinx-tabular {
+  width: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--sphinx-tabular-fg);
+  background: var(--sphinx-tabular-bg);
+}
+
+.sphinx-tabular caption {
+  color: var(--sphinx-tabular-fg);
+}
+
+.sphinx-tabular th,
+.sphinx-tabular td {
+  color: var(--sphinx-tabular-fg);
+  background: var(--sphinx-tabular-bg);
+  border: 0;
+  box-shadow:
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular th:first-child,
+.sphinx-tabular td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/*
+   Header cells use box-shadow instead of real borders because sticky table
+   headers and border-collapse do not render reliably together.
+
+   Header border model:
+   - top of the full header block is strong
+   - separators between header rows are normal
+   - bottom of the full header block is strong
+   - rowspan header cells get strong top and strong bottom
+*/
+
+.sphinx-tabular thead th,
+.sphinx-tabular thead td {
+  color: var(--sphinx-tabular-header-fg);
+  background: var(--sphinx-tabular-header-bg);
+  box-shadow:
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead th:first-child,
+.sphinx-tabular thead td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/* Strong top edge across the full header block. */
+.sphinx-tabular thead tr:first-child th,
+.sphinx-tabular thead tr:first-child td {
+  box-shadow:
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead tr:first-child th:first-child,
+.sphinx-tabular thead tr:first-child td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -1px 0 var(--sphinx-tabular-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/* Strong bottom edge across the final visual header row. */
+.sphinx-tabular thead tr:last-child th,
+.sphinx-tabular thead tr:last-child td {
+  box-shadow:
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead tr:last-child th:first-child,
+.sphinx-tabular thead tr:last-child td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/*
+   Row-spanned header cells, such as "Color", skip the final header row.
+   They need both the strong top edge and the strong bottom edge.
+*/
+.sphinx-tabular thead th[rowspan],
+.sphinx-tabular thead td[rowspan] {
+  box-shadow:
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead th[rowspan]:first-child,
+.sphinx-tabular thead td[rowspan]:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+/*
+   Corner case: a cell can be both in the first row and the last row
+   when there is only one header row.
+*/
+.sphinx-tabular thead tr:first-child:last-child th,
+.sphinx-tabular thead tr:first-child:last-child td {
+  box-shadow:
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular thead tr:first-child:last-child th:first-child,
+.sphinx-tabular thead tr:first-child:last-child td:first-child {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+.sphinx-tabular tbody tr:hover td,
+.sphinx-tabular tbody tr:hover th {
+  background: var(--sphinx-tabular-row-hover-bg);
+}
+
+/* ==========================================================================
+   Sticky headers
+   ========================================================================== */
+
+.sphinx-tabular-sticky-header thead th,
+.sphinx-tabular-sticky-header thead td {
+  z-index: 5;
+  background: var(--sphinx-tabular-header-bg);
+}
+
+/* JS adds this after applying per-row sticky offsets. */
+.sphinx-tabular-sticky-ready thead th,
+.sphinx-tabular-sticky-ready thead td {
+  position: sticky;
+}
+
+
+/* ==========================================================================
+   Alignment
+   ========================================================================== */
+
+.sphinx-tabular-halign-left {
+  text-align: left;
+}
+
+.sphinx-tabular-halign-center {
+  text-align: center;
+}
+
+.sphinx-tabular-halign-right {
+  text-align: right;
+}
+
+.sphinx-tabular-halign-justify {
+  text-align: justify;
+}
+
+.sphinx-tabular-valign-top {
+  vertical-align: top;
+}
+
+.sphinx-tabular-valign-middle {
+  vertical-align: middle;
+}
+
+.sphinx-tabular-valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/* ==========================================================================
+   Status pills
+   ========================================================================== */
+
+.sphinx-tabular-status {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.78em;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sphinx-tabular-status-green {
+  background: var(--sphinx-tabular-status-green-bg);
+  color: var(--sphinx-tabular-status-green-fg);
+}
+
+.sphinx-tabular-status-yellow {
+  background: var(--sphinx-tabular-status-yellow-bg);
+  color: var(--sphinx-tabular-status-yellow-fg);
+}
+
+.sphinx-tabular-status-red {
+  background: var(--sphinx-tabular-status-red-bg);
+  color: var(--sphinx-tabular-status-red-fg);
+}
+
+.sphinx-tabular-status-blue {
+  background: var(--sphinx-tabular-status-blue-bg);
+  color: var(--sphinx-tabular-status-blue-fg);
+}
+
+.sphinx-tabular-status-gray {
+  background: var(--sphinx-tabular-status-gray-bg);
+  color: var(--sphinx-tabular-status-gray-fg);
+}
+
+.sphinx-tabular-status-purple {
+  background: var(--sphinx-tabular-status-purple-bg);
+  color: var(--sphinx-tabular-status-purple-fg);
+}
+
+
+/* ==========================================================================
+   Icons
+   ========================================================================== */
+
+.sphinx-tabular-icon {
+  display: inline-block;
+  min-width: 1em;
+  min-height: 1em;
+  line-height: 1;
+  text-align: center;
+  vertical-align: -0.125em;
+}
+
+/*
+   Offline fallback for common Font Awesome-style icons.
+
+   If real Font Awesome is loaded, its own ::before rules can take over.
+   If it is not loaded, these keep ICON(...) from rendering as an empty cell.
+*/
+.sphinx-tabular-icon-fa.fa-circle-check::before {
+  content: "✓";
+}
+
+.sphinx-tabular-icon-fa.fa-circle-xmark::before,
+.sphinx-tabular-icon-fa.fa-xmark-circle::before {
+  content: "✕";
+}
+
+.sphinx-tabular-icon-fa.fa-triangle-exclamation::before,
+.sphinx-tabular-icon-fa.fa-exclamation-triangle::before {
+  content: "⚠";
+}
+
+.sphinx-tabular-icon-fa.fa-circle-info::before,
+.sphinx-tabular-icon-fa.fa-info-circle::before {
+  content: "ⓘ";
+}
+
+.sphinx-tabular-icon-fa.fa-circle-question::before,
+.sphinx-tabular-icon-fa.fa-question-circle::before {
+  content: "?";
+}
+
+.sphinx-tabular-icon-fa.fa-plus::before {
+  content: "+";
+}
+
+.sphinx-tabular-icon-fa.fa-minus::before {
+  content: "−";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-right::before {
+  content: "→";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-left::before {
+  content: "←";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-up::before {
+  content: "↑";
+}
+
+.sphinx-tabular-icon-fa.fa-arrow-down::before {
+  content: "↓";
+}
+
+
+/*
+   Header stub cells that span the full multi-row header block need both
+   the strong top and strong bottom edge.
+*/
+.sphinx-tabular thead tr:first-child > th:first-child[rowspan],
+.sphinx-tabular thead tr:first-child > td:first-child[rowspan] {
+  box-shadow:
+    inset 1px 0 0 var(--sphinx-tabular-border-color),
+    inset 0 2px 0 var(--sphinx-tabular-header-border-color),
+    inset 0 -2px 0 var(--sphinx-tabular-header-border-color),
+    inset -1px 0 0 var(--sphinx-tabular-border-color);
+}
+
+
+
+/*
+   Strong visual bottom rule for the full header block.
+
+   This uses a pseudo-element instead of relying only on inset box-shadow.
+   Empty lower-left header stub cells can fail to show the thick inset shadow
+   consistently, especially when sticky headers are active.
+*/
+.sphinx-tabular thead th,
+.sphinx-tabular thead td {
+  position: relative;
+}
+
+.sphinx-tabular thead tr:last-child > th::after,
+.sphinx-tabular thead tr:last-child > td::after,
+.sphinx-tabular thead th[rowspan]::after,
+.sphinx-tabular thead td[rowspan]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--sphinx-tabular-header-border-color);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Support sortable tables */
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+
+
+table.sphinx-tabular-sort-disabled
+  thead
+  th {
+  cursor: default;
+}
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+
+  /* Reserve room for the sort indicator. */
+  padding-right: 1.75rem;
+}
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header
+  > .sphinx-tabular-sort-indicator {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 1rem;
+  min-width: 1rem;
+  margin: 0;
+
+  font-size: 0.8em;
+  line-height: 1;
+  text-decoration: none;
+} 
+
+table.sphinx-tabular-sortable
+  thead
+  th.sphinx-tabular-sort-header
+  > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.sphinx-tabular-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+
+  width: 100%;
+  margin: 0 0 0.5rem;
+}
+
+.sphinx-tabular-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.sphinx-tabular-search-input {
+  box-sizing: border-box;
+  width: min(18rem, 100%);
+  min-width: 12rem;
+  padding: 0.4rem 0.65rem;
+
+  color: inherit;
+  background: var(--sphinx-tabular-bg, transparent);
+  border: 1px solid var(
+    --sphinx-tabular-border-color,
+    currentColor
+  );
+  border-radius: 0.25rem;
+
+  font: inherit;
+  line-height: 1.25;
+}
+
+.sphinx-tabular-search-input:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.sphinx-tabular-search-count {
+  min-width: 6.5rem;
+  white-space: nowrap;
+
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  opacity: 0.75;
+}
+
+.sphinx-tabular-visually-hidden {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+
+  border: 0 !important;
+}
+
+table.sphinx-tabular-searchable tbody tr[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 480px) {
+  .sphinx-tabular-search,
+  .sphinx-tabular-search-input {
+    width: 100%;
+  }
+
+  .sphinx-tabular-search-count {
+    min-width: auto;
+  }
+}
+
+table.sphinx-tabular-sortable
+thead th.sphinx-tabular-sort-header {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  padding-right: 2.75rem;
+}
+
+table.sphinx-tabular-sortable
+thead th.sphinx-tabular-sort-header > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+table.sphinx-tabular-sortable
+.sphinx-tabular-sort-indicator {
+  position: absolute;
+  top: 50%;
+  right: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 1.6rem;
+  height: 1.5rem;
+  transform: translateY(-50%);
+  color: currentColor;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.sphinx-tabular-sort-priority {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.sphinx-tabular-sort-priority:empty {
+  display: none;
+}
+
+.sphinx-tabular-sort-icon {
+  position: relative;
+  display: inline-block;
+  width: 0.85rem;
+  height: 1.15rem;
+  flex: 0 0 0.85rem;
+}
+
+.sphinx-tabular-sort-icon::before,
+.sphinx-tabular-sort-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: 0.4rem solid transparent;
+  border-right: 0.4rem solid transparent;
+}
+
+/* Unsorted: display both large triangles. */
+.sphinx-tabular-sort-indicator[data-sort-direction="none"]
+.sphinx-tabular-sort-icon::before {
+  top: 0;
+  border-bottom: 0.48rem solid currentColor;
+}
+
+.sphinx-tabular-sort-indicator[data-sort-direction="none"]
+.sphinx-tabular-sort-icon::after {
+  bottom: 0;
+  border-top: 0.48rem solid currentColor;
+}
+
+/* Ascending. */
+.sphinx-tabular-sort-indicator[data-sort-direction="ascending"]
+.sphinx-tabular-sort-icon::before {
+  top: 0.28rem;
+  border-bottom: 0.62rem solid currentColor;
+}
+
+.sphinx-tabular-sort-indicator[data-sort-direction="ascending"]
+.sphinx-tabular-sort-icon::after {
+  display: none;
+}
+
+/* Descending. */
+.sphinx-tabular-sort-indicator[data-sort-direction="descending"]
+.sphinx-tabular-sort-icon::before {
+  display: none;
+}
+
+.sphinx-tabular-sort-indicator[data-sort-direction="descending"]
+.sphinx-tabular-sort-icon::after {
+  bottom: 0.28rem;
+  border-top: 0.62rem solid currentColor;
+}
+
+table.sphinx-tabular-sortable
+thead th.sphinx-tabular-sort-header:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}

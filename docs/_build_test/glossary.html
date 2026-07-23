@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Glossary &#8212; sphinx-tabular</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-tabular.css?v=b7c97af0" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/vendor/bootstrap-icons/font/bootstrap-icons.min.css?v=9e162993" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=098bb750" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/sphinx-tabular.js?v=a5f4eb29"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'glossary';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Alignment" href="formatting/align.html" />
+    <link rel="prev" title="Merging Cells" href="ops/merge.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">sphinx-tabular</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Directives</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="directives/rcsv-table.html"><code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="directives/mcsv-table.html"><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="directives/rlist-table.html"><code class="docutils literal notranslate"><span class="pre">rlist-table</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="options/initial-sort.html"><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="options/search.html"><code class="docutils literal notranslate"><span class="pre">:search:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="options/sortable.html"><code class="docutils literal notranslate"><span class="pre">:sortable:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="options/sort-types.html"><code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Errors</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="errors/cycle.html"><code class="docutils literal notranslate"><span class="pre">#CYCLE!</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors/value.html"><code class="docutils literal notranslate"><span class="pre">#VALUE!</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ops/merge.html">Merging Cells</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Glossary</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Formatting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="formatting/align.html">Alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting/background.html">Background Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting/backgroundcolor.html">Background and Text Color Simultaneously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting/icons.html">Icons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting/status.html">Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting/color.html">Text Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting/theming.html">Theming</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spreadsheet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/arithmetic.html">Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/average.html">Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/cellref.html">Cell References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/concat.html">Concatenation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/conditional.html">Conditional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/count.html">Count Numeric Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/literaltext.html">Literal Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/max.html">Max</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/min.html">Min</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/rangeref.html">Range References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/round.html">Rounding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spreadsheet/sum.html">Sum</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular/blob/main/glossary.rst?plain=1" target="_blank"
+   class="btn btn-sm btn-source-file-button dropdown-item"
+   title="Show source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">Show source</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Glossary</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="glossary">
+<h1>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h1>
+<dl class="simple glossary">
+<dt id="term-rcsv-table">rcsv-table<a class="headerlink" href="#term-rcsv-table" title="Link to this term">#</a></dt><dd><p>Table directive for CSV-formatted data whose cells are parsed as
+reStructuredText. See <a class="reference internal" href="directives/rcsv-table.html"><span class="doc">rcsv-table</span></a>.</p>
+</dd>
+<dt id="term-mcsv-table">mcsv-table<a class="headerlink" href="#term-mcsv-table" title="Link to this term">#</a></dt><dd><p>Table directive for CSV-formatted data whose cells are parsed as MyST
+Markdown. See <a class="reference internal" href="directives/mcsv-table.html"><span class="doc">mcsv-table</span></a>.</p>
+</dd>
+<dt id="term-rlist-table">rlist-table<a class="headerlink" href="#term-rlist-table" title="Link to this term">#</a></dt><dd><p>Table directive that builds a table from a uniform two-level
+reStructuredText bullet list, preserving rich parsed reStructuredText
+cell content without CSV quoting. See <a class="reference internal" href="directives/rlist-table.html"><span class="doc">rlist-table</span></a>.</p>
+</dd>
+<dt id="term-merge-marker">merge marker<a class="headerlink" href="#term-merge-marker" title="Link to this term">#</a></dt><dd><p>A plain-text <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> or <code class="docutils literal notranslate"><span class="pre">^</span></code> value in a cell that merges it with the
+cell to its left or above it, producing <code class="docutils literal notranslate"><span class="pre">colspan</span></code>/<code class="docutils literal notranslate"><span class="pre">rowspan</span></code> in the
+rendered table. Quoting (CSV) or an inline literal (<code class="docutils literal notranslate"><span class="pre">rlist-table</span></code>)
+displays the character literally instead. See <a class="reference internal" href="ops/merge.html"><span class="doc">Merging Cells</span></a>.</p>
+</dd>
+<dt id="term-header-rows">header rows<a class="headerlink" href="#term-header-rows" title="Link to this term">#</a></dt><dd><p>The number of top rows, set with <code class="docutils literal notranslate"><span class="pre">:header-rows:</span></code>, moved into the
+table header. Header rows may themselves contain merged cells.</p>
+</dd>
+<dt id="term-stub-column">stub column<a class="headerlink" href="#term-stub-column" title="Link to this term">#</a></dt><dd><p>A leftmost column, set with <code class="docutils literal notranslate"><span class="pre">:stub-columns:</span></code>, marked as semantic row
+-label content in the rendered table. Supported by <code class="docutils literal notranslate"><span class="pre">rlist-table</span></code>.</p>
+</dd>
+<dt id="term-leaf-column">leaf column<a class="headerlink" href="#term-leaf-column" title="Link to this term">#</a></dt><dd><p>A logical column identified after horizontal header merges are
+resolved. Sorting operates on leaf columns rather than on merged
+spanning headers.</p>
+</dd>
+<dt id="term-sticky-header">sticky header<a class="headerlink" href="#term-sticky-header" title="Link to this term">#</a></dt><dd><p>A header row (or rows) that remains visible while a long table
+scrolls, enabled with <code class="docutils literal notranslate"><span class="pre">:sticky-header:</span></code> and offset with
+<code class="docutils literal notranslate"><span class="pre">:sticky-offset:</span></code>.</p>
+</dd>
+<dt id="term-sortable">sortable<a class="headerlink" href="#term-sortable" title="Link to this term">#</a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">:sortable:</span></code> option, which enables interactive single-column
+sorting by clicking a header: ascending, then descending, then
+original source order.</p>
+</dd>
+<dt id="term-sort-types">sort-types<a class="headerlink" href="#term-sort-types" title="Link to this term">#</a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code> option, which assigns an explicit sort type to
+one or more columns for interactive sorting, overriding automatic
+detection.</p>
+</dd>
+<dt id="term-initial-sort">initial-sort<a class="headerlink" href="#term-initial-sort" title="Link to this term">#</a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code> option, which defines the row order applied
+once in the browser when the page first loads, independently of
+interactive <code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code>.</p>
+</dd>
+<dt id="term-search">search<a class="headerlink" href="#term-search" title="Link to this term">#</a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">:search:</span></code> option, which adds a search field and visible-row
+count above a table and hides non-matching body rows as the user
+types.</p>
+</dd>
+<dt id="term-strict-mode">strict mode<a class="headerlink" href="#term-strict-mode" title="Link to this term">#</a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">:strict:</span></code> option, which converts conditions that would
+otherwise produce a build warning (ragged rows, malformed CSV,
+invalid merges, missing files) into build errors.</p>
+</dd>
+<dt id="term-formula">formula<a class="headerlink" href="#term-formula" title="Link to this term">#</a></dt><dd><p>A cell value beginning with <code class="docutils literal notranslate"><span class="pre">=</span></code> that is evaluated by the
+<code class="docutils literal notranslate"><span class="pre">sphinx-tabular</span></code> formula engine instead of being rendered as
+literal text. Formula arguments are separated by semicolons rather
+than commas.</p>
+</dd>
+<dt id="term-cell-reference">cell reference<a class="headerlink" href="#term-cell-reference" title="Link to this term">#</a></dt><dd><p>A spreadsheet-style coordinate such as <code class="docutils literal notranslate"><span class="pre">A2</span></code>, made of one or more
+column letters followed by one or more row numbers, used to point at
+another cell’s value within a formula.</p>
+</dd>
+<dt id="term-range-reference">range reference<a class="headerlink" href="#term-range-reference" title="Link to this term">#</a></dt><dd><p>A <code class="docutils literal notranslate"><span class="pre">CELL1:CELL2</span></code> pair of <a class="reference internal" href="#term-cell-reference"><span class="xref std std-term">cell reference</span></a> values that selects a
+rectangular block of cells, resolved row by row from the top-left to
+the bottom-right cell. See <a class="reference internal" href="spreadsheet/rangeref.html"><span class="doc">Range References</span></a>.</p>
+</dd>
+<dt id="term-absolute-reference">absolute reference<a class="headerlink" href="#term-absolute-reference" title="Link to this term">#</a></dt><dd><p>A range or cell reference using a spreadsheet-style <code class="docutils literal notranslate"><span class="pre">$</span></code> prefix
+(<code class="docutils literal notranslate"><span class="pre">$A$1</span></code>, <code class="docutils literal notranslate"><span class="pre">A$1</span></code>, <code class="docutils literal notranslate"><span class="pre">$A1</span></code>) to anchor a column, a row, or both.</p>
+</dd>
+<dt id="term-STATUS">STATUS()<a class="headerlink" href="#term-STATUS" title="Link to this term">#</a></dt><dd><p>Formula function that renders a colored status pill from a label and
+a color name. See <a class="reference internal" href="formatting/status.html"><span class="doc">Status</span></a>.</p>
+</dd>
+<dt id="term-ICON">ICON()<a class="headerlink" href="#term-ICON" title="Link to this term">#</a></dt><dd><p>Formula function that renders a class-based icon span for a Font
+Awesome or Bootstrap Icons name. See <a class="reference internal" href="formatting/icons.html"><span class="doc">Icons</span></a>.</p>
+</dd>
+<dt id="term-ALIGN">ALIGN()<a class="headerlink" href="#term-ALIGN" title="Link to this term">#</a></dt><dd><p>Formula function (with <code class="docutils literal notranslate"><span class="pre">HALIGN()</span></code> and <code class="docutils literal notranslate"><span class="pre">VALIGN()</span></code>) that sets a
+cell’s horizontal and vertical text alignment.</p>
+</dd>
+<dt id="term-BG">BG()<a class="headerlink" href="#term-BG" title="Link to this term">#</a></dt><dd><p>Formula function that sets a cell’s background color from a named
+color, hex color, or CSS custom property.</p>
+</dd>
+<dt id="term-FG">FG()<a class="headerlink" href="#term-FG" title="Link to this term">#</a></dt><dd><p>Formula function that sets a cell’s text color from a named color,
+hex color, or CSS custom property.</p>
+</dd>
+<dt id="term-SUM">SUM()<a class="headerlink" href="#term-SUM" title="Link to this term">#</a></dt><dd><p>Formula function that adds the numeric values in a <a class="reference internal" href="#term-range-reference"><span class="xref std std-term">range
+reference</span></a>.</p>
+</dd>
+<dt id="term-CONCAT">CONCAT()<a class="headerlink" href="#term-CONCAT" title="Link to this term">#</a></dt><dd><p>Formula function that flattens a <a class="reference internal" href="#term-range-reference"><span class="xref std std-term">range reference</span></a> into a
+single comma-separated (or explicitly separated) text value.</p>
+</dd>
+<dt id="term-CYCLE"><code class="docutils literal notranslate"><span class="pre">#CYCLE!</span></code><a class="headerlink" href="#term-CYCLE" title="Link to this term">#</a></dt><dd><p>Error value displayed when two or more cells derive their values from
+each other, forming a circular reference. See <a class="reference internal" href="errors/cycle.html"><span class="doc">#CYCLE!</span></a>.</p>
+</dd>
+<dt id="term-VALUE"><code class="docutils literal notranslate"><span class="pre">#VALUE!</span></code><a class="headerlink" href="#term-VALUE" title="Link to this term">#</a></dt><dd><p>Error value displayed when a formula receives a non-numeric operand
+it requires to be numeric, such as division by zero or an empty
+numeric aggregate. See <a class="reference internal" href="errors/value.html"><span class="doc">#VALUE!</span></a>.</p>
+</dd>
+</dl>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ops/merge.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Merging Cells</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="formatting/align.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Alignment</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

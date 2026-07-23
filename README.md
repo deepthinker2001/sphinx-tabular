@@ -12,10 +12,6 @@ Instead of just modifying the final table output, `sphinx-tabular` builds real `
 
 While the table structure and merged cells will work in the LaTeX builder PDF output, the table formatting (colors, icons, bacgkround color, text color, and alignment) is HTML only.
 
-## Donations to help support this project...
-
-[Venmo](https://venmo.com/code?user_id=3950053597120230543&created=1783274674)
-
 
 ## Features
 

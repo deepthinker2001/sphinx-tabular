@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>:search: &#8212; sphinx-tabular</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-tabular.css?v=b7c97af0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/bootstrap-icons/font/bootstrap-icons.min.css?v=9e162993" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=098bb750" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/sphinx-tabular.js?v=a5f4eb29"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'options/search';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title=":sortable:" href="sortable.html" />
+    <link rel="prev" title=":initial-sort:" href="initial-sort.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">sphinx-tabular</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Directives</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../directives/rcsv-table.html"><code class="docutils literal notranslate"><span class="pre">rcsv-table</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../directives/mcsv-table.html"><code class="docutils literal notranslate"><span class="pre">mcsv-table</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../directives/rlist-table.html"><code class="docutils literal notranslate"><span class="pre">rlist-table</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Options</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="initial-sort.html"><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">:search:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sortable.html"><code class="docutils literal notranslate"><span class="pre">:sortable:</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sort-types.html"><code class="docutils literal notranslate"><span class="pre">:sort-types:</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Errors</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../errors/cycle.html"><code class="docutils literal notranslate"><span class="pre">#CYCLE!</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errors/value.html"><code class="docutils literal notranslate"><span class="pre">#VALUE!</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ops/merge.html">Merging Cells</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Formatting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../formatting/align.html">Alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/background.html">Background Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/backgroundcolor.html">Background and Text Color Simultaneously</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/icons.html">Icons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/status.html">Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/color.html">Text Color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formatting/theming.html">Theming</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spreadsheet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/arithmetic.html">Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/average.html">Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/cellref.html">Cell References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/concat.html">Concatenation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/conditional.html">Conditional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/count.html">Count Numeric Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/literaltext.html">Literal Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/max.html">Max</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/min.html">Min</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/rangeref.html">Range References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/round.html">Rounding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spreadsheet/sum.html">Sum</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/deepthinker2001/sphinx-tabular/blob/main/options/search.rst?plain=1" target="_blank"
+   class="btn btn-sm btn-source-file-button dropdown-item"
+   title="Show source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">Show source</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>:search:</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-behavior">Search behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluated-values">Evaluated values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-search-and-sorting">Combining search and sorting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-search-with-explicit-sort-types">Combining search with explicit sort types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merged-headers">Merged headers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vertically-merged-body-cells">Vertically merged body cells</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessibility">Accessibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="search">
+<h1><code class="docutils literal notranslate"><span class="pre">:search:</span></code><a class="headerlink" href="#search" title="Link to this heading">#</a></h1>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">:search:</span></code> option to place a client-side search field above the
+table.</p>
+<div class="pst-scrollable-table-container"><table class="sphinx-tabular sphinx-tabular-rcsv sphinx-tabular-searchable table">
+<thead>
+<tr class="row-odd"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Name"><p>Name</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Owner"><p>Owner</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Count"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Bravo"><p>Bravo</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Zed"><p>Zed</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="10"><p>10</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Alpha"><p>Alpha</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Able"><p>Able</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="2"><p>2</p></td>
+</tr>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Charlie"><p>Charlie</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Mike"><p>Mike</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="100"><p>100</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span>
+   <span class="nc">:header-rows:</span> 1
+   <span class="nc">:search:</span>
+
+   Name,Owner,Count
+   Bravo,Zed,10
+   Alpha,Able,2
+   Charlie,Mike,100
+</pre></div>
+</div>
+<p>The search field filters table body rows as the user types.</p>
+<section id="search-behavior">
+<h2>Search behavior<a class="headerlink" href="#search-behavior" title="Link to this heading">#</a></h2>
+<p>Search is:</p>
+<ul class="simple">
+<li><p>case-insensitive</p></li>
+<li><p>applied only to table body rows</p></li>
+<li><p>updated immediately as the user types</p></li>
+<li><p>based on evaluated cell values</p></li>
+<li><p>compatible with sortable tables</p></li>
+</ul>
+<p>The table header remains visible while rows are filtered.</p>
+<p>A result count is displayed beside the search field:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2 of 10 rows
+</pre></div>
+</div>
+<p>Pressing <kbd class="kbd docutils literal notranslate">Escape</kbd> clears the search field and restores all rows.</p>
+</section>
+<section id="evaluated-values">
+<h2>Evaluated values<a class="headerlink" href="#evaluated-values" title="Link to this heading">#</a></h2>
+<p>Search uses the evaluated plain value of each cell rather than formula source
+text or generated HTML.</p>
+<p>For example:</p>
+<div class="pst-scrollable-table-container"><table class="sphinx-tabular sphinx-tabular-rcsv sphinx-tabular-searchable table">
+<thead>
+<tr class="row-odd"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Status"><p>Status</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Display"><p>Display</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Active"><p>Active</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Active"><p><span class="sphinx-tabular-status sphinx-tabular-status-green">Active</span></p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Blocked"><p>Blocked</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Blocked"><p><span class="sphinx-tabular-status sphinx-tabular-status-red">Blocked</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span>
+   <span class="nc">:header-rows:</span> 1
+   <span class="nc">:search:</span>
+
+   Status,Display
+   Active,=STATUS(A2; green)
+   Blocked,=STATUS(A3; red)
+</pre></div>
+</div>
+<p>Searching for <code class="docutils literal notranslate"><span class="pre">Active</span></code> matches the evaluated value in the first body row.</p>
+<p>HTML markup, icon elements, status-pill markup, and formula expressions are
+not included in the searchable text.</p>
+</section>
+<section id="combining-search-and-sorting">
+<h2>Combining search and sorting<a class="headerlink" href="#combining-search-and-sorting" title="Link to this heading">#</a></h2>
+<p>Search and sorting can be enabled on the same table:</p>
+<div class="pst-scrollable-table-container"><table class="sphinx-tabular sphinx-tabular-rcsv sphinx-tabular-sortable sphinx-tabular-searchable table">
+<thead>
+<tr class="row-odd"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Name"><p>Name</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Owner"><p>Owner</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Count"><p>Count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Bravo"><p>Bravo</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Zed"><p>Zed</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="10"><p>10</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Alpha"><p>Alpha</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Able"><p>Able</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="2"><p>2</p></td>
+</tr>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Charlie"><p>Charlie</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Mike"><p>Mike</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="100"><p>100</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span>
+   <span class="nc">:header-rows:</span> 1
+   <span class="nc">:search:</span>
+   <span class="nc">:sortable:</span>
+
+   Name,Owner,Count
+   Bravo,Zed,10
+   Alpha,Able,2
+   Charlie,Mike,100
+</pre></div>
+</div>
+<p>Sorting continues to work while a search filter is active.</p>
+<p>Only matching rows remain visible, but all table rows retain their current sort
+order.</p>
+</section>
+<section id="combining-search-with-explicit-sort-types">
+<h2>Combining search with explicit sort types<a class="headerlink" href="#combining-search-with-explicit-sort-types" title="Link to this heading">#</a></h2>
+<p>Search can also be used with hybrid or explicit sorting:</p>
+<div class="pst-scrollable-table-container"><table class="sphinx-tabular sphinx-tabular-rcsv sphinx-tabular-sortable sphinx-tabular-searchable sphinx-tabular-sort-col-1-text sphinx-tabular-sort-col-4-percent table">
+<thead>
+<tr class="row-odd"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" colspan="2" data-sort-value="Identity"><p>Identity</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" colspan="2" data-sort-value="Measurements"><p>Measurements</p></th>
+</tr>
+<tr class="row-even"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="ID"><p>ID</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Version"><p>Version</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Count"><p>Count</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Completion"><p>Completion</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="001"><p>001</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1.10"><p>1.10</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="10"><p>10</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="25.5%"><p>25.5%</p></td>
+</tr>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="010"><p>010</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="1.2"><p>1.2</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="2"><p>2</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="9.2%"><p>9.2%</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="100"><p>100</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="2.0"><p>2.0</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="100"><p>100</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="75.1%"><p>75.1%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span>
+   <span class="nc">:header-rows:</span> 2
+   <span class="nc">:search:</span>
+   <span class="nc">:sortable:</span>
+   <span class="nc">:sort-types:</span> 1=text,4=percent
+
+   Identity,&lt;,Measurements,&lt;
+   ID,Version,Count,Completion
+   001,1.10,10,25.5%
+   010,1.2,2,9.2%
+   100,2.0,100,75.1%
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">:search:</span></code> option does not change sort-type detection or explicit sort
+configuration.</p>
+</section>
+<section id="merged-headers">
+<h2>Merged headers<a class="headerlink" href="#merged-headers" title="Link to this heading">#</a></h2>
+<p>Search works with multi-row and horizontally merged headers.</p>
+<p>Only table body rows are searched. Header labels are not included in the
+searchable text.</p>
+<p>For example, searching for <code class="docutils literal notranslate"><span class="pre">Measurements</span></code> does not match a row merely
+because <code class="docutils literal notranslate"><span class="pre">Measurements</span></code> appears in a merged header.</p>
+</section>
+<section id="vertically-merged-body-cells">
+<h2>Vertically merged body cells<a class="headerlink" href="#vertically-merged-body-cells" title="Link to this heading">#</a></h2>
+<p>Search is disabled when the table body contains vertically merged cells.</p>
+<p>For example, a body cell created with the <code class="docutils literal notranslate"><span class="pre">^</span></code> merge marker may span multiple
+rows. Hiding only part of that row group could produce an invalid or misleading
+table.</p>
+<p>When vertical body merges are present, the table receives the class:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sphinx-tabular-search-disabled
+</pre></div>
+</div>
+<p>and the search control is not created.</p>
+</section>
+<section id="accessibility">
+<h2>Accessibility<a class="headerlink" href="#accessibility" title="Link to this heading">#</a></h2>
+<p>The search input:</p>
+<ul class="simple">
+<li><p>has an accessible <code class="docutils literal notranslate"><span class="pre">Search</span> <span class="pre">table</span></code> label</p></li>
+<li><p>uses the HTML <code class="docutils literal notranslate"><span class="pre">search</span></code> input type</p></li>
+<li><p>identifies the table it controls with <code class="docutils literal notranslate"><span class="pre">aria-controls</span></code></p></li>
+<li><p>reports result-count changes through an <code class="docutils literal notranslate"><span class="pre">aria-live</span></code> region</p></li>
+<li><p>supports clearing with the <kbd class="kbd docutils literal notranslate">Escape</kbd> key</p></li>
+</ul>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="sphinx-tabular sphinx-tabular-rcsv sphinx-tabular-sortable sphinx-tabular-searchable table" id="id1">
+<caption><span class="caption-text">Interface status</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Interface"><p>Interface</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Direction"><p>Direction</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Status"><p>Status</p></th>
+<th class="sphinx-tabular-halign-left sphinx-tabular-valign-middle head" data-sort-value="Owner"><p>Owner</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Telemetry"><p>Telemetry</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Inbound"><p>Inbound</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Active"><p>Active</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Operations"><p>Operations</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Commanding"><p>Commanding</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Outbound"><p>Outbound</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="In Review"><p>In Review</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Engineering"><p>Engineering</p></td>
+</tr>
+<tr class="row-even"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Ephemeris"><p>Ephemeris</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Inbound"><p>Inbound</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Blocked"><p>Blocked</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Flight Dynamics"><p>Flight Dynamics</p></td>
+</tr>
+<tr class="row-odd"><td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Tracking"><p>Tracking</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Inbound"><p>Inbound</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Active"><p>Active</p></td>
+<td class="sphinx-tabular-halign-left sphinx-tabular-valign-middle" data-sort-value="Operations"><p>Operations</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rcsv-table</span><span class="p">::</span> Interface status
+   <span class="nc">:header-rows:</span> 1
+   <span class="nc">:search:</span>
+   <span class="nc">:sortable:</span>
+
+   Interface,Direction,Status,Owner
+   Telemetry,Inbound,Active,Operations
+   Commanding,Outbound,In Review,Engineering
+   Ephemeris,Inbound,Blocked,Flight Dynamics
+   Tracking,Inbound,Active,Operations
+</pre></div>
+</div>
+<p>A search for <code class="docutils literal notranslate"><span class="pre">operations</span></code> displays the two rows owned by Operations.</p>
+<p>A search for <code class="docutils literal notranslate"><span class="pre">active</span></code> displays the two rows whose evaluated status value is
+<code class="docutils literal notranslate"><span class="pre">Active</span></code>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="initial-sort.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">:initial-sort:</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sortable.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">:sortable:</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-behavior">Search behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluated-values">Evaluated values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-search-and-sorting">Combining search and sorting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-search-with-explicit-sort-types">Combining search with explicit sort types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merged-headers">Merged headers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vertically-merged-body-cells">Vertically merged body cells</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessibility">Accessibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
